@@ -1,0 +1,9 @@
+python server.py
+chatbot-env\Scripts\activate
+source chatbot-env/bin/activate
+python3 -m venv chatbot-env
+
+     cd /Users/talhauddin/Desktop/smilecare24     
+     source venv/bin/activate
+          python app.py
+          deactivate

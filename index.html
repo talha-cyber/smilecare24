@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmileCare24</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Main scripts -->
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content-wrapper {
+            flex: 1 0 auto;
+            width: 100%;
+        }
+        
+        .footer {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        .footer-links {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links a {
+            color: #034848;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #87A6A8;
+        }
+        
+        /* Cookie Consent Styles */
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-top: 2px solid #034848;
+            font-family: 'Montserrat', sans-serif;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-in-out;
+        }
+        
+        .cookie-consent.show {
+            transform: translateY(0);
+        }
+        
+        .cookie-text {
+            flex: 1;
+            padding-right: 20px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .cookie-text a {
+            color: #034848;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .cookie-text a:hover {
+            color: #87A6A8;
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .cookie-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .accept-all {
+            background-color: #034848;
+            color: white;
+        }
+        
+        .accept-all:hover {
+            background-color: #023535;
+        }
+        
+        .accept-necessary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        
+        .accept-necessary:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .cookie-settings {
+            background-color: transparent;
+            color: #034848;
+            text-decoration: underline;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .cookie-consent {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cookie-text {
+                padding-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav class="navbar">
+            <img src="assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
+        </nav>
+        <section class="hero">
+            <video autoplay loop muted>
+                <source src="assets/hero_vid.mp4" type="video/mp4">
+                Ihr Browser unterstützt kein Video.
+            </video>
+        </section>
+        <h1 class="headline">
+            Ein Lächeln, um das du dir <span class="highlight">keine Sorgen machen musst</span>
+        </h1>
+
+        <!-- Partner Logos Section -->
+        <div class="partner-logos">
+            <img src="assets/ekomi_logo.png" alt="Ekomi Logo" class="partner-logo">
+            <img src="assets/check24_logo.png" alt="Check24 Logo" class="partner-logo">
+            <img src="assets/stiftung_warentest.png" alt="Stiftung Warentest Logo" class="partner-logo">
+        </div>
+        
+        <!-- Scrolling Circles Section -->
+        <section class="scrolling-circles">
+            <div class="circle-container">
+                <div class="circle circle-right" id="circle1">
+                    <div class="circle-inner">
+                        <img src="assets/certicificate.svg" alt="Certificate" class="circle-icon">
+                        <div class="circle-content">Deutschlands meist empfohlene Zahnzusatzversicherung</div>
+                    </div>
+                </div>
+                <div class="circle circle-left" id="circle2">
+                    <div class="circle-inner">
+                        <img src="assets/tooth.svg" alt="Tooth" class="circle-icon">
+                        <div class="circle-content">100% Zahnersatz<br>Top-Schutz zum besten Preis</div>
+                    </div>
+                </div>
+                <div class="circle circle-right" id="circle3">
+                    <div class="circle-inner">
+                        <img src="assets/contract.svg" alt="Contract" class="circle-icon">
+                        <div class="circle-content">Jeden Tag kündbar - Fair, transparent & ohne versteckte Kosten</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Background pattern for blur effect -->
+        <div class="chat-background"></div>
+
+        <!-- Chat Component -->
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box">
+                <!-- Messages will be dynamically added here -->
+            </div>
+            <div class="chat-input">
+                <div class="chat-input-field" contenteditable="true" data-placeholder="Nachricht eingeben..."></div>
+                <button id="enter-button">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Startseite</a>
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+        <p>&copy; 2024 SmileCare24. Alle Rechte vorbehalten.</p>
+    </footer>
+    
+    <!-- Cookie Consent Banner -->
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-text">
+            Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. Durch die weitere Nutzung unserer Website stimmen Sie der Verwendung von Cookies zu. Mehr Informationen finden Sie in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-settings" id="cookieSettings">Einstellungen</button>
+            <button class="cookie-btn accept-necessary" id="acceptNecessary">Nur notwendige</button>
+            <button class="cookie-btn accept-all" id="acceptAll">Alle akzeptieren</button>
+        </div>
+    </div>
+    
+    <script>
+        // Cookie consent functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user already made a choice
+            if (!localStorage.getItem('cookieConsent')) {
+                setTimeout(function() {
+                    document.getElementById('cookieConsent').classList.add('show');
+                }, 1000);
+            }
+            
+            // Accept all cookies
+            document.getElementById('acceptAll').addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'all');
+                document.getElementById('cookieConsent').classList.remove('show');
+                // Here you would enable all cookies/tracking
+            });
+            
+            // Accept only necessary cookies
+            document.getElementById('acceptNecessary').addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'necessary');
+                document.getElementById('cookieConsent').classList.remove('show');
+                // Here you would disable all non-essential cookies/tracking
+            });
+            
+            // Cookie settings button (would typically open a modal with detailed settings)
+            document.getElementById('cookieSettings').addEventListener('click', function() {
+                // This would typically open a detailed cookie settings modal
+                // For now, we'll just redirect to the privacy policy
+                window.location.href = 'datenschutz.html';
+            });
+        });
+    </script>
+</body>
+</html>
