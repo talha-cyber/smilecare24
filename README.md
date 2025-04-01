@@ -1,45 +1,75 @@
-# SmileCare24 Chat Application
+# SmileCare24 Website
 
-This application integrates an OpenAI assistant-powered chatbot with a SmileCare24 website.
+A modern, responsive website for SmileCare24 dental insurance services.
 
-## Setup
+## Project Structure
 
-### Prerequisites
-- Python 3.7+
-- pip (Python package manager)
-- Node.js (optional, for serving static files if not using Flask)
-
-### Installation
-
-1. Clone this repository
-2. Install Python dependencies:
-   ```
-   pip install flask flask-cors openai python-dotenv
-   ```
-3. Set up your OpenAI API key in the `.env` file:
-   ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-## Running the Application
-
-1. Start the Flask server:
-   ```
-   python app.py
-   ```
-   This will start the server at http://localhost:5050
-
-2. Open your browser and navigate to http://localhost:5050 to see the website with the integrated chatbot.
+```
+smilecare24/
+├── public/              # Public HTML files
+│   ├── index.html      # Main landing page
+│   ├── impressum.html  # Imprint page
+│   └── datenschutz.html# Privacy policy page
+│
+├── src/                # Source files
+│   ├── assets/         # Static assets
+│   │   ├── smilecare_logo.png
+│   │   ├── hero_vid.mp4
+│   │   ├── certificate.svg
+│   │   ├── tooth.svg
+│   │   └── contract.svg
+│   │
+│   ├── css/           # Stylesheets
+│   │   └── styles.css # Main stylesheet
+│   │
+│   └── js/            # JavaScript files
+│       ├── script.js  # Main JavaScript
+│       └── chatbot.js # Chat functionality
+│
+└── README.md          # Project documentation
+```
 
 ## Features
 
-- Interactive chat interface
-- Connects to OpenAI's assistant API
-- Maintains chat context through sessions
 - Responsive design for all device sizes
+- Interactive chat interface with AI integration
+- Smooth scrolling animations using GSAP
+- FAQ section with collapsible answers
+- Cookie consent management
+- Calendly integration for appointments
 
-## Troubleshooting
+## Dependencies
 
-- If you encounter CORS issues, make sure the server is running and accessible
-- If the chat doesn't connect, check browser console for errors and verify your OpenAI API key # smilecare24
-# smilecare24
+- GSAP (Animation)
+- Font Awesome (Icons)
+- Montserrat Font (Typography)
+- Calendly Widget
+
+## Development
+
+The project uses a standard web development stack:
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- GSAP for animations
+
+## Setup
+
+1. Clone the repository
+2. Ensure all assets are in their correct directories
+3. Set up a local server to serve the files
+4. Configure the chatbot backend endpoint in `src/js/chatbot.js`
+
+## Browser Support
+
+The website is optimized for modern browsers and includes:
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Contact
+
+For any inquiries, please contact:
+- Email: kontakt@barmenia-pfotenschutz24.de
+- Phone: 015776461999

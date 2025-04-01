@@ -8,8 +8,8 @@ body {
     text-align: center;
     touch-action: manipulation;
     min-height: 100vh;
-    background: linear-gradient(-45deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA);
-    background-size: 1500% 1500%;
+    background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA);
+    background-size: 400% 100%;
     animation: gradientBG 15s ease infinite;
     padding-top: 130px; /* Prevents content from being hidden behind the navbar */
     display: flex;
@@ -33,7 +33,7 @@ body {
     top: 0;
     left: 0;
     width: 100%; /* Stretches the navbar across the full width */
-    height: 120px; /* Keep your preferred height */
+    height: 20px; /* Keep your preferred height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,14 +68,14 @@ body {
 /* Chat Container */
 .chat-container {
     width: 80%;
-    margin: 40px auto;
-    border-radius: 25px; /* Increased border radius for a more rounded look */
+    margin: 0 auto 60px; /* Reduced top margin since we now have the headline above */
+    border-radius: 25px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.5); /* Increased opacity (decreased transparency) */
+    background: rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
-    height: 800px; /* Increased height by 300% */
-    border: 1px solid rgba(102, 165, 170, 0.4); /* Slightly stronger border */
+    height: 800px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
     position: relative;
     z-index: 10;
 }
@@ -276,7 +276,7 @@ body {
     .chat-container {
         width: 90%;
         height: 600px;
-        margin: 30px auto;
+        margin: 0 auto 40px; /* Adjusted margins */
     }
     
     .chat-input {
@@ -334,7 +334,7 @@ body {
     .chat-container {
         width: 95%;
         height: 500px;
-        margin: 20px auto;
+        margin: 0 auto 30px; /* Adjusted margins */
     }
     
     .chat-message {
@@ -392,21 +392,26 @@ body {
 
 .circle {
     position: absolute;
-    width: 15vw; /* 1/3 of the screen width */
-    height: 15vw; /* Keep it circular */
+    width: 30vw; /* Adjusted size relative to viewport */
+    height: 30vw; /* Keep it circular */
+    min-width: 250px; /* Minimum size for very small screens */
+    min-height: 250px;
+    max-width: 450px; /* Maximum size */
+    max-height: 450px;
     border-radius: 50%;
-    background: rgba(124, 185, 183, 0.5); /* Semi-transparent background */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    opacity: 0.3; /* Adjust opacity as needed */
-    display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
+    background: rgba(124, 185, 183, 0.5);
+    backdrop-filter: blur(10px);
+    opacity: 0.3;
+    display: flex; /* Use flex for centering */
+    align-items: center; 
+    justify-content: center; 
     text-align: center;
-    padding: 20px;
-    font-weight: 600;
+    padding: 5%; /* Padding relative to circle size */
+    font-weight: 400; /* Slightly lighter font weight */
     color: #333;
-    filter: blur(5px); /* Initial blur */
+    filter: blur(5px); 
     transition: filter 0.3s ease;
+    box-sizing: border-box; /* Include padding in width/height */
 }
 
 .circle-inner {
@@ -419,26 +424,26 @@ body {
 }
 
 .circle-icon {
-    width: 90px;
-    height: 90px;
+    width: 25%; /* Icon size relative to circle */
+    max-width: 70px; /* Max pixel size */
+    height: auto; /* Maintain aspect ratio */
     margin-bottom: 15px;
     filter: brightness(0.8);
 }
 
 .circle-content {
-    max-width: 80%;
-    font-size: clamp(16px, 2.5vw, 20px); /* Responsive font size */
-    line-height: 1.2; /* Adjust line height for better spacing */
-    text-align: center; /* Center the text horizontally */
-    padding: 10px; /* Add some padding for better spacing */
+    width: 90%; /* Limit text width */
+    font-size: clamp(12px, 1.5vw, 16px); /* Responsive font: min, preferred, max */
+    line-height: 1.4; 
+    text-align: center;
 }
 
 .circle-right {
-    right: 20%;
+    right: 15%; /* Adjusted position */
 }
 
 .circle-left {
-    left: 20%;
+    left: 15%; /* Adjusted position */
 }
 
 #circle1 {
@@ -446,18 +451,20 @@ body {
 }
 
 #circle2 {
-    top: 60vh;
+    top: 70vh; /* Adjusted vertical position */
 }
 
 #circle3 {
-    top: 110vh;
+    top: 130vh; /* Adjusted vertical position */
 }
 
 /* Media queries for circles on smaller screens */
 @media screen and (max-width: 768px) {
     .circle {
-        width: 60vw;
-        height: 60vw;
+        width: 65vw; /* Larger on medium screens */
+        height: 65vw;
+        min-width: 200px;
+        min-height: 200px;
     }
     
     .circle-right {
@@ -467,30 +474,47 @@ body {
     .circle-left {
         left: 5%;
     }
-    
+
     .circle-icon {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 10px;
+        max-width: 60px;
     }
-    
+
     .circle-content {
-        font-size: clamp(14px, 3vw, 18px);
-        line-height: 1.1;
+        font-size: clamp(11px, 2vw, 15px);
+    }
+
+    #circle2 {
+        top: 80vh; /* Adjust vertical position for medium screens */
+    }
+
+    #circle3 {
+        top: 150vh; /* Adjust vertical position for medium screens */
     }
 }
 
 @media screen and (max-width: 480px) {
-    .circle-icon {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 8px;
+    .circle {
+        width: 80vw; /* Even larger on small screens */
+        height: 80vw;
+        min-width: 180px;
+        min-height: 180px;
     }
-    
+
+    .circle-icon {
+        max-width: 50px;
+    }
+
     .circle-content {
-        font-size: clamp(12px, 2.5vw, 16px);
-        line-height: 1;
-        max-width: 90%;
+        font-size: clamp(10px, 2.5vw, 14px);
+        width: 95%;
+    }
+
+    #circle2 {
+        top: 90vh; /* Adjust vertical position for small screens */
+    }
+
+    #circle3 {
+        top: 170vh; /* Adjust vertical position for small screens */
     }
 }
 
@@ -511,4 +535,282 @@ body {
     width: 100%;
     flex-shrink: 0;
     background: transparent;
+}
+
+/* Text Blocks Component */
+.text-blocks {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-block-left, .text-block-right {
+    width: 80%;
+    margin: 30px auto;
+    opacity: 0; /* Start invisible for animation */
+    transform: translateY(50px); /* Start below final position */
+}
+
+.text-block-left {
+    text-align: left;
+    margin-right: auto;
+    margin-left: 5%;
+}
+
+.text-block-right {
+    text-align: right;
+    margin-left: auto;
+    margin-right: 5%;
+    margin-top: 60px;
+}
+
+.text-block-left h3, .text-block-right h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Animation classes that GSAP will use */
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Media queries for text blocks on smaller screens */
+@media screen and (max-width: 768px) {
+    .text-blocks {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 85%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .text-block-right {
+        margin-top: 40px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .text-blocks {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 90%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .text-block-right {
+        margin-top: 30px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+}
+
+/* Chat Headline */
+.chat-headline {
+    width: 80%;
+    margin: 120px auto 30px;
+    text-align: center;
+    position: relative;
+}
+
+.chat-headline h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Media queries for chat headline on smaller screens */
+@media screen and (max-width: 768px) {
+    .chat-headline {
+        width: 90%;
+        margin: 80px auto 30px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .chat-headline {
+        width: 95%;
+        margin: 60px auto 25px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+}
+
+/* FAQ Section */
+.faq-section {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+}
+
+.faq-headline {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-headline h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #034848;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(102, 165, 170, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #034848;
+    margin: 0;
+    flex: 1;
+}
+
+.faq-icon {
+    color: #034848;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    padding: 0 25px;
+}
+
+.faq-answer p {
+    margin: 0;
+    padding-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 16px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 1000px;
+}
+
+.faq-item:nth-child(odd) {
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.faq-item:nth-child(even) {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.faq-item.fade-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Media queries for FAQ section on smaller screens */
+@media screen and (max-width: 768px) {
+    .faq-section {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 28px;
+    }
+    
+    .faq-question h3 {
+        font-size: 18px;
+    }
+    
+    .faq-answer p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .faq-section {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 24px;
+    }
+    
+    .faq-question {
+        padding: 15px 20px;
+    }
+    
+    .faq-question h3 {
+        font-size: 16px;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-answer p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
 } 

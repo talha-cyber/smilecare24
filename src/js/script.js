@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Set up the scrolling animations for circles
     setupCircleAnimations();
     
+    // Set up scrolling animations for text blocks
+    setupTextBlockAnimations();
+    
+    // Set up FAQ animations and interactions
+    setupFAQSection();
+    
     const inputField = document.querySelector(".chat-input-field");
     const sendButton = document.getElementById("enter-button");
     const chatBox = document.getElementById("chat-box");
@@ -52,6 +58,80 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// Function to set up FAQ section
+function setupFAQSection() {
+    // Get all FAQ question elements
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    // Add click event to each FAQ question
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            // Get the parent FAQ item
+            const faqItem = question.parentElement;
+            
+            // Toggle active class on the FAQ item
+            faqItem.classList.toggle('active');
+        });
+    });
+    
+    // Add scroll animations for FAQ items
+    gsap.utils.toArray('.faq-item').forEach((item, i) => {
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+                end: "top 60%",
+                toggleActions: "play none none none"
+            }
+        })
+        .to(item, {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            delay: i * 0.2, // Stagger the animations
+            ease: "power2.out"
+        });
+    });
+}
+
+// Function to set up text block animations
+function setupTextBlockAnimations() {
+    // Animation for Text Block 1 (left-aligned)
+    gsap.timeline({
+        scrollTrigger: {
+            trigger: "#textBlock1",
+            start: "top 80%",
+            end: "top 50%",
+            scrub: false,
+            toggleActions: "play none none none"
+        }
+    })
+    .to("#textBlock1", {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out"
+    });
+
+    // Animation for Text Block 2 (right-aligned)
+    gsap.timeline({
+        scrollTrigger: {
+            trigger: "#textBlock2",
+            start: "top 80%",
+            end: "top 50%",
+            scrub: false,
+            toggleActions: "play none none none"
+        }
+    })
+    .to("#textBlock2", {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.3, // Slight delay after the first block
+        ease: "power2.out"
+    });
+}
 
 // Function to set up circle animations
 function setupCircleAnimations() {
