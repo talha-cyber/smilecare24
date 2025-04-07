@@ -1274,7 +1274,7 @@ body {
     background-color: #93C0C4;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: flex-start;
     z-index: 99;
     transform: translateX(100%);
@@ -1292,7 +1292,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    padding: 0 40px 80px 40px;
+    padding: 0 40px;
     width: 100%;
     box-sizing: border-box;
 }
