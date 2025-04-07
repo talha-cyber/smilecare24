@@ -29,16 +29,20 @@ body {
 }
 
 .navbar {
-    position: fixed; /* Fixes navbar at the top */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Stretches the navbar across the full width */
-    height: 20px; /* Keep your preferred height */
+    right: 0;
+    width: 100%;
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0px;
-    z-index: 1000; /* Ensures it stays above other elements */
+    padding: 0px 30px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1000;
 }
 
 .logo {
@@ -243,15 +247,29 @@ body {
 
 @media screen and (max-width: 768px) {
     .navbar {
-        height: 80px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 15px;
+        height: auto;
+        max-height: 60px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
     }
     
     body {
         padding-top: 90px;
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        width: 100%;
     }
     
     .logo {
-        height: 120px;
+        height: 80px;
+        margin-top: 0;
+        padding-left: 5px;
     }
     
     .headline {
@@ -288,6 +306,43 @@ body {
         min-height: 30px;
         line-height: 30px;
     }
+    
+    .hamburger-btn {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        margin: 0;
+        margin-top: 8px;
+        margin-right: 15px; /* Add margin on right side instead of padding */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1000;
+    }
+    
+    .mobile-menu {
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    
+    .menu-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 15%;
+        height: 100%;
+        justify-content: flex-end;
+    }
+    
+    .menu-link.active::after {
+        width: 0;
+    }
+    
+    /* Note: Circle content styling has been moved to the mobile optimization section */
 }
 
 @media screen and (max-width: 480px) {
@@ -365,6 +420,8 @@ body {
     #enter-button i {
         font-size: 20px;
     }
+    
+    /* Note: Mobile circle styles have been moved to the mobile optimization section */
 }
 
 /* Prevent text selection on logos and buttons */
@@ -378,7 +435,7 @@ body {
 .scrolling-circles {
     position: relative;
     width: 100%;
-    height: 200vh; /* Taller than viewport to enable scrolling */
+    height: 300vh; /* Increased from 200vh to 300vh to accommodate wider spacing */
     overflow: hidden;
     margin: 50px 0;
     background: transparent;
@@ -390,131 +447,171 @@ body {
     height: 100%;
 }
 
-.circle {
+.circle-wrapper {
     position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#circle1-wrapper {
+    top: 20vh; /* Increased from 10vh */
+}
+
+#circle2-wrapper {
+    top: 130vh; /* Increased from 70vh */
+}
+
+#circle3-wrapper {
+    top: 240vh; /* Increased from 130vh */
+}
+
+.circle {
+    position: relative;
     width: 30vw; /* Adjusted size relative to viewport */
-    height: 30vw; /* Keep it circular */
+    height: 30vw; /* Keep it circular by using same value for width and height */
     min-width: 250px; /* Minimum size for very small screens */
     min-height: 250px;
     max-width: 450px; /* Maximum size */
     max-height: 450px;
-    border-radius: 50%;
-    background: rgba(124, 185, 183, 0.5);
-    backdrop-filter: blur(10px);
+    border-radius: 50%; /* Ensure circle shape */
+    background: rgba(255, 255, 255, 0.1); /* Slightly visible background */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     opacity: 0.3;
-    display: flex; /* Use flex for centering */
-    align-items: center; 
-    justify-content: center; 
-    text-align: center;
-    padding: 5%; /* Padding relative to circle size */
-    font-weight: 400; /* Slightly lighter font weight */
-    color: #333;
-    filter: blur(5px); 
-    transition: filter 0.3s ease;
+    filter: blur(8px); 
+    transition: all 0.5s ease; /* Smoother transition */
     box-sizing: border-box; /* Include padding in width/height */
-}
-
-.circle-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.circle-icon {
-    width: 25%; /* Icon size relative to circle */
-    max-width: 70px; /* Max pixel size */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 15px;
-    filter: brightness(0.8);
-}
-
-.circle-content {
-    width: 90%; /* Limit text width */
-    font-size: clamp(12px, 1.5vw, 16px); /* Responsive font: min, preferred, max */
-    line-height: 1.4; 
-    text-align: center;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    aspect-ratio: 1/1; /* Enforce perfect circle */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .circle-right {
-    right: 15%; /* Adjusted position */
+    margin-left: 5%;
 }
 
 .circle-left {
-    left: 15%; /* Adjusted position */
+    margin-right: 5%;
+}
+
+.circle-content-container {
+    max-width: 40%;
+    opacity: 0.3;
+    filter: blur(8px);
+    transition: all 0.5s ease; /* Smoother transition */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.content-left {
+    margin-right: 5%;
+    text-align: right;
+}
+
+.content-right {
+    margin-left: 5%;
+    text-align: left;
+}
+
+.circle-icon {
+    width: 50px; /* Reduced size slightly */
+    height: auto;
+    margin-bottom: 20px;
+    filter: brightness(1);
+}
+
+.circle-content {
+    font-size: clamp(12px, 1.5vw, 16px);
+    line-height: 1.6; 
+    color: #034848;
+    font-weight: 500;
 }
 
 #circle1 {
-    top: 10vh;
+    background-image: url('../assets/vertrauen.png');
 }
 
 #circle2 {
-    top: 70vh; /* Adjusted vertical position */
+    background-image: url('../assets/Smiling_2.png');
 }
 
 #circle3 {
-    top: 130vh; /* Adjusted vertical position */
+    background-image: url('../assets/flexibilität.png');
 }
 
 /* Media queries for circles on smaller screens */
 @media screen and (max-width: 768px) {
     .circle {
-        width: 65vw; /* Larger on medium screens */
-        height: 65vw;
+        width: 45vw;
+        height: 45vw;
         min-width: 200px;
         min-height: 200px;
+        aspect-ratio: 1/1; /* Enforce perfect circle */
     }
     
-    .circle-right {
-        right: 5%;
+    .circle-content-container {
+        max-width: 45%;
     }
     
-    .circle-left {
-        left: 5%;
-    }
-
     .circle-icon {
-        max-width: 60px;
+        width: 40px; /* Further reduced for mobile */
     }
 
     .circle-content {
         font-size: clamp(11px, 2vw, 15px);
     }
 
-    #circle2 {
-        top: 80vh; /* Adjust vertical position for medium screens */
+    #circle2-wrapper {
+        top: 140vh; /* Adjusted for medium screens */
     }
 
-    #circle3 {
-        top: 150vh; /* Adjust vertical position for medium screens */
+    #circle3-wrapper {
+        top: 260vh; /* Adjusted for medium screens */
     }
 }
 
 @media screen and (max-width: 480px) {
+    .circle-wrapper {
+        flex-direction: column;
+    }
+    
     .circle {
-        width: 80vw; /* Even larger on small screens */
-        height: 80vw;
+        width: 70vw; /* Larger percentage of viewport */
+        height: 70vw; /* Keep perfect circle by matching width */
         min-width: 180px;
         min-height: 180px;
+        margin: 20px auto !important; /* Override left/right margin */
+        aspect-ratio: 1/1; /* Enforce perfect circle */
     }
 
+    .circle-content-container {
+        max-width: 85%;
+        margin: 20px auto !important; /* Override left/right margin */
+        order: 2; /* Content below circle on mobile */
+        text-align: center !important; /* Center text on mobile */
+    }
+    
     .circle-icon {
-        max-width: 50px;
+        width: 36px; /* Even smaller for mobile */
     }
 
     .circle-content {
         font-size: clamp(10px, 2.5vw, 14px);
-        width: 95%;
     }
 
-    #circle2 {
-        top: 90vh; /* Adjust vertical position for small screens */
+    #circle2-wrapper {
+        top: 160vh; /* Adjusted for small screens */
     }
 
-    #circle3 {
-        top: 170vh; /* Adjust vertical position for small screens */
+    #circle3-wrapper {
+        top: 300vh; /* Adjusted for small screens */
     }
 }
 
@@ -812,5 +909,459 @@ body {
     .faq-answer p {
         font-size: 14px;
         line-height: 1.4;
+    }
+}
+
+/* Mobile Optimizations - PWA-like Experience */
+@media screen and (max-width: 768px) {
+    body {
+        padding-top: 90px;
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        width: 100%;
+    }
+
+    /* Container alignment fix for mobile */
+    .container, 
+    .chat-container,
+    .text-blocks,
+    .faq-section,
+    .chat-headline,
+    .info-box,
+    .hero,
+    .header,
+    .footer {
+        width: calc(100% - 30px) !important; /* Set consistent width with padding */
+        max-width: 100%;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Navigation adjustments */
+    .navbar {
+        width: 100% !important;
+        padding: 0 15px;
+        box-sizing: border-box;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .navbar.nav-hidden {
+        transform: translateY(-100%);
+    }
+    
+    /* Mobile scrolling circles section with improved dynamic scaling */
+    .scrolling-circles {
+        height: auto !important;
+        margin: 30px 0;
+        overflow: visible;
+        width: 100% !important;
+        padding: 0;
+    }
+    
+    .circle-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px 0;
+        height: auto;
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    .circle-wrapper {
+        position: static !important;
+        width: 90%;
+        max-width: 500px; /* Cap maximum size */
+        margin: 0 auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        left: 0 !important;
+        transform: none !important;
+    }
+    
+    /* Dynamic sizing for mobile cards */
+    .mobile-card {
+        width: 85vw; /* Slightly smaller to ensure no overflow */
+        max-width: 420px; /* Maximum size on larger screens */
+        height: auto;
+        aspect-ratio: 1/1; /* Maintain perfect circle */
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin: 0 auto !important; /* Center horizontally */
+        left: 0 !important;
+        transform: none !important;
+    }
+    
+    .circle, 
+    .circle-content-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto !important;
+        transition: all 0.5s ease;
+    }
+    
+    .circle {
+        background-size: cover;
+        background-position: center center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        filter: blur(0px); /* Start with unblurred state */
+        opacity: 1;
+    }
+    
+    /* Improved content container with better text fitting */
+    .circle-content-container {
+        z-index: 2;
+        background: transparent;
+        padding: 10px 20px;
+        text-align: center;
+        flex-direction: column;
+        opacity: 0;
+        filter: none;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        overflow: visible;
+        display: flex;
+        width: 100%;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY(10px);
+    }
+    
+    /* Animation for content when it becomes visible */
+    .circle-content-container.content-visible {
+        transform: translateY(0);
+    }
+    
+    /* In-view class for mobile cards */
+    .mobile-card.in-view .circle {
+        filter: blur(3px);
+        opacity: 0.2;
+    }
+    
+    /* When scrolled into view - show text */
+    .mobile-card.in-view .circle-content-container {
+        opacity: 1;
+    }
+    
+    /* Dynamic text sizing for better readability */
+    .mobile-card .circle-content {
+        color: #034848;
+        font-weight: 700;
+        /* Dynamic font sizing that grows with screen size but maintains readability */
+        font-size: clamp(13px, calc(12px + 1vw), 18px);
+        line-height: 1.4;
+        width: 85%; /* Leave some padding around text */
+        text-align: center;
+        margin: 0 auto;
+        display: block;
+        /* Only shrink text when it exceeds container */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    
+    /* Dynamic icon sizing */
+    .mobile-card .circle-icon {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9));
+        margin-bottom: 12px;
+        /* Dynamic sizing for icon */
+        width: clamp(36px, calc(30px + 2vw), 50px);
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .mobile-card strong {
+        display: block;
+        margin-bottom: 8px;
+        /* Slightly larger than body text */
+        font-size: 1.1em;
+        color: #012020;
+    }
+    
+    /* Replace flip instruction with scroll instruction */
+    .flip-instruction {
+        display: none;
+    }
+    
+    /* Ensure background images scale proportionally with circles */
+    #mobile-circle1, #mobile-circle2, #mobile-circle3 {
+        background-size: cover; /* Maintain aspect ratio */
+    }
+    
+    /* Mobile text blocks */
+    .text-blocks {
+        margin: 40px auto;
+    }
+    
+    /* Ensure text blocks are properly aligned */
+    .text-block-left, 
+    .text-block-right {
+        width: 100%;
+        margin: 20px auto;
+        text-align: center;
+        padding: 0;
+        transform: none !important;
+        left: 0 !important;
+    }
+    
+    .text-block-right {
+        margin-top: 20px;
+    }
+    
+    /* Mobile FAQ section fix */
+    .faq-item {
+        transform: none !important;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .faq-question,
+    .faq-answer {
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Mobile FAQ section */
+    .faq-section {
+        margin: 40px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 24px;
+    }
+    
+    /* Mobile chat container */
+    .chat-container {
+        height: 600px;
+        border-radius: 15px;
+    }
+    
+    .chat-headline {
+        margin: 40px auto 20px;
+    }
+}
+
+/* Fix for extra small screens */
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 80px;
+    }
+    
+    /* Mobile card specific adjustments for extra small screens */
+    .mobile-card {
+        width: 80vw; /* Even smaller for very small screens */
+        margin: 0 auto !important;
+    }
+    
+    /* Container consistency */
+    .container, 
+    .chat-container,
+    .text-blocks,
+    .faq-section,
+    .chat-headline,
+    .info-box {
+        width: calc(100% - 20px) !important;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* Adjustments for medium-sized mobile screens */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .mobile-card {
+        width: 85vw; /* Slightly smaller percentage on medium screens */
+        max-width: 420px;
+    }
+    
+    .mobile-card .circle-content {
+        width: 80%; /* More breathing room on medium screens */
+    }
+}
+
+/* Additional adjustments for smaller screens */
+@media screen and (max-width: 480px) {
+    /* Remove duplicate mobile-card styles since they're now in the comprehensive media query */
+}
+
+/* Specific styles for larger mobile devices */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    /* Remove duplicate mobile-card styles since they're now in the comprehensive media query */
+}
+
+/* Hide desktop elements on mobile and vice versa */
+@media screen and (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* Hamburger Menu Styles */
+.hamburger-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 40px; /* Increased right position */
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 0;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    margin: 4px 0;
+    background-color: #034848;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #93C0C4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    z-index: 99;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding-bottom: 10vh;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.menu-links {
+    position: absolute;
+    bottom: 60px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-link {
+    position: relative;
+    text-decoration: none;
+    color: #034848;
+    font-weight: 600;
+    font-size: 20px; /* Slightly larger font */
+    display: block;
+    text-transform: uppercase;
+}
+
+.menu-link:hover {
+    color: #4A98A1;
+}
+
+.menu-link.active {
+    color: #4A98A1;
+}
+
+.menu-link.active::after {
+    width: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger-btn {
+        display: block;
+    }
+    
+    .mobile-menu {
+        display: block;
+    }
+    
+    .calendly-button {
+        display: none;
+    }
+}
+
+/* Additional adjustments for smaller screens */
+@media screen and (max-width: 480px) {
+    .mobile-card .circle-content {
+        font-size: clamp(10px, 2vw, 13px); /* Smaller text on smaller screens */
+        line-height: 1.2; /* Even tighter line height for smaller screens */
+        width: 90%; /* Slightly smaller width on very small screens */
+    }
+    
+    .circle-content-container {
+        padding: 8px 15px; /* Less padding on small screens */
+    }
+    
+    .mobile-card .circle-icon {
+        width: 28px; /* Even smaller icon on smaller screens */
+        margin-bottom: 8px; /* Less margin below icon */
+        max-width: 10%; /* Smaller max width for better scaling */
+    }
+    
+    /* Ensure images maintain aspect ratio on smaller screens */
+    .circle {
+        background-size: cover; /* Maintain aspect ratio */
+    }
+}
+
+/* Specific styles for larger mobile devices */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .mobile-card {
+        max-width: 360px; /* Cap the size on medium screens */
+        margin: 0 auto;
+    }
+    
+    .circle {
+        background-size: cover; /* Ensure proper scaling on medium screens */
     }
 } 
