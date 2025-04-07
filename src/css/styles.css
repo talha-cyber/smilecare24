@@ -1273,12 +1273,14 @@ body {
     height: 100vh;
     background-color: #93C0C4;
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
     z-index: 99;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    padding-bottom: 10vh;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .mobile-menu.open {
@@ -1286,12 +1288,13 @@ body {
 }
 
 .menu-links {
-    position: absolute;
-    bottom: 60px;
-    left: 40px;
+    position: static;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+    padding: 0 40px 80px 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .menu-link {
