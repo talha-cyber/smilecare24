@@ -247,6 +247,23 @@
     <div class="content-wrapper">
         <nav class="navbar">
             <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
+            
+            <!-- Hamburger Menu Button (Mobile Only) -->
+            <button class="hamburger-btn mobile-only" id="hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu mobile-only" id="mobile-menu">
+                <div class="menu-links">
+                    <a href="index.html" class="menu-link active">HOME</a>
+                    <a href="impressum.html" class="menu-link">IMPRESSUM</a>
+                    <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a>
+                </div>
+            </div>
+            
             <button class="calendly-button" id="calendlyButton" type="button">
                 Kostenlos Termin vereinbaren
             </button>
@@ -264,22 +281,69 @@
         <!-- Scrolling Circles Section -->
         <section class="scrolling-circles">
             <div class="circle-container">
-                <div class="circle circle-right" id="circle1">
-                    <div class="circle-inner">
+                <!-- Circle 1 (right side) with content on left - DESKTOP VERSION -->
+                <div class="circle-wrapper desktop-only" id="circle1-wrapper">
+                    <div class="circle-content-container content-left" id="content1">
                         <img src="../src/assets/certicificate.svg" alt="Certificate" class="circle-icon">
-                        <div class="circle-content"><strong>Vertraue auf Qualität!</strong> </br>  Unsere Zahnzusatzversicherung gehört zu den besten in Deutschland – ausgezeichnet von Experten und empfohlen von zufriedenen Kunden. Profitiere von starken Leistungen für Deine Zahngesundheit und sichere Dich rundum ab!</div>
+                        <div class="circle-content"><strong>Vertraue auf Qualität!</strong> <br>  Unsere Zahnzusatzversicherung gehört zu den besten in Deutschland – ausgezeichnet von Experten und empfohlen von zufriedenen Kunden. Profitiere von starken Leistungen für Deine Zahngesundheit und sichere Dich rundum ab!</div>
+                    </div>
+                    <div class="circle circle-right" id="circle1"></div>
+                </div>
+                
+                <!-- Circle 1 - MOBILE VERSION -->
+                <div class="circle-wrapper mobile-only" id="mobile-circle1-wrapper">
+                    <div class="mobile-card" id="mobile-card1">
+                        <div class="circle" id="mobile-circle1" style="background-image: url('../src/assets/vertrauen.png')">
+                            <!-- Removed flip instruction -->
+                        </div>
+                        <div class="circle-content-container" id="mobile-content1">
+                            <img src="../src/assets/certicificate.svg" alt="Certificate" class="circle-icon">
+                            <div class="circle-content"><strong>Vertraue auf Qualität!</strong> <br>  Unsere Zahnzusatzversicherung gehört zu den besten in Deutschland – ausgezeichnet von Experten und empfohlen von zufriedenen Kunden. Profitiere von starken Leistungen für Deine Zahngesundheit und sichere Dich rundum ab!</div>
+                        </div>
                     </div>
                 </div>
-                <div class="circle circle-left" id="circle2">
-                    <div class="circle-inner">
+                
+                <!-- Circle 2 (left side) with content on right - DESKTOP VERSION -->
+                <div class="circle-wrapper desktop-only" id="circle2-wrapper">
+                    <div class="circle circle-left" id="circle2"></div>
+                    <div class="circle-content-container content-right" id="content2">
                         <img src="../src/assets/tooth.svg" alt="Tooth" class="circle-icon">
                         <div class="circle-content"><strong>Hochwertiger Zahnersatz kann teuer werden</strong> – mit unserer Zahnzusatzversicherung übernehmen wir bis zu 100 % der Kosten! Erhalte erstklassigen Schutz für Implantate, Kronen und Brücken zu einem fairen Preis. Sorgenfrei lächeln war noch nie so einfach!</div>
                     </div>
                 </div>
-                <div class="circle circle-right" id="circle3">
-                    <div class="circle-inner">
+                
+                <!-- Circle 2 - MOBILE VERSION -->
+                <div class="circle-wrapper mobile-only" id="mobile-circle2-wrapper">
+                    <div class="mobile-card" id="mobile-card2">
+                        <div class="circle" id="mobile-circle2" style="background-image: url('../src/assets/Smiling_2.png')">
+                            <!-- Removed flip instruction -->
+                        </div>
+                        <div class="circle-content-container" id="mobile-content2">
+                            <img src="../src/assets/tooth.svg" alt="Tooth" class="circle-icon">
+                            <div class="circle-content"><strong>Hochwertiger Zahnersatz kann teuer werden</strong> Mit unserer Zahnzusatzversicherung übernehmen wir bis zu 100 % der Kosten! Erhalte erstklassigen Schutz für Implantate, Kronen und Brücken zu einem fairen Preis. Sorgenfrei lächeln war noch nie so einfach!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Circle 3 (right side) with content on left - DESKTOP VERSION -->
+                <div class="circle-wrapper desktop-only" id="circle3-wrapper">
+                    <div class="circle-content-container content-left" id="content3">
                         <img src="../src/assets/contract.svg" alt="Contract" class="circle-icon">
                         <div class="circle-content"><strong>Maximale Flexibilität für Dich!</strong> Unsere Zahnzusatzversicherung ist täglich kündbar und kommt ohne versteckte Gebühren. Klare Leistungen, faire Beiträge – genau so, wie es sein sollte.</div>
+                    </div>
+                    <div class="circle circle-right" id="circle3"></div>
+                </div>
+                
+                <!-- Circle 3 - MOBILE VERSION -->
+                <div class="circle-wrapper mobile-only" id="mobile-circle3-wrapper">
+                    <div class="mobile-card" id="mobile-card3">
+                        <div class="circle" id="mobile-circle3" style="background-image: url('../src/assets/flexibilität.png')">
+                            <!-- Removed flip instruction -->
+                        </div>
+                        <div class="circle-content-container" id="mobile-content3">
+                            <img src="../src/assets/contract.svg" alt="Contract" class="circle-icon">
+                            <div class="circle-content"><strong>Maximale Flexibilität für Dich!</strong> Unsere Zahnzusatzversicherung ist täglich kündbar und kommt ohne versteckte Gebühren. Klare Leistungen, faire Beiträge – genau so, wie es sein sollte.</div>
+                        </div>
                     </div>
                 </div>
             </div>

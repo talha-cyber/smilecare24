@@ -1,0 +1,819 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    touch-action: manipulation;
+    min-height: 100vh;
+    background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA);
+    background-size: 400% 100%;
+    animation: gradientBG 15s ease infinite;
+    padding-top: 130px; /* Prevents content from being hidden behind the navbar */
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.navbar {
+    position: fixed; /* Fixes navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%; /* Stretches the navbar across the full width */
+    height: 120px; /* Keep your preferred height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+.logo {
+    height: 200px; /* Further adjusted size */
+    width: auto;
+}
+
+.hero video {
+    width: 85%;
+    height: 100%;
+    object-fit: contain; /* Ensures the whole video is visible */
+    background-color: black; /* Optional: adds background if aspect ratio doesn't match */
+}
+
+.hero {
+    background: transparent;
+}
+
+.headline {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 20px 0;
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+/* Chat Container */
+.chat-container {
+    width: 80%;
+    margin: 0 auto 60px; /* Reduced top margin since we now have the headline above */
+    border-radius: 25px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    position: relative;
+    z-index: 10;
+}
+
+/* Chat Box (Scrollable Area) */
+.chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Chat Message Styles */
+.chat-message {
+    max-width: 70%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    border: 1px solid rgba(102, 165, 170, 0.2);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.user-message {
+    background: rgba(255, 255, 255, 0.7); /* Lighter background for user messages */
+    align-self: flex-end;
+    color: #333;
+}
+
+.ai-message {
+    background: rgba(255, 255, 255, 0.4); /* More transparent for AI messages */
+    align-self: flex-start;
+    color: #333;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    gap: 3px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #a0a0a0;
+    border-radius: 50%;
+    animation: blink 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Floating Chat Input Styling */
+.chat-input {
+    position: sticky;
+    bottom: 20px;
+    margin: 0 auto 20px;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.7); /* Translucent white */
+    border-radius: 45px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.6); /* Subtle border */
+}
+
+.chat-input-field {
+    flex-grow: 1;
+    padding: 0 15px;
+    border: none;
+    font-size: 16px;
+    border-radius: 15px;
+    outline: none;
+    background: transparent;
+    color: rgb(3, 3, 3);
+    resize: none;
+    overflow-y: auto;
+    min-height: 40px;
+    max-height: 120px;
+    line-height: 1.5; /* Better line height for readability */
+    text-align: left; /* Left-aligned text is easier to read */
+}
+
+.chat-input-field:empty::before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+    text-align: center; /* Center the placeholder */
+}
+
+.chat-input button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 20px;
+    color: white; /* Icon color */
+}
+
+/* Chat Input Button Styling */
+#enter-button {
+    background-color: rgba(175, 223, 221, 0.9); /* Match the container color but more solid */
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+#enter-button:hover {
+    background-color: #87A6A8; /* Slightly darker on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+#enter-button i {
+    font-size: 24px; /* Increase arrow size */
+    color: black; /* Ensure arrow is visible */
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 1024px) {
+    .headline {
+        font-size: 26px;
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+    
+    .info-box {
+        width: 80%;
+        font-size: 22px;
+    }
+    
+    .chat-container {
+        width: 90%;
+    }
+    
+    .partner-logo {
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        height: 80px;
+    }
+    
+    body {
+        padding-top: 90px;
+    }
+    
+    .logo {
+        height: 120px;
+    }
+    
+    .headline {
+        font-size: 22px;
+        margin: 15px 0;
+    }
+    
+    .info-box {
+        width: 85%;
+        font-size: 18px;
+        padding: 15px;
+    }
+    
+    .logo-container {
+        gap: 20px;
+    }
+    
+    .partner-logo {
+        height: 50px;
+    }
+    
+    .chat-container {
+        width: 90%;
+        height: 600px;
+        margin: 0 auto 40px; /* Adjusted margins */
+    }
+    
+    .chat-input {
+        width: 85%;
+        bottom: 60px;
+    }
+    
+    .chat-input-field {
+        min-height: 30px;
+        line-height: 30px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        height: 70px;
+    }
+    
+    body {
+        padding-top: 80px;
+    }
+    
+    .logo {
+        height: 90px;
+    }
+    
+    .hero video {
+        width: 95%;
+    }
+    
+    .headline {
+        font-size: 18px;
+        margin: 10px 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .info-box {
+        width: 90%;
+        font-size: 16px;
+        padding: 12px;
+        margin: 15px auto;
+    }
+    
+    .logo-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .partner-logo {
+        height: 40px;
+    }
+    
+    .chat-container {
+        width: 95%;
+        height: 500px;
+        margin: 0 auto 30px; /* Adjusted margins */
+    }
+    
+    .chat-message {
+        max-width: 85%;
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+    
+    .chat-input {
+        width: 90%;
+        bottom: 40px;
+        padding: 8px;
+    }
+    
+    .chat-input-field {
+        padding: 0 10px;
+        font-size: 16px;
+        min-height: 30px;
+        line-height: 30px;
+    }
+    
+    #enter-button {
+        width: 36px;
+        height: 36px;
+        margin-right: 5px;
+    }
+    
+    #enter-button i {
+        font-size: 20px;
+    }
+}
+
+/* Prevent text selection on logos and buttons */
+.logo, button, .partner-logo {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Scrolling Circles Section */
+.scrolling-circles {
+    position: relative;
+    width: 100%;
+    height: 200vh; /* Taller than viewport to enable scrolling */
+    overflow: hidden;
+    margin: 50px 0;
+    background: transparent;
+}
+
+.circle-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.circle {
+    position: absolute;
+    width: 30vw; /* Adjusted size relative to viewport */
+    height: 30vw; /* Keep it circular */
+    min-width: 250px; /* Minimum size for very small screens */
+    min-height: 250px;
+    max-width: 450px; /* Maximum size */
+    max-height: 450px;
+    border-radius: 50%;
+    background: rgba(124, 185, 183, 0.5);
+    backdrop-filter: blur(10px);
+    opacity: 0.3;
+    display: flex; /* Use flex for centering */
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    padding: 5%; /* Padding relative to circle size */
+    font-weight: 400; /* Slightly lighter font weight */
+    color: #333;
+    filter: blur(5px); 
+    transition: filter 0.3s ease;
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.circle-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.circle-icon {
+    width: 25%; /* Icon size relative to circle */
+    max-width: 70px; /* Max pixel size */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 15px;
+    filter: brightness(0.8);
+}
+
+.circle-content {
+    width: 90%; /* Limit text width */
+    font-size: clamp(12px, 1.5vw, 16px);
+    line-height: 1.6; 
+    color: #012222;
+    font-weight: 650;
+    text-align: center;
+  
+}
+
+.circle-right {
+    right: 15%; /* Adjusted position */
+}
+
+.circle-left {
+    left: 15%; /* Adjusted position */
+}
+
+#circle1 {
+    top: 10vh;
+}
+
+#circle2 {
+    top: 70vh; /* Adjusted vertical position */
+}
+
+#circle3 {
+    top: 130vh; /* Adjusted vertical position */
+}
+
+/* Media queries for circles on smaller screens */
+@media screen and (max-width: 768px) {
+    .circle {
+        width: 65vw; /* Larger on medium screens */
+        height: 65vw;
+        min-width: 200px;
+        min-height: 200px;
+    }
+    
+    .circle-right {
+        right: 5%;
+    }
+    
+    .circle-left {
+        left: 5%;
+    }
+
+    .circle-icon {
+        max-width: 60px;
+    }
+
+    .circle-content {
+        font-size: clamp(11px, 2vw, 15px);
+    }
+
+    #circle2 {
+        top: 80vh; /* Adjust vertical position for medium screens */
+    }
+
+    #circle3 {
+        top: 150vh; /* Adjust vertical position for medium screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .circle {
+        width: 80vw; /* Even larger on small screens */
+        height: 80vw;
+        min-width: 180px;
+        min-height: 180px;
+    }
+
+    .circle-icon {
+        max-width: 50px;
+    }
+
+    .circle-content {
+        font-size: clamp(10px, 2.5vw, 14px);
+        width: 95%;
+    }
+
+    #circle2 {
+        top: 90vh; /* Adjust vertical position for small screens */
+    }
+
+    #circle3 {
+        top: 170vh; /* Adjust vertical position for small screens */
+    }
+}
+
+.highlight {
+    color: #034848; /* New font color */
+}
+/* Ensure content-wrapper and footer are transparent */
+.content-wrapper {
+    flex: 1 0 auto;
+    width: 100%;
+    background: transparent;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    box-shadow: none;
+    width: 100%;
+    flex-shrink: 0;
+    background: transparent;
+}
+
+/* Text Blocks Component */
+.text-blocks {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-block-left, .text-block-right {
+    width: 80%;
+    margin: 30px auto;
+    opacity: 0; /* Start invisible for animation */
+    transform: translateY(50px); /* Start below final position */
+}
+
+.text-block-left {
+    text-align: left;
+    margin-right: auto;
+    margin-left: 5%;
+}
+
+.text-block-right {
+    text-align: right;
+    margin-left: auto;
+    margin-right: 5%;
+    margin-top: 60px;
+}
+
+.text-block-left h3, .text-block-right h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #012020;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Animation classes that GSAP will use */
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Media queries for text blocks on smaller screens */
+@media screen and (max-width: 768px) {
+    .text-blocks {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 85%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .text-block-right {
+        margin-top: 40px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .text-blocks {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 90%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .text-block-right {
+        margin-top: 30px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+}
+
+/* Chat Headline */
+.chat-headline {
+    width: 80%;
+    margin: 120px auto 30px;
+    text-align: center;
+    position: relative;
+}
+
+.chat-headline h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Media queries for chat headline on smaller screens */
+@media screen and (max-width: 768px) {
+    .chat-headline {
+        width: 90%;
+        margin: 80px auto 30px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .chat-headline {
+        width: 95%;
+        margin: 60px auto 25px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+}
+
+/* FAQ Section */
+.faq-section {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+}
+
+.faq-headline {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-headline h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #034848;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(102, 165, 170, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #034848;
+    margin: 0;
+    flex: 1;
+}
+
+.faq-icon {
+    color: #034848;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+    padding: 0 25px;
+}
+
+.faq-answer p {
+    margin: 0;
+    padding-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 16px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 1000px;
+}
+
+.faq-item:nth-child(odd) {
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.faq-item:nth-child(even) {
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.faq-item.fade-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Media queries for FAQ section on smaller screens */
+@media screen and (max-width: 768px) {
+    .faq-section {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 28px;
+    }
+    
+    .faq-question h3 {
+        font-size: 18px;
+    }
+    
+    .faq-answer p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .faq-section {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 24px;
+    }
+    
+    .faq-question {
+        padding: 15px 20px;
+    }
+    
+    .faq-question h3 {
+        font-size: 16px;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-answer p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+} 
