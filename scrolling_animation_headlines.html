@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Headlines Template</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #ffffff; /* Clean white background */
+            color: #222; /* Darker base text color */
+            line-height: 1.6;
+            /* Ensure body takes at least full height */
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .scroll-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .content-section {
+            /* These primarily add space for scrolling */
+            /* Height can be removed if dummy div provides enough scroll */
+            /* height: 100vh; */
+            position: relative;
+        }
+
+        .headline {
+            position: fixed;
+            left: clamp(15px, 5vw, 30px); /* Responsive left offset */
+            margin: 0;
+            padding: 5px 0;
+            z-index: 10;
+            visibility: hidden; /* JS controls visibility */
+            font-size: clamp(1.8rem, 5vw, 3.5rem); /* Adjusted min font size */
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.2;
+            /* Ensure transforms are GPU accelerated */
+            will-change: transform;
+        }
+
+        .text-block {
+            position: fixed;
+            left: clamp(15px, 5vw, 30px); /* Match responsive headline offset */
+            top: 150px; /* Initial placeholder, JS overrides */
+            opacity: 0;
+            visibility: hidden; /* JS controls visibility */
+            padding: 10px 0;
+            max-width: clamp(280px, 85vw, 500px); /* Responsive max-width */
+            z-index: 5;
+            font-size: clamp(0.9rem, 2.5vw, 1.25rem); /* Adjusted min font size */
+            color: #444;
+             will-change: opacity;
+        }
+
+        /* Dummy div for scroll height */
+        .scroll-spacer {
+             /* Significantly increased height */
+            height: 1500vh; 
+        }
+
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="content-section">
+            <h1 class="headline headline-1">Headline 1</h1>
+            <p class="text-block text-1">Placeholder text for the first section.</p>
+        </div>
+        <div class="content-section">
+            <h1 class="headline headline-2">Headline 2</h1>
+            <p class="text-block text-2">Placeholder text for the second section.</p>
+        </div>
+        <div class="content-section">
+            <h1 class="headline headline-3">Headline 3</h1>
+            <p class="text-block text-3">Final placeholder text.</p>
+        </div>
+    </div>
+    <!-- Ensure enough scrollable height -->
+    <div class="scroll-spacer"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Helper function defined outside
+        function getElementHeight(el) {
+            return el ? el.getBoundingClientRect().height : 0;
+        }
+
+        // Helper to convert vh to px
+        const vhToPx = (vh) => (vh * window.innerHeight) / 100;
+
+        // Main setup function
+        function setupAnimations() {
+            console.log("Setting up animations...");
+            // Kill previous triggers/timelines to prevent duplicates on resize
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            if (window.masterTimeline) {
+                window.masterTimeline.kill();
+            }
+            // Clear GSAP inline styles before recalculating
+             gsap.set(".headline, .text-block", { clearProps: "all" });
+
+            const headlines = gsap.utils.toArray('.headline');
+            const textBlocks = gsap.utils.toArray('.text-block');
+
+            if (headlines.length < 3 || textBlocks.length < 3) {
+                console.error("Required elements not found.");
+                return;
+            }
+
+            const [h1, h2, h3] = headlines;
+            const [t1, t2, t3] = textBlocks;
+
+             // --- Define constants using responsive units ---
+             const spacingVh = 3; // vh unit for spacing
+             const baseBottomOffsetVh = 5; // vh unit for bottom offset
+             const finalH1TopVh = 5; // vh unit for top offset
+
+             // --- Get heights (needed for pixel calculations) ---
+             gsap.set(headlines, { visibility: 'visible', opacity: 0 });
+             const h1Height = getElementHeight(h1);
+             const h2Height = getElementHeight(h2);
+             const h3Height = getElementHeight(h3);
+             gsap.set(headlines, { visibility: 'hidden', opacity: 1 });
+
+             if (h1Height === 0 || h2Height === 0 || h3Height === 0) {
+                console.warn("One or more headline heights are 0. Calculations might be incorrect.");
+             }
+
+            // --- Convert vh units to pixels for current viewport height ---
+            const spacingPx = vhToPx(spacingVh);
+            const finalH1TopPx = vhToPx(finalH1TopVh);
+            const baseBottomOffsetPx = vhToPx(baseBottomOffsetVh);
+
+            // --- Calculate FINAL TOP positions (in px) ---
+            const finalH2TopPx = finalH1TopPx + h1Height + spacingPx;
+            const finalH3TopPx = finalH2TopPx + h2Height + spacingPx;
+
+            // --- Calculate INITIAL BOTTOM positions (in px) - Ascending Order: H3 lowest, H1 highest ---
+            const initialBottomH1Px = baseBottomOffsetPx;
+            const initialBottomH2Px = initialBottomH1Px + h3Height + spacingPx;
+            const initialBottomH3Px = initialBottomH2Px + h2Height + spacingPx;
+
+            // --- Set INITIAL positions using calculated px values ---
+            const leftOffset = gsap.getProperty(".headline", "left", "px");
+
+            gsap.set(headlines, {
+                position: 'fixed',
+                left: leftOffset,
+                top: 'auto',
+                visibility: 'hidden',
+                bottom: (i) => {
+                    if (i === 0) return initialBottomH3Px + 'px';
+                    if (i === 1) return initialBottomH2Px + 'px';
+                    if (i === 2) return initialBottomH1Px + 'px';
+                    return 'auto';
+                }
+            });
+
+            gsap.set(textBlocks, {
+                position: 'fixed',
+                left: leftOffset,
+                opacity: 0,
+                visibility: 'hidden',
+                top: (i) => {
+                     if (i === 0) return (finalH1TopPx + h1Height + spacingPx) + 'px';
+                     if (i === 1) return (finalH2TopPx + h2Height + spacingPx) + 'px';
+                     if (i === 2) return (finalH3TopPx + h3Height + spacingPx) + 'px';
+                     return '150px';
+                }
+            });
+
+            // Example integrated directly into your master timeline (replace existing tl timeline)
+
+            const tl = gsap.timeline();
+            const moveDuration = 0.5;
+            const bounceDuration = 0.6;
+            const fadeInDuration = 0.3;
+            const fadeOutDuration = 0.3;
+            const textVisibleDuration = 0.5;
+            let currentTime = 0;
+
+            // == Headline 1 Sequence ==
+            tl.to(h1, {
+                top: finalH1TopPx + 'px',
+                ease: "power1.inOut",
+                duration: moveDuration
+            }, currentTime);
+
+            // Subtle bounce integrated right after move animation
+            tl.fromTo(h1, {y: -30}, {
+                y: 0,
+                ease: "back.out(2)",
+                duration: bounceDuration
+            }, currentTime + moveDuration);
+
+            currentTime += moveDuration + bounceDuration;
+
+            // T1 fades in
+            tl.to(t1, {
+                opacity: 1,
+                visibility: 'visible',
+                ease: "power1.in",
+                duration: fadeInDuration
+            }, currentTime);
+
+            currentTime += fadeInDuration + textVisibleDuration;
+
+            // T1 fades out
+            tl.to(t1, {
+                opacity: 0,
+                ease: "power1.out",
+                duration: fadeOutDuration,
+                onComplete: () => gsap.set(t1, { visibility: 'hidden'})
+            }, currentTime);
+
+            currentTime += fadeOutDuration;
+
+            // == Headline 2 Sequence ==
+            tl.to(h2, {
+                top: finalH2TopPx + 'px',
+                ease: "power1.inOut",
+                duration: moveDuration
+            }, currentTime);
+
+            // Bounce H2
+            tl.fromTo(h2, {y: -30}, {
+                y: 0,
+                ease: "back.out(2)",
+                duration: bounceDuration
+            }, currentTime + moveDuration);
+
+            currentTime += moveDuration + bounceDuration;
+
+            // T2 fades in
+            tl.to(t2, {
+                opacity: 1,
+                visibility: 'visible',
+                ease: "power1.in",
+                duration: fadeInDuration
+            }, currentTime);
+
+            currentTime += fadeInDuration + textVisibleDuration;
+
+            // T2 fades out
+            tl.to(t2, {
+                opacity: 0,
+                ease: "power1.out",
+                duration: fadeOutDuration,
+                onComplete: () => gsap.set(t2, { visibility: 'hidden'})
+            }, currentTime);
+
+            currentTime += fadeOutDuration;
+
+            // == Headline 3 Sequence ==
+            tl.to(h3, {
+                top: finalH3TopPx + 'px',
+                ease: "power1.inOut",
+                duration: moveDuration
+            }, currentTime);
+
+            // Bounce H3
+            tl.fromTo(h3, {y: -30}, {
+                y: 0,
+                ease: "back.out(2)",
+                duration: bounceDuration
+            }, currentTime + moveDuration);
+
+            currentTime += moveDuration + bounceDuration;
+
+            // T3 fades in
+            tl.to(t3, {
+                opacity: 1,
+                visibility: 'visible',
+                ease: "power1.in",
+                duration: fadeInDuration
+            }, currentTime);
+
+            // Note: T3 does not fade out
+
+            // --- Create ScrollTrigger for the main timeline ---
+            const scrollSpeedFactor = 2000;
+            const timelineDuration = tl.duration(); // Recalculate based on new sequence
+            console.log("New Timeline Duration (No Bounces):", timelineDuration);
+            const totalScrollNeeded = timelineDuration * scrollSpeedFactor;
+            console.log("New Total Scroll Needed:", totalScrollNeeded);
+
+            window.masterTimeline = tl;
+
+            ScrollTrigger.create({
+                animation: tl,
+                trigger: "body",
+                start: "top top",
+                end: () => "+=" + totalScrollNeeded,
+                scrub: 1.5,
+                markers: false, // Keep false unless debugging main
+                id: "main-timeline-scrub",
+                invalidateOnRefresh: true
+            });
+
+            // Make headlines visible AFTER everything is set up
+            gsap.set(headlines, { visibility: 'visible' });
+
+        } // End setupAnimations
+
+        // Initial setup on DOM ready
+        document.addEventListener('DOMContentLoaded', setupAnimations);
+
+        // Debounced resize handler
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                console.log("Resizing, re-setting up animations...");
+                setupAnimations();
+            }, 250);
+        });
+    </script>
+</body>
+</html>

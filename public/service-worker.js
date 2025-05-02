@@ -9,7 +9,6 @@ const CACHE_ASSETS = [
   '/datenschutz.html',
   '../src/css/styles.css',
   '../src/js/script.js',
-  '../src/js/chatbot.js',
   '../src/assets/smilecare_logo.png',
   '../src/assets/vertrauen.png',
   '../src/assets/Smiling_2.png',

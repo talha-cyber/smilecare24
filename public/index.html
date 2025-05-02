@@ -13,20 +13,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Main scripts -->
     <script src="../src/js/script.js"></script>
-    <script src="../src/js/chatbot.js"></script>
+    <!-- interact.js for mobile chat -->
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <!-- Calendly Integration -->
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
     <script>
         window.onload = function() {
-            const button = document.getElementById('calendlyButton');
-            if (button) {
-                button.addEventListener('click', function() {
-                    Calendly.initPopupWidget({
-                        url: 'https://calendly.com/smilecare24-barmenia/30min?primary_color=3d94a0'
+            // Function to attach Calendly popup
+            const initCalendlyPopup = (buttonId) => {
+                const button = document.getElementById(buttonId);
+                if (button) {
+                    button.addEventListener('click', function() {
+                        Calendly.initPopupWidget({
+                            url: 'https://calendly.com/smilecare24-barmenia/30min?primary_color=3d94a0'
+                        });
                     });
-                });
-            }
+                    console.log(`Calendly attached to button: ${buttonId}`);
+                } else {
+                    console.warn(`Calendly button not found: ${buttonId}`);
+                }
+            };
+
+            // Attach to both buttons
+            initCalendlyPopup('calendlyButton');      // Navbar button
+            initCalendlyPopup('calendlyButtonCTA');   // Hero CTA button
         };
     </script>
     <style>
@@ -268,19 +279,45 @@
                 Kostenlos Termin vereinbaren
             </button>
         </nav>
-        <section class="hero">
-            <video autoplay loop muted>
-                <source src="../src/assets/hero_vid.mp4" type="video/mp4">
-                Ihr Browser unterstützt kein Video.
-            </video>
+
+        <!-- New Hero Section -->
+        <section class="new-hero">
+            <div class="hero-container">
+                <div class="hero-left">
+                    <!-- Reusing headline class for styling, adjust if needed -->
+                    <h1 class="headline hero-headline">
+                        Ein Lächeln, um das Du dir <span class="highlight">keine Sorgen machen musst</span>
+                    </h1>
+                    <!-- Optional: Add more text/buttons here later -->
+                </div>
+                <div class="hero-right">
+                    <!-- Container for CTAs -->
+                    <div class="hero-cta-group">
+                        <!-- CTA 1 -->
+                        <div class="hero-cta-item">
+                            <h3 class="cta-headline">Lass' Dir innerhalb von 3 Minuten deinen Tarif ausrechnen</h3>
+                            <a href="tarifrechner.html" style="text-decoration: none;" target="_blank">
+                                <button class="hero-cta-button">Jetzt berechnen</button>
+                            </a>
+                        </div>
+                        <!-- CTA 2 -->
+                        <div class="hero-cta-item">
+                            <h3 class="cta-headline">Unser KI Assistent hilft Dir den perfekten Tarif für Dich zu finden! </h3>
+                            <button class="hero-cta-button" id="openChatButton">Jetzt beraten lassen</button>
+                        </div>
+                        <!-- CTA 3 -->
+                        <div class="hero-cta-item">
+                            <h3 class="cta-headline">Doch lieber ein persönliches Gespräch? Kein Problem! Vereinbare ganz einfach ein persönliches und unverbindliches Erstgespräch mit uns</h3>
+                            <button class="hero-cta-button" id="calendlyButtonCTA">Termin vereinbaren</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
-        <h1 class="headline">
-            Ein Lächeln, um das Du dir <span class="highlight">keine Sorgen machen musst</span>
-        </h1>
 
         <!-- Scrolling Circles Section -->
         <section class="scrolling-circles">
-            <div class="circle-container">
+            <div class="circle-container">  
                 <!-- Circle 1 (right side) with content on left - DESKTOP VERSION -->
                 <div class="circle-wrapper desktop-only" id="circle1-wrapper">
                     <div class="circle-content-container content-left" id="content1">
@@ -289,20 +326,7 @@
                     </div>
                     <div class="circle circle-right" id="circle1"></div>
                 </div>
-                
-                <!-- Circle 1 - MOBILE VERSION -->
-                <div class="circle-wrapper mobile-only" id="mobile-circle1-wrapper">
-                    <div class="mobile-card" id="mobile-card1">
-                        <div class="circle" id="mobile-circle1" style="background-image: url('../src/assets/vertrauen.png')">
-                            <!-- Removed flip instruction -->
-                        </div>
-                        <div class="circle-content-container" id="mobile-content1">
-                            <img src="../src/assets/certicificate.svg" alt="Certificate" class="circle-icon">
-                            <div class="circle-content"><strong>Vertraue auf Qualität!</strong> <br>  Unsere Zahnzusatzversicherung gehört zu den besten in Deutschland – ausgezeichnet von Experten und empfohlen von zufriedenen Kunden. Profitiere von starken Leistungen für Deine Zahngesundheit und sichere Dich rundum ab!</div>
-                        </div>
-                    </div>
-                </div>
-                
+
                 <!-- Circle 2 (left side) with content on right - DESKTOP VERSION -->
                 <div class="circle-wrapper desktop-only" id="circle2-wrapper">
                     <div class="circle circle-left" id="circle2"></div>
@@ -311,20 +335,7 @@
                         <div class="circle-content"><strong>Hochwertiger Zahnersatz kann teuer werden</strong> – mit unserer Zahnzusatzversicherung übernehmen wir bis zu 100 % der Kosten! Erhalte erstklassigen Schutz für Implantate, Kronen und Brücken zu einem fairen Preis. Sorgenfrei lächeln war noch nie so einfach!</div>
                     </div>
                 </div>
-                
-                <!-- Circle 2 - MOBILE VERSION -->
-                <div class="circle-wrapper mobile-only" id="mobile-circle2-wrapper">
-                    <div class="mobile-card" id="mobile-card2">
-                        <div class="circle" id="mobile-circle2" style="background-image: url('../src/assets/Smiling_2.png')">
-                            <!-- Removed flip instruction -->
-                        </div>
-                        <div class="circle-content-container" id="mobile-content2">
-                            <img src="../src/assets/tooth.svg" alt="Tooth" class="circle-icon">
-                            <div class="circle-content"><strong>Hochwertiger Zahnersatz kann teuer werden</strong> <br> Mit unserer Zahnzusatzversicherung übernehmen wir bis zu 100 % der Kosten! Erhalte erstklassigen Schutz für Implantate, Kronen und Brücken zu einem fairen Preis. Sorgenfrei lächeln war noch nie so einfach!</div>
-                        </div>
-                    </div>
-                </div>
-                
+
                 <!-- Circle 3 (right side) with content on left - DESKTOP VERSION -->
                 <div class="circle-wrapper desktop-only" id="circle3-wrapper">
                     <div class="circle-content-container content-left" id="content3">
@@ -333,334 +344,378 @@
                     </div>
                     <div class="circle circle-right" id="circle3"></div>
                 </div>
-                
-                <!-- Circle 3 - MOBILE VERSION -->
-                <div class="circle-wrapper mobile-only" id="mobile-circle3-wrapper">
-                    <div class="mobile-card" id="mobile-card3">
-                        <div class="circle" id="mobile-circle3" style="background-image: url('../src/assets/flexibilität.png')">
-                            <!-- Removed flip instruction -->
-                        </div>
-                        <div class="circle-content-container" id="mobile-content3">
-                            <img src="../src/assets/contract.svg" alt="Contract" class="circle-icon">
-                            <div class="circle-content"><strong>Maximale Flexibilität für Dich!</strong> <br>Unsere Zahnzusatzversicherung ist täglich kündbar und kommt ohne versteckte Gebühren. Klare Leistungen, faire Beiträge – genau so, wie es sein sollte.</div>
-                        </div>
-                    </div>
+
+                <!-- Ensure NO mobile elements are inside circle-container -->
+            </div>
+        </section>
+
+        <!-- New Empty Component -->
+        <section class="scroll-headline-container" id="scrollHeadlinesSection">
+            <div class="headline-content-section">
+                <div class="headline-group"> <!-- Wrapper for H1/T1 -->
+                    <h2 class="chat-style-headline">Vertraue auf Qualität</h2>
+                    <p class="chat-style-text" id="text1">Unsere Zahnzusatzversicherung gehört zu den besten in Deutschland – ausgezeichnet von Experten und empfohlen von zufriedenen Kunden. Profitiere von starken Leistungen für Deine Zahngesundheit und sichere Dich rundum ab!</p>
+                </div>
+                <div class="headline-item"> <!-- Wrapper for H2/T2 -->
+                    <h2 class="chat-style-headline">Hochwertiger Zahnersatz ist teuer</h2>
+                    <p class="chat-style-text" id="text2">Mit unserer Zahnzusatzversicherung übernehmen wir bis zu 100 % der Kosten! Erhalte erstklassigen Schutz für Implantate, Kronen und Brücken zu einem fairen Preis. Sorgenfrei lächeln war noch nie so einfach!</p>
+                </div>
+                <div class="headline-item"> <!-- Wrapper for H3/T3 -->
+                    <h2 class="chat-style-headline">Maximale Flexibilität für Dich</h2>
+                    <p class="chat-style-text" id="text3">Unsere Zahnzusatzversicherung ist täglich kündbar und kommt ohne versteckte Gebühren. Klare Leistungen, faire Beiträge – genau so, wie es sein sollte.</p>
                 </div>
             </div>
         </section>
-    </div>
 
-    <!-- Chat Headline -->
-    <div class="chat-headline">
-        <h2>Keine Lust Dir lange Infotexte durchzulesen? Chatte einfach mit unserem smarten SmileCare Assistenten und lass Dich persönlich mit Informationen beraten, die nur für Dich relevant sind</h2>
-    </div>
+        <!-- Mobile Floating Chat Widget (Moved here) -->
+        <div class="mobile-only">
+            <!-- Added headline for mobile -->
+            <div class="chat-headline">
+                <h2>Keine Lust Dir lange Infotexte durchzulesen? Chatte einfach mit unserem smarten SmileCare Assistenten und lass Dich persönlich mit Informationen beraten, die nur für Dich relevant sind</h2>
+            </div>
+            <!-- Floating chat elements -->
+            <div id="chat-widget-container" class="state-initial"> <!-- Start in initial state -->
+                <!-- Always present rectangular CTA Button (hidden when window open) -->
+                <div id="chat-cta-button">Jetzt chatten</div>
 
-    <!-- Chat Component -->
-    <div class="chat-container">
-        <div class="chat-box" id="chat-box">
-            <!-- Messages will be dynamically added here -->
+                <!-- Draggable minimized bubble (only visible when minimized) -->
+                <div id="chat-minimized-bubble"></div> <!-- Icon set by CSS -->
+
+                <!-- The main chat window -->
+                <div id="chat-window">
+                    <div class="chat-header">
+                        <span></span> <!-- Empty span to maintain flex structure -->
+                        <button id="minimize-chat">_</button> <!-- Placeholder for minimize icon -->
+                    </div>
+                    <div class="chat-area" id="mobile-chat-area">
+                        <!-- Example Messages -->
+                        <div class="message received">Hallo! Wie kann ich dir heute helfen?</div>
+                        <!-- <div class="message sent">Ich habe eine Frage zu den Preisen.</div> -->
+                        <!-- <div class="message received">Klar, was möchtest du wissen?</div> -->
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="mobile-chat-input" placeholder="Nachricht eingeben...">
+                        <button id="mobile-send-button">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="drop-zone">X</div> <!-- Drop zone for the bubble -->
         </div>
-        <div class="chat-input">
-            <div class="chat-input-field" contenteditable="true" data-placeholder="Nachricht eingeben..."></div>
-            <button id="enter-button">
-                <i class="fa-solid fa-arrow-up"></i>
-            </button>
+
+        <!-- Desktop Chat Component -->
+        <div class="desktop-only">
+            <div id="chat-popup-wrapper"> <!-- New Popup Wrapper -->
+                <button id="closeChatPopup">&times;</button> <!-- Close Button -->
+                <div class="chat-container">
+                    <div class="chat-box" id="chat-box">
+                        <!-- Messages will be dynamically added here -->
+                    </div>
+                    <div class="chat-input">
+                        <div class="chat-input-field" contenteditable="true" data-placeholder="Nachricht eingeben..."></div>
+                        <button id="enter-button">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <!-- New Text Component - Split into two blocks -->
-    <div class="text-blocks">
-        <div class="text-block-left" id="textBlock1">
-            <h3>Gesunde und schöne Zähne sind Lebensqualität – doch die Kosten für Zahnersatz, Implantate oder hochwertige Füllungen können schnell in die Höhe steigen. Mit unserer Zahnzusatzversicherung bist Du bestens abgesichert:</h3>
-        </div>
-        <div class="text-block-right" id="textBlock2">
-            <h3> Wir übernehmen bis zu 100 % der Kosten für viele Behandlungen und sorgen dafür, dass Du jederzeit die beste Versorgung erhältst. Ohne lange Wartezeiten, ohne versteckte Gebühren – dafür mit voller Transparenz und täglicher Kündbarkeit. Schütze Dein Lächeln mit einer der meistempfohlenen Zahnversicherungen Deutschlands!</h3>
-        </div>
-    </div>
-    
-    <!-- FAQ Section -->
-    <div class="faq-section" id="faqSection">
-        <div class="faq-headline">
-            <h2>Häufig gestellte Fragen</h2>
+
+        <!-- New Text Component - Split into two blocks -->
+        <div class="text-blocks">
+            <div class="text-block-left" id="textBlock1">
+                <h3>Gesunde und schöne Zähne sind Lebensqualität – doch die Kosten für Zahnersatz, Implantate oder hochwertige Füllungen können schnell in die Höhe steigen. Mit unserer Zahnzusatzversicherung bist Du bestens abgesichert:</h3>
+            </div>
+            <div class="text-block-right" id="textBlock2">
+                <h3> Wir übernehmen bis zu 100 % der Kosten für viele Behandlungen und sorgen dafür, dass Du jederzeit die beste Versorgung erhältst. Ohne lange Wartezeiten, ohne versteckte Gebühren – dafür mit voller Transparenz und täglicher Kündbarkeit. Schütze Dein Lächeln mit einer der meistempfohlenen Zahnversicherungen Deutschlands!</h3>
+            </div>
         </div>
         
-        <div class="faq-container">
-            <!-- FAQ Item 1 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question1">
-                    <h3>Welche Kosten übernimmt die Zahnzusatzversicherung?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                </div>
-                <div class="faq-answer" id="answer1">
-                    <p>Unsere Zahnzusatzversicherung deckt zahlreiche Leistungen ab, darunter Zahnersatz (z. B. Implantate, Kronen, Brücken), Zahnbehandlungen (z. B. Füllungen, Wurzelbehandlungen), professionelle Zahnreinigungen sowie Kieferorthopädie – je nach gewähltem Tarif.</p>
-                </div>
+        <!-- FAQ Section -->
+        <div class="faq-section" id="faqSection">
+            <div class="faq-headline">
+                <h2>Häufig gestellte Fragen</h2>
             </div>
             
-            <!-- FAQ Item 2 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question2">
-                    <h3>Gibt es Behandlungen, die nicht abgedeckt sind?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+            <div class="faq-container">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question1">
+                        <h3>Welche Kosten übernimmt die Zahnzusatzversicherung?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer1">
+                        <p>Unsere Zahnzusatzversicherung deckt zahlreiche Leistungen ab, darunter Zahnersatz (z. B. Implantate, Kronen, Brücken), Zahnbehandlungen (z. B. Füllungen, Wurzelbehandlungen), professionelle Zahnreinigungen sowie Kieferorthopädie – je nach gewähltem Tarif.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer2">
-                    <p>Grundsätzlich sind alle medizinisch notwendigen Maßnahmen abgesichert. Nicht übernommen werden in der Regel Behandlungen, die bereits vor Vertragsabschluss begonnen oder angeraten wurden. Auch rein kosmetische Eingriffe sind meist nicht enthalten.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 3 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question3">
-                    <h3>Ab wann kann ich die Leistungen nutzen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question2">
+                        <h3>Gibt es Behandlungen, die nicht abgedeckt sind?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer2">
+                        <p>Grundsätzlich sind alle medizinisch notwendigen Maßnahmen abgesichert. Nicht übernommen werden in der Regel Behandlungen, die bereits vor Vertragsabschluss begonnen oder angeraten wurden. Auch rein kosmetische Eingriffe sind meist nicht enthalten.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer3">
-                    <p>Dein Versicherungsschutz greift sofort für viele Leistungen. Für einige wenige gibt es eine kurze Wartezeit, damit das System fair für alle bleibt. So profitierst Du langfristig von stabilen Beiträgen und einer leistungsstarken Absicherung.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 4 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question4">
-                    <h3>Kann ich weiterhin zu meinem Zahnarzt gehen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question3">
+                        <h3>Ab wann kann ich die Leistungen nutzen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer3">
+                        <p>Dein Versicherungsschutz greift sofort für viele Leistungen. Für einige wenige gibt es eine kurze Wartezeit, damit das System fair für alle bleibt. So profitierst Du langfristig von stabilen Beiträgen und einer leistungsstarken Absicherung.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer4">
-                    <p>Ja, Du hast völlige Freiheit bei der Wahl Deines Zahnarztes und musst Dich nicht auf bestimmte Praxen beschränken.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 5 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question5">
-                    <h3>Wie flexibel ist meine Versicherung, wenn ich sie nicht mehr benötige?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question4">
+                        <h3>Kann ich weiterhin zu meinem Zahnarzt gehen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer4">
+                        <p>Ja, Du hast völlige Freiheit bei der Wahl Deines Zahnarztes und musst Dich nicht auf bestimmte Praxen beschränken.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer5">
-                    <p>Unsere Zahnzusatzversicherung bietet maximale Flexibilität. Je nach Tarif kannst Du täglich kündigen oder den Vertrag nach Ablauf einer Mindestlaufzeit beenden.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 6 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question6">
-                    <h3>Wie kann ich meine Familie absichern?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question5">
+                        <h3>Wie flexibel ist meine Versicherung, wenn ich sie nicht mehr benötige?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer5">
+                        <p>Unsere Zahnzusatzversicherung bietet maximale Flexibilität. Je nach Tarif kannst Du täglich kündigen oder den Vertrag nach Ablauf einer Mindestlaufzeit beenden.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer6">
-                    <p>Jede Person benötigt eine eigene Zahnzusatzversicherung. Möchtest Du Deinen Partner oder Deine Kinder versichern, muss für jede Person ein separater Vertrag abgeschlossen werden. Das geht ganz unkompliziert – entweder direkt bei Antragstellung oder später nachträglich.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 7 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question7">
-                    <h3>Was steckt hinter SmileCare24?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 6 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question6">
+                        <h3>Wie kann ich meine Familie absichern?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer6">
+                        <p>Jede Person benötigt eine eigene Zahnzusatzversicherung. Möchtest Du Deinen Partner oder Deine Kinder versichern, muss für jede Person ein separater Vertrag abgeschlossen werden. Das geht ganz unkompliziert – entweder direkt bei Antragstellung oder später nachträglich.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer7">
-                    <p>SmileCare24 ist ein Partnerkonzept, das für exzellente Zahnzusatzversicherungen steht und Dir erstklassige Leistungen zu fairen Konditionen bietet.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 8 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question8">
-                    <h3>Wie kann ich meine Zahnarztrechnung einreichen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 7 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question7">
+                        <h3>Was steckt hinter SmileCare24?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer7">
+                        <p>SmileCare24 ist ein Partnerkonzept, das für exzellente Zahnzusatzversicherungen steht und Dir erstklassige Leistungen zu fairen Konditionen bietet.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer8">
-                    <p>Rechnungen können schnell und einfach digital über die Barmenia-App oder per E-Mail eingereicht werden. Auch der klassische Postversand ist möglich.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 9 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question9">
-                    <h3>Sind Behandlungen im Ausland mitversichert?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 8 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question8">
+                        <h3>Wie kann ich meine Zahnarztrechnung einreichen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer8">
+                        <p>Rechnungen können schnell und einfach digital über die Barmenia-App oder per E-Mail eingereicht werden. Auch der klassische Postversand ist möglich.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer9">
-                    <p>Ja, viele Tarife beinhalten auch Schutz im Ausland. Die genauen Bedingungen hängen von Deinem gewählten Tarif ab.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 10 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question10">
-                    <h3>Welche Leistungen sind im Überblick enthalten?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 9 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question9">
+                        <h3>Sind Behandlungen im Ausland mitversichert?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer9">
+                        <p>Ja, viele Tarife beinhalten auch Schutz im Ausland. Die genauen Bedingungen hängen von Deinem gewählten Tarif ab.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer10">
-                    <p>Unsere Versicherung deckt Zahnersatz, Zahnbehandlungen, professionelle Zahnreinigungen und Kieferorthopädie ab – mit einer Erstattung von bis zu 100 %, je nach Tarif.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 11 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question11">
-                    <h3>Wer kann eine Zahnzusatzversicherung abschließen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 10 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question10">
+                        <h3>Welche Leistungen sind im Überblick enthalten?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer10">
+                        <p>Unsere Versicherung deckt Zahnersatz, Zahnbehandlungen, professionelle Zahnreinigungen und Kieferorthopädie ab – mit einer Erstattung von bis zu 100 %, je nach Tarif.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer11">
-                    <p>Grundsätzlich kann jeder eine Zahnzusatzversicherung abschließen – unabhängig vom Alter. Es gibt spezielle Tarife für Kinder, Erwachsene und Senioren.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 12 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question12">
-                    <h3>Wie hoch sind die Erstattungen für einzelne Leistungen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 11 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question11">
+                        <h3>Wer kann eine Zahnzusatzversicherung abschließen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer11">
+                        <p>Grundsätzlich kann jeder eine Zahnzusatzversicherung abschließen – unabhängig vom Alter. Es gibt spezielle Tarife für Kinder, Erwachsene und Senioren.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer12">
-                    <p>Die Kostenübernahme hängt von Deinem Tarif ab. In den besten Tarifen erhältst Du bis zu 100 % Erstattung für Zahnersatz, Behandlungen und Prophylaxe.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 13 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question13">
-                    <h3>Gibt es eine Begrenzung der Leistungen in den ersten Jahren?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 12 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question12">
+                        <h3>Wie hoch sind die Erstattungen für einzelne Leistungen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer12">
+                        <p>Die Kostenübernahme hängt von Deinem Tarif ab. In den besten Tarifen erhältst Du bis zu 100 % Erstattung für Zahnersatz, Behandlungen und Prophylaxe.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer13">
-                    <p>Ja, viele Tarife haben in den ersten Jahren eine gestaffelte Leistungsbegrenzung. Danach steht Dir der volle Erstattungsbetrag zur Verfügung.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 14 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question14">
-                    <h3>Was bedeutet die Innovationsgarantie?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 13 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question13">
+                        <h3>Gibt es eine Begrenzung der Leistungen in den ersten Jahren?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer13">
+                        <p>Ja, viele Tarife haben in den ersten Jahren eine gestaffelte Leistungsbegrenzung. Danach steht Dir der volle Erstattungsbetrag zur Verfügung.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer14">
-                    <p>Dein Schutz ist zukunftssicher: Sämtliche Zahnersatzmaßnahmen sind versichert – auch solche, die es heute noch nicht gibt. Dein Versicherungsschutz passt sich automatisch an medizinische Fortschritte an, ohne dass Du etwas tun musst.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 15 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question15">
-                    <h3>Was garantiert die Zukunftsgarantie?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 14 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question14">
+                        <h3>Was bedeutet die Innovationsgarantie?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer14">
+                        <p>Dein Schutz ist zukunftssicher: Sämtliche Zahnersatzmaßnahmen sind versichert – auch solche, die es heute noch nicht gibt. Dein Versicherungsschutz passt sich automatisch an medizinische Fortschritte an, ohne dass Du etwas tun musst.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer15">
-                    <p>Die Leistungen der gesetzlichen Krankenversicherung oder Heilfürsorge können sich ändern. Dein Schutz bleibt jedoch unverändert: Du erhältst immer die tariflich vereinbarten Leistungen, unabhängig von künftigen Änderungen.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 16 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question16">
-                    <h3>Was muss ich bei der Rechnungseinreichung beachten?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 15 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question15">
+                        <h3>Was garantiert die Zukunftsgarantie?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer15">
+                        <p>Die Leistungen der gesetzlichen Krankenversicherung oder Heilfürsorge können sich ändern. Dein Schutz bleibt jedoch unverändert: Du erhältst immer die tariflich vereinbarten Leistungen, unabhängig von künftigen Änderungen.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer16">
-                    <p>Damit die Erstattung schnell erfolgen kann, sollten alle wichtigen Angaben wie Behandlungsdatum, Leistungsbeschreibung und Kosten klar ersichtlich sein.</p>
-                </div>
-            </div>
-            
-            <!-- FAQ Item 17 -->
-            <div class="faq-item">
-                <div class="faq-question" id="question17">
-                    <h3>Wann und wie kann ich meinen Tarif kündigen?</h3>
-                    <div class="faq-icon">
-                        <i class="fas fa-plus"></i>
+                
+                <!-- FAQ Item 16 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question16">
+                        <h3>Was muss ich bei der Rechnungseinreichung beachten?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer16">
+                        <p>Damit die Erstattung schnell erfolgen kann, sollten alle wichtigen Angaben wie Behandlungsdatum, Leistungsbeschreibung und Kosten klar ersichtlich sein.</p>
                     </div>
                 </div>
-                <div class="faq-answer" id="answer17">
-                    <p>Je nach gewähltem Tarif ist eine tägliche Kündigung möglich oder eine Kündigung zum Ende der Mindestvertragslaufzeit.</p>
+                
+                <!-- FAQ Item 17 -->
+                <div class="faq-item">
+                    <div class="faq-question" id="question17">
+                        <h3>Wann und wie kann ich meinen Tarif kündigen?</h3>
+                        <div class="faq-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                    </div>
+                    <div class="faq-answer" id="answer17">
+                        <p>Je nach gewähltem Tarif ist eine tägliche Kündigung möglich oder eine Kündigung zum Ende der Mindestvertragslaufzeit.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="index.html">Startseite</a>
-            <a href="impressum.html">Impressum</a>
-            <a href="datenschutz.html">Datenschutz</a>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="index.html">Startseite</a>
+                <a href="impressum.html">Impressum</a>
+                <a href="datenschutz.html">Datenschutz</a>
+            </div>
+            <p>&copy; 2024 SmileCare24. Alle Rechte vorbehalten.</p>
+        </footer>
+        
+        <!-- Cookie Consent Banner -->
+        <div class="cookie-consent" id="cookieConsent">
+            <div class="cookie-text">
+                Wir verwenden Cookies, um Dir die bestmögliche Erfahrung auf unserer Website zu bieten. Durch die weitere Nutzung unserer Website stimmst Du der Verwendung von Cookies zu. Mehr Informationen findest Du in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-settings" id="cookieSettings">Einstellungen</button>
+                <button class="cookie-btn accept-necessary" id="acceptNecessary">Nur notwendige</button>
+                <button class="cookie-btn accept-all" id="acceptAll">Alle akzeptieren</button>
+            </div>
         </div>
-        <p>&copy; 2024 SmileCare24. Alle Rechte vorbehalten.</p>
-    </footer>
-    
-    <!-- Cookie Consent Banner -->
-    <div class="cookie-consent" id="cookieConsent">
-        <div class="cookie-text">
-            Wir verwenden Cookies, um Dir die bestmögliche Erfahrung auf unserer Website zu bieten. Durch die weitere Nutzung unserer Website stimmst Du der Verwendung von Cookies zu. Mehr Informationen findest Du in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
-        </div>
-        <div class="cookie-buttons">
-            <button class="cookie-settings" id="cookieSettings">Einstellungen</button>
-            <button class="cookie-btn accept-necessary" id="acceptNecessary">Nur notwendige</button>
-            <button class="cookie-btn accept-all" id="acceptAll">Alle akzeptieren</button>
-        </div>
+        
+        <script>
+            // Cookie consent functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                // Existing cookie consent code
+                if (!localStorage.getItem('cookieConsent')) {
+                    setTimeout(function() {
+                        document.getElementById('cookieConsent').classList.add('show');
+                    }, 1000);
+                }
+                
+                // Accept all cookies
+                document.getElementById('acceptAll').addEventListener('click', function() {
+                    localStorage.setItem('cookieConsent', 'all');
+                    document.getElementById('cookieConsent').classList.remove('show');
+                    // Here you would enable all cookies/tracking
+                });
+                
+                // Accept only necessary cookies
+                document.getElementById('acceptNecessary').addEventListener('click', function() {
+                    localStorage.setItem('cookieConsent', 'necessary');
+                    document.getElementById('cookieConsent').classList.remove('show');
+                    // Here you would disable all non-essential cookies/tracking
+                });
+                
+                // Cookie settings button (would typically open a modal with detailed settings)
+                document.getElementById('cookieSettings').addEventListener('click', function() {
+                    // This would typically open a detailed cookie settings modal
+                    // For now, we'll just redirect to the privacy policy
+                    window.location.href = 'datenschutz.html';
+                });
+            });
+        </script>
     </div>
-    
-    <script>
-        // Cookie consent functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Existing cookie consent code
-            if (!localStorage.getItem('cookieConsent')) {
-                setTimeout(function() {
-                    document.getElementById('cookieConsent').classList.add('show');
-                }, 1000);
-            }
-            
-            // Accept all cookies
-            document.getElementById('acceptAll').addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'all');
-                document.getElementById('cookieConsent').classList.remove('show');
-                // Here you would enable all cookies/tracking
-            });
-            
-            // Accept only necessary cookies
-            document.getElementById('acceptNecessary').addEventListener('click', function() {
-                localStorage.setItem('cookieConsent', 'necessary');
-                document.getElementById('cookieConsent').classList.remove('show');
-                // Here you would disable all non-essential cookies/tracking
-            });
-            
-            // Cookie settings button (would typically open a modal with detailed settings)
-            document.getElementById('cookieSettings').addEventListener('click', function() {
-                // This would typically open a detailed cookie settings modal
-                // For now, we'll just redirect to the privacy policy
-                window.location.href = 'datenschutz.html';
-            });
-        });
-    </script>
 </body>
 </html>
