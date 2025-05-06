@@ -1362,6 +1362,177 @@ body {
     }
 }
 
+/* --- START: New Hero Section (Rebuilt) --- */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 70vh; /* Impactful height */
+    background-color: transparent;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 40px; /* Add some space below the hero */
+}
+
+.hero-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 40px;
+}
+
+.hero-text-column {
+    flex: 1 1 55%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.hero-visual-column {
+    flex: 1 1 40%;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-main-headline {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.25;
+    margin-bottom: 20px;
+}
+
+.hero-main-headline .highlight {
+    /* Uses existing .highlight style */
+}
+
+.hero-subheadline {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 550px;
+}
+
+.hero-cta-primary .cta-button.primary {
+    background-color: #3d94a0;
+    color: white;
+    padding: 15px 35px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hero-cta-primary .cta-button.primary:hover {
+    background-color: #357f89;
+    transform: translateY(-2px);
+}
+
+.hero-cta-secondary-group {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.hero-cta-secondary-group p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.hero-cta-secondary-group .cta-link.secondary {
+    color: #034848;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    padding: 5px 0;
+}
+
+.hero-cta-secondary-group .cta-link.secondary:hover {
+    color: #3d94a0;
+    text-decoration: underline;
+}
+
+.hero-cta-secondary-group .cta-separator {
+    margin: 0 10px;
+    color: #ccc;
+}
+
+/* New styles for the hero image */
+.hero-visual-column .hero-image {
+    width: 100%;
+    max-width: 450px; /* Adjust as needed */
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover; /* Ensures the image covers the area, might crop */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 15px;
+        min-height: auto;
+        text-align: center;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .hero-text-column {
+        align-items: center;
+        text-align: center;
+        order: 1;
+    }
+
+    .hero-visual-column {
+        order: 2;
+        width: 80%;
+        max-width: 350px;
+    }
+    
+    .hero-main-headline {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .hero-subheadline {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        max-width: 100%;
+    }
+
+    .hero-cta-primary .cta-button.primary {
+        padding: 12px 30px;
+        font-size: clamp(0.95rem, 3.5vw, 1rem);
+    }
+    
+    .hero-cta-secondary-group {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .hero-cta-secondary-group .cta-separator {
+        display: none;
+    }
+}
+/* --- END: New Hero Section (Rebuilt) --- */
+
 /* Hamburger Menu Styles */
 .hamburger-btn {
     display: none;
@@ -1946,111 +2117,112 @@ body {
     100% { background-position: 0% 50%; }
 } 
 
-/* --- START: New Hero Section Styles --- */
+/* --- START: Old Hero Section Styles (Commented Out) --- */
+/*
 .new-hero {
-    padding: 40px 0; /* Add some vertical padding */
-    /* Optional: Set a min-height */
+    padding: 40px 0; 
     min-height: 60vh;
     display: flex;
-    align-items: center; /* Vertically center content */
+    align-items: center; 
 }
 
 .hero-container {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    width: 90%; /* Adjust width as needed */
-    max-width: 1400px; /* Optional max width */
-    margin: 0 auto; /* Center the container */
-    gap: 30px; /* Space between columns */
+    flex-wrap: wrap; 
+    width: 90%; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    gap: 30px; 
 }
 
 .hero-left,
 .hero-right {
-    flex: 1; /* Each takes up half the space */
-    min-width: 300px; /* Minimum width before wrapping */
+    flex: 1; 
+    min-width: 300px; 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content to the top */
+    justify-content: flex-start; 
 }
 
 .hero-left {
-    text-align: left; /* Align text to the left */
+    text-align: left; 
 }
 
 .hero-headline {
-    /* Inherits base .headline styles */
-    /* Adjustments for hero context */
-    margin: 0; /* Remove default headline margin */
-    padding: 0; /* Remove default headline padding */
-    font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+    margin: 0; 
+    padding: 0; 
+    font-size: clamp(2rem, 5vw, 3.5rem); 
     line-height: 1.2;
 }
 
 .hero-right {
-    align-items: center; /* Center placeholder horizontally */
+    align-items: center; 
 }
 
 .hero-placeholder {
-    border: 2px dashed #ccc; /* Style for placeholder */
+    border: 2px dashed #ccc; 
     padding: 50px;
     text-align: center;
     color: #aaa;
-    width: 80%; /* Example width */
+    width: 80%; 
     max-width: 400px;
-    background-color: rgba(230, 240, 241, 0.5); /* Light background */
+    background-color: rgba(230, 240, 241, 0.5); 
     border-radius: 10px;
 }
-
-/* Keyframes for the spotlight animation */
+*/
+/* Keyframes for the spotlight animation - THIS IS STILL USED BY .highlight */
 @keyframes spotlight-effect {
     0% { background-position: 200% center; }
     100% { background-position: -200% center; }
 }
 
 /* Responsive adjustments for the hero */
+/*
 @media (max-width: 768px) {
     .hero-container {
-        flex-direction: column; /* Stack columns on mobile */
+        flex-direction: column; 
         width: 95%;
         gap: 20px;
-        padding-top: 20px; /* Add more top space */
-        padding-bottom: 20px; /* Add more bottom space */
+        padding-top: 20px; 
+        padding-bottom: 20px; 
     }
     .hero-left {
-        text-align: left; /* Left-align headline on mobile */
-        order: 1; /* Put text first */
+        text-align: left; 
+        order: 1; 
     }
     .hero-right {
-        order: 2; /* Put placeholder second */
+        order: 2; 
     }
     .hero-headline {
-        font-size: clamp(1.9rem, 6vw, 2.6rem); /* Adjusted mobile font size */
+        font-size: clamp(1.9rem, 6vw, 2.6rem); 
     }
     .hero-placeholder {
         width: 90%;
         padding: 30px;
     }
     .new-hero {
-        min-height: auto; /* Remove min-height */
+        min-height: auto; 
         padding: 30px 0;
     }
 }
-/* --- END: New Hero Section Styles --- */ 
+*/
+/* --- END: Old Hero Section Styles (Commented Out) --- */ 
 
-/* --- START: Hero CTA Styles --- */
+/* --- START: Old Hero CTA Styles (Commented Out) --- */
+/*
 .hero-cta-group {
     display: flex;
-    flex-direction: column; /* Stack CTAs vertically */
-    gap: 25px; /* Space between CTA items */
-    width: 100%; /* Take full width of the parent column */
-    align-items: center; /* Center items horizontally */
+    flex-direction: column; 
+    gap: 25px; 
+    width: 100%; 
+    align-items: center; 
 }
 
 .hero-cta-item {
-    background-color: rgba(255, 255, 255, 0.4); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.4); 
     border-radius: 12px;
     padding: 20px 25px;
-    width: 85%; /* Adjust width as needed */
+    width: 85%; 
     max-width: 450px;
     text-align: center;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
@@ -2058,19 +2230,19 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.hero-cta-item .cta-headline { /* Target h3 within .hero-cta-item */
-    color: #034848; /* Theme text color */
+.hero-cta-item .cta-headline { 
+    color: #034848; 
     font-size: 1.1rem;
     font-weight: 600;
-    margin: 0 0 15px 0; /* Space below headline */
+    margin: 0 0 15px 0; 
 }
 
 .hero-cta-button {
-    background-color: #3d94a0; /* Theme color */
+    background-color: #3d94a0; 
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 8px; /* Slightly less rounded than main button */
+    border-radius: 8px; 
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     cursor: pointer;
@@ -2079,20 +2251,21 @@ body {
 }
 
 .hero-cta-button:hover {
-    background-color: #357f89; /* Darker theme color */
-    transform: translateY(-2px); /* Slight lift effect */
+    background-color: #357f89; 
+    transform: translateY(-2px); 
 }
 
 @media (max-width: 768px) {
     .hero-cta-group {
-        gap: 20px; /* Slightly less gap */
+        gap: 20px; 
     }
     .hero-cta-item {
         width: 95%;
         padding: 15px 20px;
     }
 }
-/* --- END: Hero CTA Styles --- */ 
+*/
+/* --- END: Old Hero CTA Styles (Commented Out) --- */ 
 
 /* Chat Popup Styles (Desktop Only) */
 #chat-popup-wrapper {
