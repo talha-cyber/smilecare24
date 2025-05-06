@@ -2013,16 +2013,18 @@ body {
         flex-direction: column; /* Stack columns on mobile */
         width: 95%;
         gap: 20px;
+        padding-top: 20px; /* Add more top space */
+        padding-bottom: 20px; /* Add more bottom space */
     }
     .hero-left {
-        text-align: center; /* Center headline on mobile */
+        text-align: left; /* Left-align headline on mobile */
         order: 1; /* Put text first */
     }
     .hero-right {
         order: 2; /* Put placeholder second */
     }
     .hero-headline {
-        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Slightly smaller on mobile */
+        font-size: clamp(1.9rem, 6vw, 2.6rem); /* Adjusted mobile font size */
     }
     .hero-placeholder {
         width: 90%;
