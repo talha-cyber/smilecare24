@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    background-color: transparent; /* Ensure html is transparent */
 }
 
 body {
@@ -7,13 +8,20 @@ body {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
     touch-action: manipulation;
-    min-height: 400dvh;
-    background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA);
-    background-size: 400% 100%;
-    animation: gradientBG 15s ease infinite;
-    padding-top: 130px; /* Prevents content from being hidden behind the navbar */
+    min-height: 100vh; /* Ensure body is at least full viewport height */
+    background: linear-gradient(135deg, 
+        hsl(188, 35%, 88%), /* Very light teal/blue-grey like #E6F0F1 */
+        hsl(185, 30%, 75%), /* Lighter teal */
+        hsl(185, 40%, 60%), /* Mid teal like #66A5AA / #B3D4D8 */
+        hsl(190, 30%, 85%));/* Slightly different very light teal */
+    background-size: 400% 400%; 
+    background-repeat: no-repeat; /* Explicitly set no-repeat */
+    background-attachment: fixed; /* Key change for full page coverage */
+    animation: heroGradientShift 25s ease infinite alternate; 
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
 }
 
 @keyframes gradientBG {
@@ -42,7 +50,7 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    z-index: 1000;
+    z-index: 1000 !important;
 }
 
 .logo {
@@ -247,29 +255,76 @@ body {
 
 @media screen and (max-width: 768px) {
     .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 15px;
-        height: auto;
-        max-height: 60px;
+        position: fixed; /* Fix navbar to top */
+        top: 0;
+        left: 0;
         width: 100%;
-        max-width: 100%;
-        margin: 0;
+        flex-direction: row; /* Align items in a row */
+        justify-content: space-between; /* Space out logo and hamburger */
+        align-items: center;
+        padding: 5px 15px; /* Adjust padding for a fixed bar */
+        height: 60px; /* Set a fixed height */
+        background-color: rgba(255, 255, 255, 0.75); /* Adjusted for more transparency */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000; /* Ensure it's above other content */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     body {
-        padding-top: 90px;
-        padding-left: 0;
-        padding-right: 0;
-        overflow-x: hidden; /* Prevent horizontal scrolling */
-        width: 100%;
+        padding-top: 60px; /* Add padding to body for fixed navbar */
     }
     
+    .content-wrapper {
+        margin-top: 0; /* Content wrapper starts below the navbar padding */
+    }
+
     .logo {
-        height: 80px;
-        margin-top: 0;
-        padding-left: 5px;
+        height: 50px; /* Further reduced logo for fixed navbar */
+        margin: 0; /* Reset margins */
+        position: absolute; /* Position absolutely to center */
+        left: 50%;
+        transform: translateX(-50%); /* Center align horizontally */
+        /* top: 50%; transform: translate(-50%, -50%); would also vertically center if needed */
+    }
+
+    /* Hide the main Calendly button in the navbar on mobile */
+    .navbar > .calendly-button {
+        display: none;
+    }
+
+    .hamburger-btn {
+        display: flex; /* Ensure hamburger is visible */
+        flex-direction: column; /* Stack the bars */
+        justify-content: space-around; /* Distribute space between bars */
+        width: 30px; /* Width of the hamburger icon */
+        height: 25px; /* Height of the hamburger icon */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1010; /* Above navbar background, below menu panel if it slides over */
+        margin-right: 0; 
+    }
+
+    .hamburger-btn span {
+        display: block;
+        width: 100%;
+        height: 3px; /* Thickness of the bars */
+        background-color: #034848; /* Color of the bars */
+        border-radius: 3px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Hamburger animation to X */
+    .hamburger-btn.open span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+    }
+    .hamburger-btn.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-btn.open span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
     }
     
     .headline {
@@ -307,35 +362,52 @@ body {
         line-height: 30px;
     }
     
-    .hamburger-btn {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        margin: 0;
-        margin-top: 8px;
-        margin-right: 15px; /* Add margin on right side instead of padding */
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 1000;
-    }
-    
     .mobile-menu {
         width: 100%;
         left: 0;
-        top: 0;
+        top: 60px; /* Position below the fixed navbar */
+        height: calc(100vh - 60px); /* Full height minus navbar */
+        position: fixed; /* Fixed position for overlay */
+        background-color: #9FCBCF; /* New background color */
+        backdrop-filter: blur(5px); /* Keep or adjust blur as needed */
+        -webkit-backdrop-filter: blur(5px); /* Keep or adjust blur as needed */
+        z-index: 1005; /* Below hamburger if it needs to be clickable, above content */
+        transform: translateX(-100%); /* Initially off-screen to the left */
+        transition: transform 0.3s ease-in-out;
+        padding: 20px; /* Padding for content inside */
+        box-sizing: border-box;
+        overflow-y: auto; /* Allow scrolling if menu items exceed height */
+        display: flex; /* Use flexbox for alignment */
+        flex-direction: column; /* Stack children vertically */
+        justify-content: flex-end; /* Align .menu-links to the bottom */
+        align-items: flex-start; /* Align .menu-links to the left */
+    }
+
+    .mobile-menu.open {
+        transform: translateX(0); /* Slide in from the left */
     }
     
     .menu-links {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding-bottom: 15%;
-        height: 100%;
-        justify-content: flex-end;
+        align-items: flex-start; /* Links align to their container's start */
+        /* padding-bottom: 15%; // Removed, direct alignment used */
+        /* height: 100%; // Removed, parent handles height */
+        /* justify-content: flex-end; // Moved to parent */
+        width: auto; /* Take content width */
+    }
+
+    .menu-links a {
+        font-weight: bold; /* Make link text bold */
+        font-size: 1.2rem; /* Adjust font size as needed */
+        color: #034848; /* Link color */
+        text-decoration: none;
+        padding: 10px 0; /* Add some padding for touch targets */
+        transition: color 0.2s ease;
+    }
+
+    .menu-links a:hover {
+        color: #3d94a0; /* Hover color */
     }
     
     .menu-link.active::after {
@@ -724,7 +796,10 @@ body {
 .content-wrapper {
     flex: 1 0 auto;
     width: 100%;
-    background: transparent;
+    background: transparent !important; /* Ensure transparency */
+    padding-top: 120px; /* Space for the navbar */
+    position: relative; 
+    z-index: 2; /* Above glow effect */
 }
 
 .footer {
@@ -1336,6 +1411,9 @@ body {
     .mobile-card {
         width: 85vw; /* Slightly smaller percentage on medium screens */
         max-width: 420px;
+        background: transparent;
+        position: relative;
+        z-index: 2;
     }
     
     .mobile-card .circle-content {
@@ -1365,146 +1443,695 @@ body {
 /* --- START: New Hero Section (Rebuilt) --- */
 .hero-section {
     display: flex;
+    flex-direction: column; 
     align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    min-height: 70vh; /* Impactful height */
-    background-color: transparent;
+    justify-content: flex-start; 
+    padding: 0px 20px 60px 20px; /* Changed top padding from 20px to 0px */
+    margin-top: -230px; /* Added negative top margin to move section up */
+    min-height: auto; 
+    background: transparent;
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 40px; /* Add some space below the hero */
+    margin-bottom: 40px; 
+    overflow: visible;
+    position: relative;
+    z-index: 2;
 }
 
-.hero-content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+/* White Glow Effect - Now global */
+.hero-glow-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70vmax;
+    height: 70vmax;
+    max-width: 1000px; 
+    max-height: 1000px;
+    background-image: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.06) 30%, 
+        transparent 60%);
+    border-radius: 50%;
+    filter: blur(70px);
+    transform: translate(-50%, -50%); 
+    z-index: 1;
+    animation: animateWhiteGlow 35s infinite alternate ease-in-out;
+    will-change: transform, opacity;
+    pointer-events: none; /* Make sure it doesn't interfere with clicks */
+}
+
+@keyframes animateWhiteGlow {
+    0% {
+        transform: translate(-55%, -55%) scale(0.9);
+        opacity: 0.5;
+    }
+    25% {
+        transform: translate(-45%, -60%) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -45%) scale(1.05);
+        opacity: 0.55;
+    }
+    75% {
+        transform: translate(-60%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-55%, -55%) scale(0.9);
+        opacity: 0.5;
+    }
+}
+
+/* Keyframes for hero section gradient animation */
+@keyframes heroGradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Old blob keyframes removed */
+/*
+@keyframes moveBlobA { ... }
+@keyframes moveBlobB { ... }
+@keyframes moveBlobC { ... }
+@keyframes moveBlobD { ... }
+*/
+
+
+/* hero-content-top is removed, ... */
+
+/* START: Hero Carousel Styles */
+.hero-carousel-wrapper { 
     width: 100%;
-    max-width: 1200px;
-    gap: 40px;
+    max-width: 1100px; 
+    height: 600px; 
+    margin: 0 auto 20px auto; /* Reduced bottom margin from 50px to 20px */
+    position: relative; 
+    z-index: 2;
+    overflow: visible; /* Changed from hidden to visible */
+    border-radius: 15px;
+    display: flex; 
+    align-items: center; 
 }
 
-.hero-text-column {
-    flex: 1 1 55%;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+.hero-carousel-slides {
+    display: flex; /* Keep flex for initial layout if needed, but items will be absolute */
+    width: 100%;
+    height: 100%;
+    position: relative; /* Needed for absolute positioning of slides */
+    /* transition: transform 0.5s ease-in-out; */ /* Remove if using opacity/position for transitions */
 }
 
-.hero-visual-column {
-    flex: 1 1 40%;
-    min-width: 300px;
+.hero-carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /* display: none; */ /* Remove direct display control */
+    display: flex; /* Keep flex for internal layout of slide content */
+    flex-direction: row; 
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    position: absolute; /* Position slides on top of each other */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.7s ease-in-out; /* Smooth fade transition */
+    visibility: hidden; /* Use visibility to prevent interaction with hidden slides */
+}
+
+.hero-carousel-slide.active {
+    /* display: flex; */ /* No longer needed here if always flex */
+    opacity: 1; /* Make active slide visible */
+    visibility: visible;
+    z-index: 1; /* Ensure active slide is on top if needed, though opacity usually handles it */
+}
+
+.slide-image-placeholder {
+    flex: 0 0 45%;
+    height: calc(100% - 40px);
+    max-height: 520px;
+    background-color: rgba(224, 224, 224, 0.7);
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #888;
+    font-size: 1.1rem;
+    font-style: italic;
 }
 
-.hero-main-headline {
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    font-weight: 600;
+/* Apply transform only to the image in the first carousel slide */
+.hero-carousel-slide:first-child .slide-image {
+    transform: translateX(80px); /* Move image to the right */
+}
+
+/* Positioning for the second carousel slide content */
+.hero-carousel-slide:nth-child(2) .slide-content {
+    transform: translate(80px, 120px); /* Move text 80px right and 120px down */
+}
+
+/* Positioning for the second carousel slide image */
+.hero-carousel-slide:nth-child(2) .slide-image {
+    transform: translate(-70px, 15px); /* Adjusted: 20px more left, 15px down */
+}
+
+/* Layout for the third carousel slide */
+.hero-carousel-slide:nth-child(3) {
+    justify-content: space-between; /* Distribute space between the three content blocks */
+    align-items: center; /* Vertically align items in the center */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-left,
+.hero-carousel-slide:nth-child(3) .slide-content-right {
+    flex: 1; /* Allow left and right content to take available space */
+    padding: 0 20px; /* Add some padding */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-left {
+    text-align: left;
+    transform: translate(130px, -100px); /* Move headline up and right */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-right {
+    text-align: right;
+    transform: translate(-70px, 90px); /* Move subline left and down */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-middle {
+    flex: 0 0 auto; /* Middle content (image + CTA) takes only its necessary width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-carousel-slide:nth-child(3) .slide-image {
+    height: 500px; /* New height to extend upwards */
+    width: auto;   /* Allow height to drive aspect ratio, up to max-width */
+    max-width: 300px; /* Slightly increased max-width */
+    transform: translateY(30px); /* Adjusted: -30px + 60px = 30px */
+    object-fit: contain; /* Ensure the whole image is visible and scales correctly */
+}
+
+/* Wrapper for the CTA in slide 3 to center it */
+.hero-carousel-slide:nth-child(3) .slide3-cta-wrapper {
+    text-align: center; /* Center the inline-block button */
+    margin-top: 15px; /* Space above the CTA */
+}
+
+.hero-carousel-slide:nth-child(3) .cta-button.slide-cta {
+    /* Specific styles for slide 3 CTA, if any, would go here. */
+    /* For now, it inherits from .cta-button.slide-cta */
+}
+
+.slide-image {
+    flex: 0 0 45%; /* Match placeholder flex basis */
+    height: auto;   /* Adjust height automatically */
+    max-height: calc(100% - 40px); /* Max height like placeholder */
+    object-fit: contain; /* Ensure whole image is visible */
+    border-radius: 10px; /* Optional: match placeholder's rounded corners */
+    background-color: transparent; /* Explicitly no background */
+    border: none; /* Explicitly no border */
+}
+
+.slide-content {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
+}
+
+.slide-headline {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     color: #034848;
-    line-height: 1.25;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    /* Apply spotlight effect properties */
+    background: linear-gradient(
+        to right,
+        #034848 20%,
+        #66A5AA 50%, /* Lighter theme color as spotlight */
+        #034848 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: spotlight-effect 8s linear infinite;
 }
 
-.hero-main-headline .highlight {
-    /* Uses existing .highlight style */
-}
-
-.hero-subheadline {
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
+.slide-subline {
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
     color: #333;
     line-height: 1.6;
-    margin-bottom: 30px;
-    max-width: 550px;
+    margin-bottom: 25px;
 }
 
-.hero-cta-primary .cta-button.primary {
-    background-color: #3d94a0;
+.cta-button.slide-cta {
+    background-color: #3d94a0; 
     color: white;
-    padding: 15px 35px;
-    border-radius: 8px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 6px;
     text-decoration: none;
     display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none; /* Remove border outline */
+    animation: pulseCTA 2s infinite ease-in-out; /* Add pulsating animation */
 }
 
-.hero-cta-primary .cta-button.primary:hover {
+.cta-button.slide-cta:hover {
     background-color: #357f89;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
-.hero-cta-secondary-group {
-    margin-top: 25px;
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #034848;
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 18px;
+    line-height: 1;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: none; /* Hide arrow buttons */
+}
+
+.carousel-control:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #023535;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+}
+
+.carousel-control.prev {
+    left: 25px;
+}
+
+.carousel-control.next {
+    right: 25px; 
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%; /* Keep as circle for inactive */
+    cursor: pointer;
+    transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.carousel-indicators span.active {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 25px; /* Make active indicator wider */
+    border-radius: 5px; /* Make it pill-shaped (height/2) */
+}
+/* END: Hero Carousel Styles */
+
+/* START: Two-Box CTA Component Styles */
+.hero-two-box-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+    position: relative;
+    z-index: 2;
+}
+
+.cta-box {
+    flex: 1;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.box-placeholder-text {
+    font-size: 1.1rem;
+    color: #034848;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.cta-button.box-cta {
+    background-color: #034848;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none;
+    width: auto;
+    min-width: 180px;
+}
+
+.cta-button.box-cta:hover {
+    background-color: #023535;
+    transform: translateY(-1px);
+}
+
+/* END: Two-Box CTA Component Styles */
+
+/* --- START: Integrated Quiz Styles (from tarifrechner.html) --- */
+.cta-box.left #calculator {
+    background: rgba(255, 255, 255, 0.7); /* Copied from tarifrechner, consider RGBA from cta-box if it should blend more */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    padding: 20px; /* Adjusted padding for potentially smaller box */
+    border-radius: 12px; /* Match cta-box styling */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Softer shadow for integration */
+    max-width: 100%; /* Take full width of the cta-box.left */
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cta-box.left .step {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out, max-height 0.6s ease-in-out, margin-bottom 0.5s ease-in-out, padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out;
+    max-height: 900px; /* Increased to accommodate potentially taller steps */
+    overflow: hidden;
+    margin-bottom: 20px; /* Adjusted */
+    text-align: center;
+    border-top: 1px solid rgba(102, 165, 170, 0.2); /* Lighter border */
+    padding-top: 20px; /* Adjusted */
+}
+
+.cta-box.left .step:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.cta-box.left .step.hidden {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: none; /* Remove border when hidden */
+    overflow: hidden;
+}
+
+.cta-box.left .step p.question-text {
+    font-size: clamp(1rem, 2.5vw, 1.1rem); /* Responsive font size */
+    margin-bottom: 15px;
+    color: #034848;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.cta-box.left .input-wrapper {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.cta-box.left input[type="text"],
+.cta-box.left input[type="number"],
+.cta-box.left input[type="email"],
+.cta-box.left input[type="tel"],
+.cta-box.left input[type="date"],
+.cta-box.left textarea {
+    width: 90%; /* Adjusted width */
+    max-width: 320px;
+    padding: 10px 12px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    border-radius: 6px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.cta-box.left input:focus,
+.cta-box.left textarea:focus {
+    border-color: #3d94a0;
+    outline: none;
+}
+
+.cta-box.left ::placeholder {
+    color: #999; /* Adjusted placeholder color */
+    opacity: 1;
+}
+.cta-box.left :-ms-input-placeholder {
+    color: #999;
+}
+.cta-box.left ::-ms-input-placeholder {
+    color: #999;
+}
+
+.cta-box.left .options {
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+    width: auto;
+    max-width: 100%; /* Allow options to take more width if needed */
+}
+
+.cta-box.left .options label {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(102, 165, 170, 0.3);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+
+.cta-box.left .options input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    transform: scale(1.05);
+}
+
+.cta-box.left .options label:hover {
+    background-color: rgba(230, 240, 241, 0.7); /* Lighter hover from theme */
+    border-color: rgba(102, 165, 170, 0.5);
+}
+
+.cta-box.left .options input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #034848;
+}
+
+/* Style for the label when its radio is checked */
+.cta-box.left .options input[type="radio"]:checked ~ label,
+.cta-box.left .options label:has(input[type="radio"]:checked) { /* Modern browsers */
+    background-color: rgba(179, 212, 216, 0.7); /* Light teal from theme */
+    border-color: #3d94a0;
+}
+
+
+.cta-box.left .form-group {
+    margin-bottom: 12px;
     text-align: left;
 }
-
-.hero-cta-secondary-group p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 10px;
+.cta-box.left .form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #444; /* Darker label text */
+    font-size: clamp(0.85rem, 1.8vw, 0.9rem);
 }
 
-.hero-cta-secondary-group .cta-link.secondary {
+.cta-box.left .address-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.cta-box.left .address-group .street { flex: 3 1 58%; } /* Adjusted flex */
+.cta-box.left .address-group .hausnummer { flex: 1 1 30%; }
+.cta-box.left .address-group .plz { flex: 1 1 35%; }
+.cta-box.left .address-group .stadt { flex: 2 1 50%; }
+
+.cta-box.left .address-group input {
+    width: 100%; /* Inputs take full width of their flex item */
+}
+
+.cta-box.left .button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px; /* More rounded to match CTA style */
+    color: white;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+    min-width: 90px;
+}
+
+.cta-box.left .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.cta-box.left .button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.cta-box.left #description-screen p,
+.cta-box.left #final-screen p {
+    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #333;
+}
+.cta-box.left #description-screen ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+}
+.cta-box.left #description-screen ul li {
+    margin-bottom: 6px;
+    padding-left: 18px;
+    position: relative;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+.cta-box.left #description-screen ul li::before {
+    content: '✓';
+    color: #28a745;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+.cta-box.left #final-price {
+    font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+    font-weight: bold;
     color: #034848;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-    padding: 5px 0;
+    margin-bottom: 15px;
 }
 
-.hero-cta-secondary-group .cta-link.secondary:hover {
-    color: #3d94a0;
-    text-decoration: underline;
+.cta-box.left .error-message {
+    color: #dc3545;
+    font-size: clamp(0.8rem, 1.5vw, 0.85rem);
+    margin-top: 4px;
+    display: none;
+    text-align: center;
 }
 
-.hero-cta-secondary-group .cta-separator {
-    margin: 0 10px;
-    color: #ccc;
+.cta-box.left .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-/* New styles for the hero image */
-.hero-visual-column .hero-image {
-    width: 100%;
-    max-width: 450px; /* Adjust as needed */
-    height: auto;
-    border-radius: 12px;
-    object-fit: cover; /* Ensures the image covers the area, might crop */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+.cta-box.left .back-button {
+    background-color: #6c757d;
+    order: 1;
 }
+.cta-box.left .back-button:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.cta-box.left .next-button {
+    order: 2;
+    margin-left: auto; /* Pushes to the right */
+    background-color: #3d94a0; /* Theme color */
+}
+.cta-box.left .next-button:hover:not(:disabled) {
+    background-color: #357f89;
+}
+
+/* Adjustments for the quiz within .cta-box on smaller screens if needed */
+@media (max-width: 600px) { /* tarifrechner.html used 600px, aligning here */
+    .cta-box.left #calculator {
+        padding: 15px;
+    }
+    .cta-box.left .button {
+        padding: 12px 25px;
+        font-size: 1rem; /* Slightly larger for better tap */
+        width: calc(50% - 10px); /* Two buttons side by side */
+    }
+    .cta-box.left .button-group {
+        justify-content: center; /* Center buttons if they wrap */
+    }
+    .cta-box.left .step p.question-text {
+        font-size: 1rem;
+    }
+    .cta-box.left input[type="text"],
+    .cta-box.left input[type="number"],
+    .cta-box.left input[type="email"],
+    .cta-box.left input[type="tel"],
+    .cta-box.left input[type="date"],
+    .cta-box.left textarea,
+    .cta-box.left .options {
+        width: 100%; /* Full width for inputs/options on small screens */
+        max-width: 100%;
+    }
+    .cta-box.left .address-group .street,
+    .cta-box.left .address-group .hausnummer,
+    .cta-box.left .address-group .plz,
+    .cta-box.left .address-group .stadt {
+        flex-basis: 100%; /* Stack address fields */
+    }
+}
+
+/* Ensure the cta-box can accommodate the quiz height */
+.cta-box.left {
+    min-height: 500px; /* Adjust as needed based on quiz content */
+    /* padding: 25px; /* Original padding */ 
+    padding: 15px; /* Reduced padding to give quiz more space */
+    display: flex; /* To help center calculator if it's smaller than box */
+    flex-direction: column;
+    justify-content: flex-start; /* Align quiz to top */
+}
+
+
+/* --- END: Integrated Quiz Styles --- */
+
 
 @media (max-width: 768px) {
     .hero-section {
-        padding: 40px 15px;
-        min-height: auto;
-        text-align: center;
+        /* padding: 0 15px 40px 15px; // Already set */
+        margin-top: -105px; /* Moved up by 125px (from 20px) */
     }
 
-    .hero-content {
-        flex-direction: column;
-        gap: 30px;
+    .hero-content-top {
+        padding-top: 40px;
+        margin-bottom: 30px;
     }
 
-    .hero-text-column {
-        align-items: center;
-        text-align: center;
-        order: 1;
-    }
-
-    .hero-visual-column {
-        order: 2;
-        width: 80%;
-        max-width: 350px;
-    }
-    
     .hero-main-headline {
         font-size: clamp(1.8rem, 7vw, 2.5rem);
     }
@@ -1521,594 +2148,148 @@ body {
     
     .hero-cta-secondary-group {
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         gap: 8px;
     }
 
     .hero-cta-secondary-group .cta-separator {
         display: none;
     }
+
+    .hero-carousel-wrapper {
+        /* padding: 15px; // Already set */
+        /* margin-bottom: 40px; // Already set */
+        height: 480px; /* Set a fixed height for mobile, adjust as needed */
+        /* max-width: 100%; // Already set */
+        /* overflow: hidden; // Already set */
+    }
+    .hero-carousel-slide {
+        flex-direction: column; /* Content within slide stacks vertically */
+        /* text-align: center; // Already set */
+        /* The following ensure slides are properly layered for fade effect */
+        position: absolute; /* Ensure it overrides any accidental relative positioning */
+        opacity: 0; /* Default to hidden, active class will override */
+        visibility: hidden; /* Default to hidden, active class will override */
+        width: 100%; /* Take full width of the .hero-carousel-slides container */
+        height: 100%; /* Take full height of the .hero-carousel-slides container */
+        top: 0;
+        left: 0;
+        /* padding and gap for the content inside the slide */
+        padding: 20px; 
+        gap: 15px; 
+    }
+
+    /* Reset transforms for specific slide elements on mobile */
+    .hero-carousel-slide:first-child .slide-image,
+    .hero-carousel-slide:nth-child(2) .slide-content,
+    .hero-carousel-slide:nth-child(2) .slide-image,
+    .hero-carousel-slide:nth-child(3) .slide-content-left,
+    .hero-carousel-slide:nth-child(3) .slide-content-right,
+    .hero-carousel-slide:nth-child(3) .slide-image {
+        transform: none !important; /* Reset all transforms */
+        margin: 10px auto; /* Add some margin for spacing */
+    }
+
+    .slide-image {
+        flex: 0 0 auto; /* Don't grow or shrink, use explicit size */
+        width: 80%;     /* Adjust width for mobile */
+        max-width: 300px; /* Max width for images */
+        height: auto;   /* Maintain aspect ratio */
+        max-height: 250px; /* Max height for images on mobile */
+        object-fit: contain;
+    }
+
+    .slide-content {
+        text-align: center;
+        padding-right: 0; /* Remove desktop padding */
+        width: 100%;
+    }
+
+    .slide-headline {
+        font-size: clamp(1.3rem, 5vw, 1.8rem); /* Smaller font for mobile */
+        margin-bottom: 10px;
+    }
+
+    .slide-subline {
+        font-size: clamp(0.8rem, 3.5vw, 1rem); /* Smaller font for mobile */
+        margin-bottom: 15px;
+    }
+
+    .cta-button.slide-cta {
+        padding: 10px 20px; /* Smaller padding */
+        font-size: 0.9rem; /* Smaller font */
+    }
+
+    /* Mobile layout for slide 3 */
+    .hero-carousel-slide:nth-child(3) {
+        justify-content: center; /* Center items when stacked */
+    }
+    .hero-carousel-slide:nth-child(3) .slide-content-left,
+    .hero-carousel-slide:nth-child(3) .slide-content-middle,
+    .hero-carousel-slide:nth-child(3) .slide-content-right {
+        flex: 1 1 100%; /* Each takes full width */
+        padding: 10px 0; /* Adjust padding */
+        text-align: center;
+    }
+    .hero-carousel-slide:nth-child(3) .slide-image {
+        order: -1; /* Optionally move image to top for this slide */
+        margin-bottom: 15px; /* Space below image */
+    }
+    .hero-carousel-slide:nth-child(3) .slide3-cta-wrapper {
+        margin-top: 10px;
+    }
+
+    .carousel-control {
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+    .carousel-control.prev {
+        left: 10px;
+    }
+    .carousel-control.next {
+        right: 10px;
+    }
+    .carousel-indicators {
+        bottom: -40px; /* Moved down by 40px (from default 20px) */
+        /* left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; */
+        /* These are already set in the general styles, only bottom is changed for mobile */
+    }
+
+    .hero-two-box-cta {
+        /* gap: 20px; // Already set */
+        padding: 0 15px; /* Consistent padding for the container */
+        /* flex-direction: column; // Already set */
+        /* align-items: center; // Already set */
+        width: 100%; /* Ensure the container itself spans full width to use its padding effectively */
+        box-sizing: border-box; /* Include padding in the 100% width calculation */
+        margin-top: 40px; /* Added to move the CTA boxes down */
+    }
+    .cta-box {
+        /* padding: 20px; // Already set */
+        width: 100%; /* Make boxes take full width of the padded parent */
+        /* max-width: 500px; // This can be kept if you want to cap box size even on wider mobile screens */
+        /* min-width: 0; // Already set */
+        box-sizing: border-box; /* Include padding in the box's own width calculation if it has internal padding */
+    }
+
+    /* Adjust text sizes within CTA boxes for mobile */
+    .cta-box .quiz-intro-text,
+    .cta-box .chat-intro-text {
+        font-size: 16px; /* Slightly smaller intro text */
+        margin-bottom: 15px;
+    }
+
+    .cta-box .chat-assistant-image {
+        max-width: 120px; /* Adjust image size for mobile context */
+        margin-bottom: 15px;
+    }
+
+    .cta-button.box-cta {
+        padding: 10px 25px;
+        width: 100%; /* Buttons already set to 100% width in this MQ */
+        font-size: 0.95rem;
+    }
 }
 /* --- END: New Hero Section (Rebuilt) --- */
-
-/* Hamburger Menu Styles */
-.hamburger-btn {
-    display: none;
-    position: absolute;
-    top: 15px;
-    right: 40px; /* Increased right position */
-    width: 30px;
-    height: 25px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1001;
-    padding: 0;
-}
-
-.hamburger-btn span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    margin: 4px 0;
-    background-color: #034848;
-    transition: all 0.3s ease;
-}
-
-.hamburger-btn.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger-btn.open span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger-btn.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100dvh; /* Use dynamic viewport height */
-    background-color: #93C0C4;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* Keep content aligned to bottom */
-    align-items: flex-start;
-    z-index: 99;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    padding: 0 0 15vh 0; /* Add padding to the bottom of the menu itself */
-    box-sizing: border-box;
-}
-
-.mobile-menu.open {
-    transform: translateX(0);
-}
-
-.menu-links {
-    position: static;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    padding: 0 40px; /* No bottom padding/margin needed here now */
-    width: 100%;
-    box-sizing: border-box;
-    /* Remove margin-bottom if present */
-    margin-bottom: 0; 
-}
-
-.menu-link {
-    position: relative;
-    text-decoration: none;
-    color: #034848;
-    font-weight: 600;
-    font-size: 20px; /* Slightly larger font */
-    display: block;
-    text-transform: uppercase;
-}
-
-.menu-link:hover {
-    color: #4A98A1;
-}
-
-.menu-link.active {
-    color: #4A98A1;
-}
-
-.menu-link.active::after {
-    width: 0;
-}
-
-@media screen and (max-width: 768px) {
-    .hamburger-btn {
-        display: block;
-    }
-    
-    .mobile-menu {
-        display: block;
-    }
-    
-    .calendly-button {
-        display: none;
-    }
-}
-
-/* Additional adjustments for smaller screens */
-@media screen and (max-width: 480px) {
-    .mobile-card .circle-content {
-        font-size: clamp(10px, 2vw, 13px); /* Smaller text on smaller screens */
-        line-height: 1.2; /* Even tighter line height for smaller screens */
-        width: 90%; /* Slightly smaller width on very small screens */
-    }
-    
-    .circle-content-container {
-        padding: 8px 15px; /* Less padding on small screens */
-    }
-    
-    .mobile-card .circle-icon {
-        width: 28px; /* Even smaller icon on smaller screens */
-        margin-bottom: 8px; /* Less margin below icon */
-        max-width: 10%; /* Smaller max width for better scaling */
-    }
-    
-    /* Ensure images maintain aspect ratio on smaller screens */
-    .circle {
-        background-size: cover; /* Maintain aspect ratio */
-    }
-}
-
-/* Specific styles for larger mobile devices */
-@media screen and (min-width: 480px) and (max-width: 768px) {
-    .mobile-card {
-        max-width: 360px; /* Cap the size on medium screens */
-        margin: 0 auto;
-    }
-    
-    .circle {
-        background-size: cover; /* Ensure proper scaling on medium screens */
-    }
-}
-
-/* Remove old/conflicting accordion styles */
-.accordion-container, 
-.sticky-text,
-.text-item,
-.blocktext,
-.spacer {
-    display: none; 
-}
-
-.chat-style-text {
-    position: absolute; 
-    opacity: 0; /* Start hidden */
-    top: 100%; /* Position top edge at parent's bottom edge */
-    left: clamp(15px, 5vw, 30px); /* Left indent */
-    right: clamp(15px, 5vw, 30px); /* Right indent - matches left */
-    width: auto; /* Width is determined by left/right constraints */
-    margin-top: 5px; /* Add small space below the headline */
-    box-sizing: border-box; /* Include padding/border in element's total width/height */
-    /* max-width: none; -> Not needed when left/right are set */
-    font-size: clamp(0.9rem, 2vw, 1.1rem); 
-    color: #333; 
-    line-height: 1.5; 
-    margin-left: 0; 
-    text-align: left;
-    will-change: opacity, transform; 
-}
-
-/* Restore FAQ answer paragraph styling */
-.faq-answer p {
-    margin: 0;
-    padding-bottom: 20px;
-    line-height: 1.6;
-    color: #333;
-    font-size: 16px;
-}
-
-/* Restore icon rotation when active */
-.faq-item.active .faq-icon {
-    transform: rotate(45deg);
-}
-
-/* --- START: Mobile Floating Chat Widget Styles --- */
-@media (max-width: 768px) {
-    /* Ensure body allows positioning */
-    body {
-        /* font-family: sans-serif; */ /* Already set globally */
-        /* margin: 0; */ /* Already set */
-        /* height: 200vh; */ /* For scroll testing, remove in production */
-        /* background: #f0f0f0; */ /* Use existing body background */
-        box-sizing: border-box;
-    }
-
-    /* Style the container holding the mobile headline and chat widget */
-    .mobile-only > div.chat-headline + div#chat-widget-container {
-        /* This targets the chat widget container immediately following the headline */
-        margin-top: 20px; /* Add space below the headline */
-    }
-
-    /* Style the mobile-only container itself */
-    div.mobile-only {
-        /* Find the specific mobile-only div that holds the chat headline and widget */
-        /* This might require a more specific selector if there are multiple divs with mobile-only */
-        /* Assuming it's the direct child of content-wrapper or body for now */
-        /* Let's refine selector later if needed */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 15px 40px; /* Add bottom padding */
-        text-align: center;
-        width: 100%; /* Ensure it takes full width available */
-        box-sizing: border-box;
-    }
-
-    /* Style the headline inside the mobile-only container */
-    .mobile-only .chat-headline h2 {
-        font-size: 18px; /* Match mobile headline size */
-        line-height: 1.4;
-        color: #034848;
-        font-weight: 600;
-        margin-bottom: 0; /* Remove bottom margin from headline */
-        max-width: 95%; /* Prevent text touching edges */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #chat-widget-container {
-        /* No position itself, just a container */
-        /* State classes will control children visibility */
-        width: 100%; /* Allow container to manage button width/centering */
-        display: flex;
-        justify-content: center;
-    }
-
-    #chat-cta-button {
-        /* position: fixed; */ /* REMOVE fixed positioning */
-        position: relative; /* Use relative or static */
-        /* Center horizontally, slightly above vertical center */
-        /* top: 60%; */ /* REMOVE */
-        /* left: 50%; */ /* REMOVE */
-        /* transform: translate(-50%, -50%); */ /* REMOVE */
-        transform: none; /* Reset transform */
-        margin: 0 auto; /* Center the button */
-        /* width: 120px; */ /* Keep width */
-        /* height: 50px; */ /* Keep height */
-        background: linear-gradient(270deg, #3d94a0, #4a98a1, #87A6A8, #357f89); /* Theme gradient */
-        background-size: 400% 400%; /* Size for animation */
-        animation: gradientShift 5s ease infinite; /* Apply new animation */
-        transition: transform 0.2s ease; /* Add transform transition */
-        opacity: 1;
-        pointer-events: auto;
-        /* Specific overrides from mobile adjustments */
-        width: 200px; /* Increase width again */
-        height: 45px;
-        font-size: 14px;
-        border-radius: 12px; /* Less rounded corners */
-        color: white;
-        font-weight: 600;
-        border: none; /* Ensure no default border */
-        padding: 0; /* Remove potential padding interference */
-        line-height: 45px; /* Explicitly match height for vertical centering */
-    }
-    #chat-cta-button:hover {
-         /* transform: translate(-50%, -50%) scale(1.1); */ /* REMOVE hover transform */
-         /* Add alternative hover effect if desired, e.g., background change */
-         animation-play-state: paused; /* Pause animation on hover */
-         /* transform: scale(1.03); */ /* REMOVE hover scale */
-         transform: scale(1.03); /* Re-add subtle scale for hover */
-    }
-
-    /* Hide CTA button when chat window is open - Keep this */
-    #chat-widget-container.state-open #chat-cta-button {
-        opacity: 0;
-        pointer-events: none;
-        animation-play-state: paused; /* Pause animation when hidden */
-    }
-
-    #chat-minimized-bubble {
-        position: fixed;
-        /* Initial position: Middle Right (adjusted for mobile below) */
-        /* top: 50%; */
-        /* right: 20px; */
-        width: 60px;
-        height: 60px;
-        background-color: #3d94a0; /* Theme color */
-        /* border-radius: 50%; */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Keep styles */
-        transition: transform 0.2s ease-out, opacity 0.3s ease-out, visibility 0s linear 0.3s;
-        color: white;
-        font-size: 24px;
-        z-index: 1001; /* Needs to be high when open */
-        opacity: 1; /* Make visible */
-        pointer-events: auto; /* Enable interaction */
-        touch-action: none; /* Needed for interact.js */
-        right: 10px; /* Keep on right edge */
-        bottom: 10px; /* Position at bottom */
-        transform: none; /* Override desktop transform */
-        /* background: rgba(255, 255, 255, 0.5); */ /* Remove styles intended for window background */
-        /* border: 1px solid rgba(102, 165, 170, 0.4); */ /* Remove border */
-        /* backdrop-filter: blur(10px); */ /* Remove blur */
-        /* border-radius: 15px; */ /* Remove border-radius */
-        /* box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); */ /* Remove shadow */
-        border: none; /* Ensure no border */
-        backdrop-filter: none; /* Ensure no blur */
-        border-radius: 50%; /* Make it circular */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Restore original shadow */
-    }
-    #chat-minimized-bubble::before {
-        content: "💬"; /* Chat icon */
-    }
-    /* Hover effect removed */
-
-    /* Show minimized bubble only in its state and if not dropped */
-    #chat-widget-container.state-minimized-bubble #chat-minimized-bubble:not(.dropped) {
-         display: flex;
-         opacity: 1;
-         pointer-events: auto;
-         visibility: visible;
-         transition-delay: 0s; /* Ensure visibility transition is immediate */
-    }
-
-    /* Class to hide bubble after dropping */
-    #chat-minimized-bubble.dropped {
-        opacity: 0 !important; /* Ensure override */
-        visibility: hidden !important;
-        pointer-events: none !important;
-    }
-
-    #chat-window {
-        display: none; /* Hidden by default */
-        position: fixed; /* Use fixed to position relative to viewport */
-        top: 50%;
-        left: 50%;
-        width: 90vw;
-        height: 90vh;
-        /* Remove max width/height to ensure 90vw/90vh is respected */
-        transform: translate(-50%, -50%) scale(0.9); /* Start slightly scaled down */
-        background: rgba(255, 255, 255, 0.5); /* Match desktop container background */
-        border: 1px solid rgba(102, 165, 170, 0.4); /* Match desktop border */
-        backdrop-filter: blur(10px); /* Add blur effect */
-        border-radius: 18px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Adjusted shadow */
-        overflow: hidden;
-        flex-direction: column;
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1001; /* Needs to be high when open */
-        pointer-events: none; /* Prevent interaction when hidden */
-        color: #333; /* Default text color */
-    }
-
-    /* State: Open Chat Window */
-    #chat-widget-container.state-open #chat-window {
-        display: flex;
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1); /* Scale up to full size */
-        pointer-events: auto; /* Allow interaction when open */
-    }
-
-    /* Hide bubble when window is open */
-    #chat-widget-container.state-open #chat-minimized-bubble {
-         display: none;
-         opacity: 0;
-         pointer-events: none;
-    }
-
-
-    .chat-header {
-        background-color: #3d94a0; /* Theme color */
-        color: white;
-        padding: 12px 18px; /* Use consistent padding */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: bold;
-        font-size: 1.1em;
-        /* Radius inherited from #chat-window */
-        border-top-left-radius: inherit; /* Inherit from parent */
-        border-top-right-radius: inherit; /* Inherit from parent */
-        /* line-height: 1; */ /* Remove conflicting line-height */
-        cursor: pointer;
-        opacity: 1; /* Full opacity for better visibility */
-        transition: opacity 0.2s ease;
-    }
-
-    .chat-header button {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 24px; /* Make minimize bigger */
-        /* line-height: 1; */ /* Let flexbox handle alignment */
-        padding: 0 5px; /* Easier to tap */
-        cursor: pointer;
-        opacity: 0.8;
-        transition: opacity 0.2s ease;
-        /* Add flex centering for the content within the button */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .chat-header button:hover {
-         opacity: 1;
-    }
-
-    .chat-area {
-        flex-grow: 1;
-        overflow-y: auto;
-        padding: 15px; /* Adjusted padding */
-        background-color: transparent; /* Make area transparent to see window background */
-        /* Custom scrollbar (optional, WebKit only) */
-        &::-webkit-scrollbar {
-            width: 6px;
-        }
-        &::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 3px;
-        }
-        &::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-
-        /* Prevent bounce effect on scroll */
-        overscroll-behavior: contain;
-    }
-    /* Example message styling */
-    .message {
-        margin-bottom: 12px; /* Increased spacing */
-        padding: 10px 15px; /* More padding */
-        border-radius: 18px; /* More rounded */
-        max-width: 80%;
-        line-height: 1.45; /* Slightly taller lines */
-        word-wrap: break-word; /* Prevent overflow */
-        clear: both; /* Ensure messages don't overlap floats */
-        /* Use table/inline-block for better width containment */
-        display: inline-block;
-        /* display: table; */ /* Alternative if inline-block has issues */
-    }
-    .message.sent {
-        background-color: #3d94a0; /* Theme color */
-        color: white;
-        margin-left: auto; /* Push to right */
-        border-radius: 15px; /* Match desktop chat bubble radius */
-        float: right; /* Align to right */
-    }
-    .message.received {
-         background: rgba(255, 255, 255, 0.7); /* Match desktop AI message background */
-         color: #333;
-         margin-right: auto; /* Push to left */
-         border-radius: 15px; /* Match desktop chat bubble radius */
-         float: left; /* Align to left */
-    }
-
-
-    .chat-input-area {
-        display: flex;
-        padding: 12px 15px; /* More padding */
-        border-top: 1px solid rgba(102, 165, 170, 0.2); /* Match desktop border color */
-        background: rgba(255, 255, 255, 0.5); /* Match desktop input area background */
-        backdrop-filter: blur(5px); /* Slight blur */
-        align-items: center; /* Align items vertically */
-    }
-
-    .chat-input-area input {
-        flex-grow: 1;
-        border: none; /* Remove border */
-        border-radius: 15px; /* Match desktop input field */
-        padding: 10px 18px; /* Increase padding */
-        margin-right: 10px;
-        outline: none;
-        font-size: 1em;
-        background: transparent; /* Match desktop input field */
-        color: #333; /* Ensure text is dark */
-    }
-    .chat-input-area input:focus {
-        border-color: #007bff;
-    }
-
-    .chat-input-area button {
-        /* background-color: #007bff; */
-        background-color: #afdfdd; /* Match desktop #enter-button */
-        color: #333; /* Match desktop icon color */
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-shrink: 0; /* Prevent shrinking */
-        transition: background-color 0.2s ease, transform 0.1s ease-in-out; /* Add transform transition */
-    }
-    .chat-input-area button:hover {
-        /* background-color: #0056b3; */
-        background-color: #87A6A8; /* Match desktop hover */
-        transform: scale(1.05); /* Match desktop hover */
-    }
-
-    #drop-zone {
-        /* Circular drop zone, centered in bottom third */
-         position: fixed;
-        /* Calculate size: bubble (60px) * 1.3 = 78px -> Adjusted for mobile below */
-        /* width: 78px; */
-        /* height: 78px; */
-        /* Position: Horizontally centered, vertically in bottom third */
-        /* bottom: calc(16.66vh - 39px); */
-        left: 50%;
-        transform: translateX(-50%); /* Center horizontally */
-        background-color: rgba(255, 0, 0, 0.2); /* More visible background */
-        border-radius: 50%; /* Make it circular */
-        border: 2px dashed rgba(255, 0, 0, 0.4);
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         color: rgba(255, 0, 0, 0.6);
-         /* font-size: 28px; */
-         font-weight: bold;
-         visibility: hidden; /* Hidden by default */
-         opacity: 0;
-         transition: opacity 0.3s ease, visibility 0s linear 0.3s, background-color 0.2s ease, transform 0.2s ease;
-         z-index: 998;
-         /* Mobile specific size/position */
-         width: 65px; /* bubble (50px) * 1.3 */
-         height: 65px;
-         bottom: calc(16.66vh - 32.5px);
-         font-size: 24px; /* Adjust icon size */
-     }
-     #drop-zone::before {
-         content: "✕"; /* Simple X icon */
-     }
-
-    #drop-zone.visible {
-        visibility: visible;
-        opacity: 1;
-        transition: opacity 0.3s ease, visibility 0s linear 0s;
-    }
-
-    /* Mobile adjustments from original file */
-    /* @media (max-width: 480px) { */
-         #chat-window {
-             /* 90vw/90vh works well, maybe adjust border radius */
-             border-radius: 5px;
-         }
-         #chat-cta-button {
-              /* Keep centered or adjust? For now, keep centered */
-              /* Maybe make slightly smaller? */
-              width: 110px;
-              height: 45px;
-              font-size: 14px;
-         }
-         #chat-minimized-bubble {
-              width: 50px;
-              height: 50px;
-              font-size: 20px;
-              /* Positioning handled above */
-              /* bottom: 10px; */
-              /* right: 10px; */
-              /* top: auto; */
-              /* transform: none; */
-         }
-          #drop-zone {
-             /* Size/position handled above */
-             /* width: 65px; */
-             /* height: 65px; */
-             /* bottom: calc(16.66vh - 32.5px); */
-             /* font-size: 24px; */
-         }
-    /* } */
-
-}
-/* --- END: Mobile Floating Chat Widget Styles --- */ 
 
 /* --- Global Keyframes (if not already defined) --- */
 @keyframes gradientShift {
@@ -2274,41 +2455,40 @@ body {
    left: 0;
    width: 100%;
    height: 100%;
-   background-color: rgba(0, 0, 0, 0.4); /* Lighter overlay */
-   display: none; /* Hidden by default */
+   background-color: rgba(0, 0, 0, 0.4);
+   display: none;
    justify-content: center;
    align-items: center;
-   z-index: 1050; /* Ensure it's above other content */
+   z-index: 1050 !important;
    backdrop-filter: blur(5px);
 }
 
 #chat-popup-wrapper .chat-container {
-   /* Adjust chat container for popup */
-   position: relative; /* Context for close button */
-   max-width: 600px; /* Limit width in popup */
-   max-height: 80vh; /* Limit height */
+   position: relative;
+   max-width: 600px;
+   max-height: 80vh;
    width: 90%;
-   background-color: rgba(248, 249, 250, 0.5); /* Even more transparent */
-   backdrop-filter: blur(12px); /* Increased blur for frosted effect */
+   background-color: rgba(248, 249, 250, 0.5);
+   backdrop-filter: blur(12px);
    -webkit-backdrop-filter: blur(12px);
    border-radius: 10px;
    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-   display: flex; /* Ensure flex layout is reapplied */
-   flex-direction: column; /* Stack elements vertically */
-   overflow: hidden; /* Prevents content spilling */
-   border: 1px solid rgba(102, 165, 170, 0.4); /* Add theme border */
-   cursor: move; /* Indicate draggability */
+   display: flex;
+   flex-direction: column;
+   overflow: hidden;
+   border: 1px solid rgba(102, 165, 170, 0.4);
+   cursor: move;
 }
 
 /* Ensure chat box within popup scrolls */
 #chat-popup-wrapper .chat-box {
-   height: 65vh; /* Adjust height as needed */
-   max-height: 600px; /* Max height */
+   height: 65vh;
+   max-height: 600px;
 }
 
 #closeChatPopup {
    position: absolute;
-   top: 25px; /* Position near top right of the popup */
+   top: 25px;
    right: 25px;
    background: rgba(255, 255, 255, 0.7);
    border: none;
@@ -2324,7 +2504,7 @@ body {
    align-items: center;
    line-height: 1;
    transition: background-color 0.2s, color 0.2s;
-   z-index: 1051; /* Above chat container */
+   z-index: 1051;
 }
 
 #closeChatPopup:hover {
@@ -2334,31 +2514,113 @@ body {
 
 /* Popup Chat Input Field */
 #chat-popup-wrapper .chat-input-field {
-    background: transparent; /* Field itself is transparent */
-    color: black !important; /* Ensure input text is black, overriding any defaults */
-    min-height: 20px; /* Adjust field min-height to align with container padding */
-    line-height: 1.4; /* Adjust line height */
+    background: transparent;
+    color: black !important;
+    min-height: 20px;
+    line-height: 1.4;
 }
 
 #enter-button i {
-    font-size: 24px; /* Increase arrow size */
-    color: black; /* Ensure arrow is visible */
+    font-size: 24px;
+    color: black;
 }
 
 /* Popup Chat Input Area - Floating Style Override */
 #chat-popup-wrapper .chat-input {
-    /* Override background color and add frosted effect */
-    background: rgba(132, 180, 182, 0.5); /* #84B4B6 with 50% alpha - More transparent */
-    backdrop-filter: blur(8px); /* Frosted effect */
+    background: rgba(132, 180, 182, 0.5);
+    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Slightly adjust border for contrast */
-    /* Inherits position:sticky, bottom, width, border-radius, padding, etc. from .chat-input */
-    padding: 8px 12px; /* Reduced padding for smaller height */
-    min-height: 35px; /* Set minimum height to control overall size */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 12px;
+    min-height: 35px;
 }
 
 /* Popup Chat Input Field Placeholder */
 #chat-popup-wrapper .chat-input-field::placeholder {
-   color: black; /* Set placeholder text color to black */
-   opacity: 0.7; /* Optional: make it slightly less intense than typed text */
+   color: black;
+   opacity: 0.7;
+}
+
+/* Cookie consent needs to be above glow, but below popups typically */
+.cookie-consent {
+    /* ... existing styles ... */
+    position: fixed; /* Or sticky */
+    z-index: 999; /* Below navbar/chat popups but above general content and glow */
+    background: rgba(255, 255, 255, 0.7); /* Example: It needs its own background */
+    /* backdrop-filter: blur(10px); */ /* Keep if desired */
+}
+
+/* Reset background for .mobile-card if it was made transparent by a broader rule earlier */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .mobile-card {
+        /* width: 85vw; */ /* keep existing width rules */
+        /* max-width: 420px; */
+        /* background: transparent; */ /* REMOVE if mobile cards should have their own background */
+        /* position: relative; */
+        /* z-index: 2; */
+        /* Re-apply its intended background if it was a card with its own bg */
+         background-color: rgba(255, 255, 255, 0.1); /* Example if it was a card */
+         backdrop-filter: blur(15px); /* Example */
+         /* It should already be display:flex from previous rules, or adjust as needed */
+    }
 } 
+
+/* New keyframes for CTA pulsation */
+@keyframes pulseCTA {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+} 
+
+.cta-box.left {
+    /* Ensures the box has a minimum height if content is small */
+    min-height: 300px; 
+    /* Adjusted padding to accommodate the quiz better */
+    padding: 30px 20px 20px 20px; 
+}
+
+.quiz-intro-text {
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Styles for the calculator container within the left CTA box */
+.cta-box.left #calculator {
+    background-color: rgba(255, 255, 255, 0.4); /* Match parent CTA box color */
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-intro-text {
+    color: #333; /* Same as quiz-intro-text */
+    font-size: 18px; /* Same as quiz-intro-text */
+    font-weight: 600; /* Same as quiz-intro-text */
+    margin-bottom: 10px; /* Adjusted margin */
+    text-align: center;
+}
+
+.chat-subline-text {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.chat-assistant-image {
+    display: block;
+    max-width: 200px; /* Increased size from 150px */
+    height: auto;
+    margin: 0 auto 25px auto; /* Center image and increased margin below */
+    border-radius: 50%; /* Optional: if the image is suitable for a circle */
+}

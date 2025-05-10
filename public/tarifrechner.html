@@ -30,18 +30,19 @@
     </script>
     <script src="../src/js/script.js"></script>
     <style>
+        /* body styles removed from here to use global styles.css */
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA);
-            background-size: 400% 100%;
-            animation: gradientBG 15s ease infinite;
+            /* background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA); */
+            /* background-size: 400% 100%; */
+            /* animation: gradientBG 15s ease infinite; */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding-top: 140px;
+            min-height: 100vh; /* This can remain */
+            margin: 0; /* This can remain */
+            padding-top: 140px; /* This should be reviewed - global styles might handle navbar spacing */
             padding-bottom: 40px;
         }
 
@@ -314,6 +315,7 @@
     </style>
 </head>
 <body>
+    <div class="hero-glow-effect"></div>
 
 <nav class="navbar">
     <a href="index.html">

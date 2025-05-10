@@ -1078,12 +1078,12 @@ function setupHeadlinePinningAnimation() {
 // --- START: Chat Popup Logic ---
 function setupChatPopup() {
    const openButton = document.getElementById('openChatButton');
+   const openButtonAlternate = document.getElementById('openChatButtonAlternate'); // Get the alternate button
    const popupWrapper = document.getElementById('chat-popup-wrapper');
    const closeButton = document.getElementById('closeChatPopup');
 
-   if (!openButton) return; // Exit if the main trigger button isn't found
-
-   openButton.addEventListener('click', () => {
+   // Function to handle opening the chat
+   const openChatHandler = () => {
        const isMobile = window.innerWidth <= 768;
        console.log("Open chat button clicked. Is mobile:", isMobile);
        if (isMobile) {
@@ -1115,7 +1115,15 @@ function setupChatPopup() {
                console.error("Desktop chat popup wrapper not found!");
            }
        }
-   });
+   };
+
+   if (openButton) {
+       openButton.addEventListener('click', openChatHandler);
+   }
+
+   if (openButtonAlternate) { // Add listener for the alternate button
+       openButtonAlternate.addEventListener('click', openChatHandler);
+   }
 
    // Desktop close button
    if (closeButton) {

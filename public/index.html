@@ -35,9 +35,10 @@
                 }
             };
 
-            // Attach to both buttons
+            // Attach to buttons
             initCalendlyPopup('calendlyButton');      // Navbar button
-            initCalendlyPopup('calendlyButtonCTA');   // Hero CTA button
+            initCalendlyPopup('calendlyButtonCTA');   // Hero CTA button (assuming this ID exists or will be used)
+            initCalendlyPopup('calendlyButtonCarousel1'); // Carousel Slide 1 CTA
         };
     </script>
     <style>
@@ -165,65 +166,7 @@
         }
         
         @media (max-width: 768px) {
-            .cookie-consent {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .cookie-text {
-                padding-right: 0;
-                margin-bottom: 15px;
-            }
-        }
-        
-        .navbar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0px 30px;
-            box-shadow: none;
-            height: 120px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 100;
-        }
-        
-        .logo {
-            height: 200px;
-            width: auto;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: -40px;
-        }
-        
-        .calendly-button {
-            background-color: #3d94a0;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            position: absolute;
-            right: 150px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .calendly-button:hover {
-            background-color: #357f89;
-        }
-        
-        @media (max-width: 768px) {
+            /* These rules will be moved to styles.css
             .navbar {
                 height: auto;
                 padding: 10px;
@@ -244,6 +187,7 @@
                 margin-top: 10px;
                 margin-bottom: 10px;
             }
+            */
         }
         
         .circle-content {
@@ -255,6 +199,7 @@
     </style>
 </head>
 <body>
+    <div class="hero-glow-effect"></div> <!-- Moved glow effect to be a direct child of body -->
     <div class="content-wrapper">
         <nav class="navbar">
             <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
@@ -269,9 +214,10 @@
             <!-- Mobile Menu -->
             <div class="mobile-menu mobile-only" id="mobile-menu">
                 <div class="menu-links">
-                    <a href="index.html" class="menu-link active">HOME</a>
-                    <a href="impressum.html" class="menu-link">IMPRESSUM</a>
-                    <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a>
+                    <a href="index.html" class="menu-link active">Startseite</a>
+                    <a href="tarifrechner.html" class="menu-link">Tarifrechner</a>
+                    <a href="impressum.html" class="menu-link">Impressum</a>
+                    <!-- <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a> -->
                 </div>
             </div>
             
@@ -282,32 +228,223 @@
 
         <!-- START: Rebuilt Hero Section -->
         <section class="hero-section">
-            <div class="hero-content">
-                <div class="hero-text-column">
-                    <h1 class="hero-main-headline">
-                        Ein Lächeln, um das Du Dir <span class="highlight">keine Sorgen</span> machen musst.
-                    </h1>
-                    <p class="hero-subheadline">
-                        Entdecke Deinen perfekten Zahnschutz – schnell, unkompliziert und ausgezeichnet. Mit SmileCare24 erhältst Du Top-Leistungen zu fairen Konditionen.
-                    </p>
-                    <div class="hero-cta-primary">
-                        <a href="tarifrechner.html" class="cta-button primary">
-                            Jetzt Beitrag berechnen
-                        </a>
+            <!-- hero-content-top div and its content will be removed -->
+
+            <!-- START: Hero Carousel -->
+            <div class="hero-carousel-wrapper">
+                <div class="hero-carousel-slides">
+                    <!-- Slide 1 -->
+                    <div class="hero-carousel-slide active">
+                        <img src="../src/assets/carousel_img1.png" alt="100% sorgenfrei lächeln" class="slide-image">
+                        <div class="slide-content">
+                            <h3 class="slide-headline">100% sorgenfrei lächeln!</h3>
+                            <p class="slide-subline">Komplette Kostenübernahme für Zahnreinigung & Füllungen.</p>
+                            <button id="calendlyButtonCarousel1" class="cta-button slide-cta">Jetzt absichern</button>
+                        </div>
                     </div>
-                    <div class="hero-cta-secondary-group">
-                        <p>Noch unsicher? Wir helfen Dir gerne weiter:</p>
-                        <a href="#" id="openChatButton" class="cta-link secondary">KI-Assistent starten</a>
-                        <span class="cta-separator">|</span>
-                        <a href="#" id="calendlyButtonCTA" class="cta-link secondary">Persönliches Gespräch buchen</a>
+                    <!-- Slide 2 -->
+                    <div class="hero-carousel-slide">
+                        <div class="slide-content">
+                            <h3 class="slide-headline">Schnelle Erstattung per App</h3>
+                            <p class="slide-subline">Einfach Rechnung hochladen und Geld zurückbekommen.</p>
+                            <a href="tarifrechner.html" class="cta-button slide-cta">Mehr erfahren</a>
+                        </div>
+                        <img src="../src/assets/carousel_img2.png" alt="Schnelle Erstattung per App" class="slide-image">
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="hero-carousel-slide">
+                        <div class="slide-content-left">
+                            <h3 class="slide-headline">Keine Wartezeiten</h3>
+                        </div>
+                        <div class="slide-content-middle">
+                            <img src="../src/assets/carousel_img3.png" alt="Keine Wartezeiten" class="slide-image slide3-image">
+                    </div>
+                        <div class="slide-content-right">
+                            <p class="slide-subline">Dein Zahnschutz beginnt sofort nach Vertragsabschluss.</p>
+                            <div class="slide3-cta-wrapper">
+                                <a href="tarifrechner.html" class="cta-button slide-cta slide3-cta">Sofort absichern</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual-column">
-                    <!-- IMAGE PLACEHOLDER: hero-visual (e.g., happy person smiling, abstract dental graphic) -->
-                    <!-- <div class="placeholder-visual">Hero Visual</div> -->
-                    <img src="../src/assets/hero_asset_v1.png" alt="Man smiling in a dental office" class="hero-image">
+                <button class="carousel-control prev" aria-label="Previous slide">&#10094;</button>
+                <button class="carousel-control next" aria-label="Next slide">&#10095;</button>
+                <div class="carousel-indicators">
+                    <!-- Indicators will be added by JS or manually if preferred -->
                 </div>
             </div>
+            <!-- END: Hero Carousel -->
+
+            <!-- START: Two-Box CTA Component -->
+            <div class="hero-two-box-cta">
+                <div class="cta-box left">
+                    <p class="quiz-intro-text">Berechne jetzt innerhalb von 3 Minuten Deinen persönlichen Tarif</p>
+                    <div id="calculator">
+    <div class="step" id="step-1">
+        <p class="question-text">Wie dürfen wir Dich ansprechen?</p>
+        <div class="input-wrapper">
+            <input type="text" id="q1-anrede" name="anrede" placeholder="Vorname eingeben" required>
+            <div class="error-message" id="error-1"></div>
+        </div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()" disabled>Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+        </div>
+    </div>
+
+    <div class="step hidden" id="step-2">
+        <p class="question-text">Dein aktuelles Alter?</p>
+        <div class="input-wrapper">
+            <input type="number" id="q2-alter" name="alter" placeholder="Alter eingeben" required min="0" max="120">
+             <div class="error-message" id="error-2"></div>
+        </div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-3">
+        <p class="question-text">Ab wann möchtest Du versichert sein?</p>
+        <div class="input-wrapper">
+            <input type="date" id="q3-startdatum" name="startdatum" required>
+            <div class="error-message" id="error-3"></div>
+        </div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="description-screen">
+        <p>Dein vorgeschlagener Tarif:</p>
+        <p id="final-price"><strong><span id="tarif-option">Basis-Schutz</span></strong> - ab <span id="tarif-price">25</span> € / Monat</p>
+        <p>Enthaltene Vorteile:</p>
+        <ul id="benefit-list">
+            <li>Regelmäßige Zahnreinigung</li>
+            <li>Füllungen und Inlays</li>
+            <li>Wurzelbehandlungen</li>
+        </ul>
+        <p>Nur noch wenige Angaben und Dein Schutz ist startklar!</p>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()">Weiter zur Dateneingabe</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-4">
+        <p class="question-text">Fehlen Ihnen aktuell Zähne?</p>
+        <div class="options">
+            <label><input type="radio" name="zaehne_fehlen" value="Ja"> <span>Ja</span></label>
+            <label><input type="radio" name="zaehne_fehlen" value="Nein"> <span>Nein</span></label>
+        </div>
+        <div class="error-message" id="error-4"></div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-5">
+        <p class="question-text">Wie viele Zähne fehlen Ihnen?</p>
+        <div class="options">
+            <label><input type="radio" name="anzahl_zaehne" value="1"> <span>1</span></label>
+            <label><input type="radio" name="anzahl_zaehne" value="2"> <span>2</span></label>
+            <label><input type="radio" name="anzahl_zaehne" value="3"> <span>3</span></label>
+            <label><input type="radio" name="anzahl_zaehne" value="Mehr als 3"> <span>Mehr als 3</span></label>
+        </div>
+         <div class="error-message" id="error-5"></div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-6">
+        <p class="question-text">Befinden Sie sich aktuell in einer zahnärztlichen Behandlung?</p>
+         <div class="options">
+            <label><input type="radio" name="in_behandlung" value="Ja"> <span>Ja</span></label>
+            <label><input type="radio" name="in_behandlung" value="Nein"> <span>Nein</span></label>
+        </div>
+         <div class="error-message" id="error-6"></div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-7">
+        <p class="question-text">In welcher zahnärztlichen Behandlung befinden Sie sich?</p>
+        <div class="input-wrapper">
+             <textarea id="q7-behandlung_art" name="behandlung_art" rows="3" placeholder="Behandlung beschreiben..." required></textarea>
+             <div class="error-message" id="error-7"></div>
+        </div>
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Weiter</button>
+         </div>
+    </div>
+
+    <div class="step hidden" id="step-8">
+        <p class="question-text">Bitte geben Sie noch Ihre persönlichen Daten ein</p>
+
+        <div class="form-group">
+            <label for="q8-name">Vollständiger Name</label>
+            <input type="text" id="q8-name" name="voller_name" placeholder="Vorname Nachname" required>
+            <div class="error-message" id="error-8-name"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Adresse</label>
+            <div class="address-group">
+                 <input type="text" id="q8-strasse" class="street" name="strasse" placeholder="Straße" required>
+                 <input type="text" id="q8-hausnummer" class="hausnummer" name="hausnummer" placeholder="Nr." required>
+                 <input type="text" id="q8-plz" class="plz" name="plz" placeholder="PLZ" required pattern="\\d{5}">
+                 <input type="text" id="q8-stadt" class="stadt" name="stadt" placeholder="Stadt" required>
+            </div>
+             <div class="error-message" id="error-8-address"></div>
+        </div>
+
+        <div class="form-group">
+             <label for="q8-email">E-Mail Adresse</label>
+             <input type="email" id="q8-email" name="email" placeholder="E-Mail Adresse angeben" required>
+             <div class="error-message" id="error-8-email"></div>
+        </div>
+
+        <div class="form-group">
+             <label for="q8-telefon">Telefonnummer</label>
+             <input type="tel" id="q8-telefon" name="telefon" placeholder="Telefonnummer eingeben" required pattern="[\\d\\s\\+\\-\\/\\(\\)]{7,}">
+             <div class="error-message" id="error-8-telefon"></div>
+        </div>
+
+         <div class="form-group">
+             <label for="q8-iban">IBAN</label>
+             <input type="text" id="q8-iban" name="iban" required>
+             <div class="error-message" id="error-8-iban"></div>
+        </div>
+         <div class="error-message" id="error-8-general"></div>
+
+        <div class="button-group">
+             <button class="button back-button" onclick="quiz.previousStep()">Zurück</button>
+             <button class="button next-button" onclick="quiz.nextStep()" disabled>Antrag abschicken</button>
+         </div>
+    </div>
+
+     <div class="step hidden" id="final-screen">
+        <p style="font-size: 1.2em; line-height: 1.6;">Vielen Dank für Deine Hilfe! Wir melden uns schnellstmöglich bei dir mit Näherem.</p>
+    </div>
+</div>
+                </div>
+                <div class="cta-box right">
+                    <p class="chat-intro-text">Lass dich von unserem KI-Assistenten beraten!</p>
+                    <img src="../src/assets/chat_assistant.png" alt="KI Assistent" class="chat-assistant-image">
+                    <button class="cta-button box-cta" id="openChatButtonAlternate">
+                        Jetzt chatten
+                    </button>
+                </div>
+            </div>
+            <!-- END: Two-Box CTA Component -->
+
         </section>
         <!-- END: Rebuilt Hero Section -->
 
@@ -713,5 +850,671 @@
             });
         </script>
     </div>
+
+    <!-- Basic Carousel JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const carouselSlides = document.querySelector('.hero-carousel-slides');
+            const slides = Array.from(document.querySelectorAll('.hero-carousel-slide'));
+            const nextButton = document.querySelector('.carousel-control.next');
+            const prevButton = document.querySelector('.carousel-control.prev');
+            const indicatorsContainer = document.querySelector('.carousel-indicators');
+            const carouselWrapper = document.querySelector('.hero-carousel-wrapper'); // Get the wrapper
+
+            if (!carouselSlides || slides.length === 0) { // nextButton and prevButton no longer strictly required for core logic
+                console.warn('Carousel slides or slides container not found, skipping JS initialization.');
+                return;
+            }
+
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+            let autoSwitchInterval = null;
+            const autoSwitchTime = 5000; // 5 seconds
+
+            // Swipe functionality variables
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let touchStartY = 0; // To distinguish from vertical scroll
+            const swipeThreshold = 50; // Minimum pixels for a swipe
+
+            // Create indicators
+            if (indicatorsContainer) {
+                slides.forEach((_, index) => {
+                    const indicator = document.createElement('span');
+                    indicator.addEventListener('click', () => {
+                        goToSlide(index);
+                        resetAutoSwitch(); // Reset interval on manual navigation
+                    });
+                    indicatorsContainer.appendChild(indicator);
+                });
+            }
+            const indicators = indicatorsContainer ? Array.from(indicatorsContainer.children) : [];
+
+            function updateCarousel() {
+                slides.forEach((slide, index) => {
+                    if (index === currentIndex) {
+                        slide.classList.add('active');
+                        // slide.style.display = 'flex'; // Replaced by classList manipulation
+                    } else {
+                        slide.classList.remove('active');
+                        // slide.style.display = 'none'; // Replaced by classList manipulation
+                    }
+                });
+                if (indicators.length > 0) {
+                    indicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index === currentIndex);
+                    });
+                }
+                // For actual slide movement if not using display:none/flex:
+                // carouselSlides.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            function goToSlide(index) {
+                currentIndex = (index + totalSlides) % totalSlides; // Ensure index is within bounds
+                updateCarousel();
+            }
+
+            function nextSlide() {
+                goToSlide(currentIndex + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentIndex - 1);
+            }
+
+            // Autoplay functionality
+            function startAutoSwitch() {
+                if (autoSwitchInterval) clearInterval(autoSwitchInterval);
+                autoSwitchInterval = setInterval(() => {
+                    nextSlide();
+                }, autoSwitchTime);
+            }
+
+            function resetAutoSwitch() {
+                startAutoSwitch();
+            }
+
+            // Click listeners for next/prev buttons (if they were to be used or for robustness)
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    nextSlide();
+                    resetAutoSwitch();
+                });
+            }
+
+            if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                    prevSlide();
+                    resetAutoSwitch();
+                });
+            }
+
+            // Click listener for carousel wrapper (left/right side clicks)
+            if (carouselWrapper) {
+                carouselWrapper.addEventListener('click', (event) => {
+                    // Ensure the click is not part of a swipe action that might also trigger this
+                    if (Math.abs(touchEndX - touchStartX) > 10) { // if a swipe just ended, ignore this click
+                        return;
+                    }
+
+                    const rect = carouselWrapper.getBoundingClientRect();
+                    const clickX = event.clientX - rect.left;
+                    const wrapperWidth = rect.width;
+
+                    if (clickX < wrapperWidth / 2) {
+                        // Clicked on left half
+                        prevSlide();
+                    } else {
+                        // Clicked on right half
+                        nextSlide();
+                    }
+                    resetAutoSwitch(); // Reset interval on manual navigation
+                });
+            }
+
+            // Initialize first slide and autoplay
+            updateCarousel();
+            startAutoSwitch(); // Start autoplay initially
+
+            // --- Swipe Event Listeners ---
+            if (carouselWrapper) {
+                carouselWrapper.addEventListener('touchstart', (event) => {
+                    // Check if the touch target is an interactive element like a button or link
+                    if (event.target.closest('button, a')) {
+                        return; // Don't interfere with clicks on buttons/links within the slide
+                    }
+                    touchStartX = event.changedTouches[0].screenX;
+                    touchStartY = event.changedTouches[0].screenY;
+                    touchEndX = touchStartX; // Reset endX at start
+                }, { passive: true });
+
+                carouselWrapper.addEventListener('touchmove', (event) => {
+                    touchEndX = event.changedTouches[0].screenX;
+                    // To prevent page scroll if horizontal swipe is dominant - more complex, handle with passive:true for now
+                }, { passive: true });
+
+                carouselWrapper.addEventListener('touchend', (event) => {
+                    const touchEndY = event.changedTouches[0].screenY;
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+
+                    // Check if it's primarily a horizontal swipe and not a vertical scroll or tap
+                    if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+                        if (deltaX < 0) { // Swiped left
+                            nextSlide();
+                        } else { // Swiped right
+                            prevSlide();
+                        }
+                        resetAutoSwitch();
+                    }
+                    // Reset for next swipe detection or click
+                    touchStartX = 0;
+                    touchEndX = 0;
+                    touchStartY = 0;
+                });
+            }
+        });
+    </script>
+
+    <!-- START: Integrated Quiz JavaScript -->
+    <script>
+        const quiz = (() => {
+    const steps = [
+        { id: 1, name: 'anrede', type: 'text', next: 2, required: true },
+        { id: 2, name: 'alter', type: 'number', next: 3, required: true, min: 0, max: 120 },
+        { id: 3, name: 'startdatum', type: 'date', next: 'description', required: true },
+        { id: 4, name: 'zaehne_fehlen', type: 'radio', next: (answer) => answer === 'Ja' ? 5 : 6, required: true },
+        { id: 5, name: 'anzahl_zaehne', type: 'radio', next: 6, required: true, skipIf: (answers) => answers.zaehne_fehlen !== 'Ja' },
+        { id: 6, name: 'in_behandlung', type: 'radio', next: (answer) => answer === 'Ja' ? 7 : 8, required: true },
+        { id: 7, name: 'behandlung_art', type: 'textarea', next: 8, required: true, skipIf: (answers) => answers.in_behandlung !== 'Ja' },
+        { id: 8, name: 'personal_data', type: 'form', next: 'final', required: true, fields: [
+                { name: 'voller_name', selector: '#q8-name', required: true, type: 'text' },
+                { name: 'strasse', selector: '#q8-strasse', required: true, type: 'text' },
+                { name: 'hausnummer', selector: '#q8-hausnummer', required: true, type: 'text' },
+                { name: 'plz', selector: '#q8-plz', required: true, type: 'text', pattern: /^\d{5}$/ },
+                { name: 'stadt', selector: '#q8-stadt', required: true, type: 'text' },
+                { name: 'email', selector: '#q8-email', required: true, type: 'email' },
+                { name: 'telefon', selector: '#q8-telefon', required: true, type: 'tel', pattern: /^[\d\s\+\-\/\(\)] {7,}$/ },
+                { name: 'iban', selector: '#q8-iban', required: true, type: 'text', pattern: /^[A-Z]{2}\d{2}[A-Z\d]{11,30}$/ }
+            ]
+        }
+    ];
+
+    const intermediateScreenId = 'description-screen';
+    const finalScreenId = 'final-screen';
+    const transitionDuration = 500; // Matches CSS transition for steps
+    const userAnswers = {};
+    const navigationHistory = [];
+    let currentStepIndex = 0;
+    let isPhase2 = false;
+
+    function getStepElement(stepId) {
+        const id = (typeof stepId === 'number') ? `step-${stepId}` : stepId;
+        const calculatorElement = document.querySelector('.cta-box.left #calculator');
+        return calculatorElement ? calculatorElement.querySelector(`#${id}`) : null;
+    }
+
+    function getBackButtonForStep(stepId) {
+         const stepElement = getStepElement(stepId);
+         return stepElement ? stepElement.querySelector('.back-button') : null;
+     }
+
+      function getNextButtonForStep(stepId) {
+          const stepElement = getStepElement(stepId);
+          return stepElement ? stepElement.querySelector('.next-button') : null;
+      }
+
+     function getErrorElement(stepId, fieldName = null) {
+         const stepElement = getStepElement(stepId);
+         if (!stepElement) return null;
+         const baseId = (typeof stepId === 'number') ? `error-${stepId}` : `error-${stepId.replace('step-', 'error-')}`;
+         const elementId = fieldName ? `${baseId}-${fieldName}` : baseId;
+         return stepElement.querySelector(`#${elementId}`);
+     }
+
+     function showErrorMessage(stepId, message, fieldName = null) {
+          const errorElement = getErrorElement(stepId, fieldName);
+          if (errorElement) {
+              errorElement.textContent = message;
+              errorElement.style.display = 'block';
+          }
+     }
+
+      function hideErrorMessage(stepId, fieldName = null) {
+          const errorElement = getErrorElement(stepId, fieldName);
+          if (errorElement) errorElement.style.display = 'none';
+
+          const generalErrorForStep = getErrorElement(stepId);
+          if (generalErrorForStep && !fieldName) { // if hiding a general step error
+            generalErrorForStep.style.display = 'none';
+          }
+          
+          const currentStepConfig = steps.find(s => s.id.toString() === stepId.toString() || `step-${s.id}` === stepId.toString());
+          if (currentStepConfig && currentStepConfig.type === 'form') {
+              currentStepConfig.fields.forEach(field => {
+                  const specificFieldError = getErrorElement(stepId, field.name);
+                  if (specificFieldError) specificFieldError.style.display = 'none';
+              });
+          }
+     }
+
+
+    function getInputValue(stepConfig) {
+        const stepElement = getStepElement(stepConfig.id);
+        if (!stepElement) return null;
+
+        switch (stepConfig.type) {
+            case 'text':
+            case 'number':
+            case 'date':
+            case 'email':
+            case 'tel':
+            case 'textarea':
+                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
+                return input ? input.value.trim() : null;
+            case 'radio':
+                const checkedRadio = stepElement.querySelector(`input[name='${stepConfig.name}']:checked`);
+                return checkedRadio ? checkedRadio.value : null;
+            case 'form':
+                 const formData = {};
+                 let formValid = true; // Temp flag for this function's return, actual validation is separate
+                 stepConfig.fields.forEach(field => {
+                     const inputEl = stepElement.querySelector(field.selector);
+                     const value = inputEl ? inputEl.value.trim() : '';
+                     formData[field.name] = value;
+                     if (field.required && !value) {
+                         formValid = false; 
+                     }
+                 });
+                // userAnswers[stepConfig.name] = formData; // Store data in validateStep after successful validation
+                return formValid ? formData : null; // Return null if any required field is empty, for checkStepCompletion
+            default:
+                return null;
+        }
+    }
+
+     function validateInput(value, config) {
+        if (config.required && (value === null || value === '')) {
+            return 'Bitte füllen Sie dieses Feld aus.';
+        }
+        if (!config.required && (value === null || value === '')) return null; // Not required and empty is fine
+
+        let typeForValidation = config.validation || config.type;
+         // Infer type from selector if not directly in config.type (for form fields)
+        if (config.selector) {
+            if (config.selector.includes('[type="number"]')) typeForValidation = 'number';
+            else if (config.selector.includes('[type="email"]')) typeForValidation = 'email';
+            else if (config.selector.includes('[type="date"]')) typeForValidation = 'date';
+            else if (config.selector.includes('[type="tel"]')) typeForValidation = 'tel';
+        }
+
+
+        switch (typeForValidation) {
+            case 'number':
+                if (isNaN(value) || value === '') return 'Bitte geben Sie eine gültige Zahl ein.';
+                const num = Number(value);
+                if (config.min !== undefined && num < config.min) return `Wert muss mindestens ${config.min} sein.`;
+                if (config.max !== undefined && num > config.max) return `Wert darf maximal ${config.max} sein.`;
+                break;
+            case 'email':
+                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) return 'Bitte geben Sie eine gültige E-Mail Adresse ein.';
+                break;
+            case 'date':
+                 if (!/^\d{4}-\d{2}-\d{2}$/.test(value) && value !== '') return 'Bitte geben Sie ein gültiges Datum ein (YYYY-MM-DD).';
+                 const today = new Date(); today.setHours(0,0,0,0);
+                 const selectedDate = new Date(value);
+                 if (config.id === 3 && selectedDate < today && value !== '') {
+                    // return 'Das Startdatum darf nicht in der Vergangenheit liegen.'; // Future validation example
+                 }
+                 break;
+            case 'tel': 
+                const telPattern = config.pattern || /^[\\d\\s\\+\\-\\/\\(\\)]{7,}$/; // Default or specified pattern
+                if (!telPattern.test(value)) return 'Ungültiges Telefonnummernformat.';
+                break;
+             case 'text': 
+                if (config.pattern && !config.pattern.test(value)) {
+                    if (config.name === 'plz') return 'PLZ muss 5 Ziffern haben.';
+                    if (config.name === 'iban') return 'Ungültige IBAN. Format: DE12345678901234567890';
+                    return 'Eingabe entspricht nicht dem erwarteten Format.';
+                }
+                break;
+        }
+        return null; 
+    }
+
+    function validateStep(stepConfig) {
+         let overallStepIsValid = true;
+         hideErrorMessage(stepConfig.id); // Clear general step error
+
+         if (stepConfig.type === 'form') {
+             stepConfig.fields.forEach(field => {
+                 const inputElement = document.querySelector('.cta-box.left #calculator ' + field.selector);
+                 const value = inputElement ? inputElement.value.trim() : '';
+                 hideErrorMessage(stepConfig.id, field.name); // Clear specific field error
+                 const error = validateInput(value, field);
+                 if (error) {
+                     showErrorMessage(stepConfig.id, error, field.name);
+                     overallStepIsValid = false;
+                 }
+             });
+             if (overallStepIsValid) { // Only store if all fields are valid
+                 userAnswers[stepConfig.name] = getInputValue(stepConfig); 
+             }
+          } else {
+              const value = getInputValue(stepConfig);
+              const error = validateInput(value, stepConfig);
+              if (error) {
+                  showErrorMessage(stepConfig.id, error);
+                  overallStepIsValid = false;
+              } else {
+                  userAnswers[stepConfig.name] = value; 
+              }
+         }
+         return overallStepIsValid;
+    }
+
+
+    function checkStepCompletion(stepConfig) {
+        const stepElement = getStepElement(stepConfig.id);
+        const nextButton = getNextButtonForStep(stepConfig.id);
+        if (!stepElement || !nextButton) return;
+
+        let isComplete = false;
+        if (stepConfig.type === 'form') {
+            isComplete = true; 
+            stepConfig.fields.forEach(field => {
+                 const input = stepElement.querySelector(field.selector);
+                 const value = input ? input.value.trim() : '';
+                 if (field.required && !value) {
+                     isComplete = false; 
+                 }
+            });
+        } else {
+             const value = getInputValue(stepConfig);
+             isComplete = (value !== null && value !== '');
+             if (stepConfig.type === 'number' && stepConfig.required && value === '0') { // Specifically allow 0 for required numbers
+                isComplete = true;
+             }
+        }
+        nextButton.disabled = !isComplete;
+    }
+
+
+    function showStep(stepIdToShow) {
+        const stepElement = getStepElement(stepIdToShow);
+        if (stepElement) {
+             document.querySelectorAll('.cta-box.left #calculator .step').forEach(s => {
+                 if (s.id !== stepIdToShow && s.id !== getStepElement(stepIdToShow)?.id) { // Ensure correct comparison
+                    s.classList.add('hidden');
+                 }
+             });
+
+             hideErrorMessage(stepIdToShow); 
+             stepElement.classList.remove('hidden');
+             
+             if (navigationHistory[navigationHistory.length - 1] !== stepIdToShow) {
+                  navigationHistory.push(stepIdToShow);
+             }
+
+             const backButton = getBackButtonForStep(stepIdToShow);
+             if (backButton) {
+                 backButton.disabled = navigationHistory.length <= 1;
+             }
+
+             let currentConfig = steps.find(s => s.id.toString() === stepIdToShow.toString() || `step-${s.id}` === stepIdToShow.toString());
+             if (!currentConfig && (stepIdToShow === intermediateScreenId || stepIdToShow === finalScreenId)) {
+                // It's a special screen
+             }
+
+
+             if (currentConfig && typeof currentConfig === 'object') {
+                 checkStepCompletion(currentConfig); 
+             } else if (stepIdToShow === intermediateScreenId) {
+                 const nextButton = getNextButtonForStep(intermediateScreenId);
+                 if(nextButton) nextButton.disabled = false; 
+             } else if (stepIdToShow === finalScreenId){
+                 const nextButton = getNextButtonForStep(finalScreenId);
+                 if(nextButton) nextButton.disabled = true; 
+             }
+
+             const firstInput = stepElement.querySelector('input:not([type=radio]):not([disabled]), textarea:not([disabled])');
+             if (firstInput) {
+                 setTimeout(() => firstInput.focus(), 50); 
+             }
+             const calculatorDiv = document.querySelector('.cta-box.left #calculator');
+             if (calculatorDiv) { // Scroll into view logic
+                 const rect = calculatorDiv.getBoundingClientRect();
+                 const ctaBoxLeft = document.querySelector('.cta-box.left');
+                 const ctaBoxRect = ctaBoxLeft ? ctaBoxLeft.getBoundingClientRect() : null;
+
+                 if (ctaBoxRect && (rect.top < ctaBoxRect.top || rect.bottom > ctaBoxRect.bottom)) {
+                    // If step is outside visible area of cta-box, scroll cta-box
+                    ctaBoxLeft.scrollTop = stepElement.offsetTop - ctaBoxLeft.offsetTop - 20; // 20px buffer
+                 } else if (rect.top < 0 || rect.bottom > window.innerHeight) { 
+                    // Fallback: if still outside viewport, scroll whole window
+                    stepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                 }
+             }
+        }
+    }
+
+    function hideStep(stepIdToHide) {
+        const stepElement = getStepElement(stepIdToHide);
+        if (stepElement) {
+            stepElement.classList.add('hidden');
+        }
+    }
+
+    function updateDescriptionScreen() {
+        let calculatedPrice = 25;
+        let tarifOption = "Basis-Schutz";
+        const benefits = [
+             "Regelmäßige Zahnreinigung",
+             "Füllungen und Inlays",
+             "Wurzelbehandlungen"
+        ];
+
+        if (userAnswers.alter) {
+             const age = parseInt(userAnswers.alter, 10);
+             if (age > 50) calculatedPrice += 10;
+             if (age > 65) calculatedPrice += 15;
+        }
+        
+        const descScreen = getStepElement(intermediateScreenId);
+        if (!descScreen) return;
+
+        const tarifOptionEl = descScreen.querySelector('#tarif-option');
+        const tarifPriceEl = descScreen.querySelector('#tarif-price');
+        const benefitListEl = descScreen.querySelector('#benefit-list');
+
+        if(tarifOptionEl) tarifOptionEl.textContent = tarifOption;
+        if(tarifPriceEl) tarifPriceEl.textContent = calculatedPrice;
+        if(benefitListEl) {
+            benefitListEl.innerHTML = '';
+            benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                benefitListEl.appendChild(li);
+            });
+        }
+        userAnswers.calculated_tarif_price = calculatedPrice;
+        userAnswers.calculated_tarif_option = tarifOption;
+    }
+
+
+    function nextStep() {
+        const descriptionScreenElement = getStepElement(intermediateScreenId);
+        if (descriptionScreenElement && !descriptionScreenElement.classList.contains('hidden')) {
+            hideStep(intermediateScreenId);
+            setTimeout(() => {
+                 const phase2StartIndex = steps.findIndex(step => step.id === 4);
+                 if (phase2StartIndex !== -1) {
+                     currentStepIndex = phase2StartIndex;
+                     showStep(steps[currentStepIndex].id);
+                 }
+            }, transitionDuration);
+            return;
+        }
+
+        const currentConfig = steps[currentStepIndex];
+        if (!currentConfig) return;
+
+        const currentId = currentConfig.id;
+        if (currentConfig.required && !validateStep(currentConfig)) {
+            return; 
+        }
+        // Ensure answer is captured if not already by validateStep (e.g. non-required field or form with all valid)
+        if (userAnswers[currentConfig.name] === undefined || (currentConfig.type ==='form' && validateStep(currentConfig)) ) {
+             userAnswers[currentConfig.name] = getInputValue(currentConfig);
+        }
+
+
+        hideStep(currentId);
+
+        let nextStepId = null;
+        if (typeof currentConfig.next === 'function') {
+            const currentAnswer = userAnswers[currentConfig.name]; // Use the stored answer
+            nextStepId = currentConfig.next(currentAnswer);
+        } else {
+            nextStepId = currentConfig.next;
+        }
+
+        setTimeout(() => {
+            if (nextStepId === 'description') {
+                updateDescriptionScreen();
+                showStep(intermediateScreenId);
+                isPhase2 = true; 
+            } else if (nextStepId === 'final') {
+                 showStep(finalScreenId);
+                 console.log("Final Quiz Answers:", JSON.stringify(userAnswers)); 
+            } else {
+                let nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
+                while (nextIndex !== -1 && steps[nextIndex].skipIf && steps[nextIndex].skipIf(userAnswers)) {
+                     const skippedConfig = steps[nextIndex];
+                      if (typeof skippedConfig.next === 'function') {
+                           const answerForSkipLogic = userAnswers[skippedConfig.name] || getInputValue(skippedConfig); 
+                           nextStepId = skippedConfig.next(answerForSkipLogic); 
+                      } else {
+                          nextStepId = skippedConfig.next;
+                      }
+                     nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
+                }
+
+                if (nextStepId === 'description') { 
+                    updateDescriptionScreen();
+                    showStep(intermediateScreenId);
+                    isPhase2 = true;
+                } else if (nextStepId === 'final') { 
+                    showStep(finalScreenId);
+                    console.log("Final Quiz Answers (after skip):", JSON.stringify(userAnswers));
+                } else if (nextIndex !== -1) {
+                    currentStepIndex = nextIndex;
+                    showStep(steps[currentStepIndex].id);
+                }
+            }
+        }, transitionDuration);
+    }
+
+    function previousStep() {
+        if (navigationHistory.length <= 1) return; 
+
+        const currentStepIdFromHistory = navigationHistory.pop(); 
+        const previousStepId = navigationHistory[navigationHistory.length - 1]; 
+
+        if (!previousStepId) { // Should not happen with guard above
+            navigationHistory.push(currentStepIdFromHistory); // Re-add if no prev
+            return; 
+        }
+
+        hideStep(currentStepIdFromHistory);
+
+        const previousIndex = steps.findIndex(s => s.id.toString() === previousStepId.toString() || `step-${s.id}` === previousStepId.toString());
+        if (previousIndex !== -1) {
+             currentStepIndex = previousIndex;
+        } else if (previousStepId === intermediateScreenId) {
+            currentStepIndex = steps.findIndex(s => s.next === 'description'); // Find the step that leads to description
+            isPhase2 = false; 
+        } else {
+            // Fallback, should ideally not be needed if history is correct
+            currentStepIndex = 0; 
+            isPhase2 = false;
+        }
+        showStep(previousStepId);
+    }
+
+    function initQuiz() {
+        steps.forEach(stepConfig => {
+            const stepElement = getStepElement(stepConfig.id);
+            if (!stepElement) return;
+
+            const nextBtn = getNextButtonForStep(stepConfig.id);
+            const backBtn = getBackButtonForStep(stepConfig.id);
+
+            if(nextBtn) {
+                nextBtn.removeAttribute('onclick'); 
+                nextBtn.addEventListener('click', nextStep);
+            } 
+            if(backBtn) {
+                backBtn.removeAttribute('onclick');
+                backBtn.addEventListener('click', previousStep);
+            }
+
+            if (stepConfig.type === 'form') {
+                 stepConfig.fields.forEach(field => {
+                    const input = stepElement.querySelector(field.selector);
+                    if (input) {
+                         input.addEventListener('input', () => checkStepCompletion(stepConfig));
+                         input.addEventListener('blur', () => validateStep(stepConfig)); 
+                    }
+                });
+            } else if (stepConfig.type === 'radio') {
+                 const radios = stepElement.querySelectorAll(`input[name='${stepConfig.name}']`);
+                 radios.forEach(radio => {
+                     radio.addEventListener('change', () => {
+                        const labels = stepElement.querySelectorAll('.options label');
+                        labels.forEach(lbl => lbl.classList.remove('checked-label')); // Using a class for checked state
+                        if (radio.checked) {
+                            const parentLabel = radio.closest('label');
+                            if (parentLabel) parentLabel.classList.add('checked-label');
+                        }
+                        checkStepCompletion(stepConfig);
+                     });
+                 });
+            } else { // Text, number, date, textarea
+                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
+                 if (input) {
+                     input.addEventListener('input', () => checkStepCompletion(stepConfig));
+                     input.addEventListener('blur', () => validateStep(stepConfig)); 
+                 }
+            }
+        });
+        
+        const descNextBtn = getNextButtonForStep(intermediateScreenId);
+        if(descNextBtn) { descNextBtn.removeAttribute('onclick'); descNextBtn.addEventListener('click', nextStep); }
+        const descBackBtn = getBackButtonForStep(intermediateScreenId);
+        if(descBackBtn) { descBackBtn.removeAttribute('onclick'); descBackBtn.addEventListener('click', previousStep); }
+
+        if (steps.length > 0) {
+             showStep(steps[0].id); 
+        } 
+    }
+    return {
+        initQuiz 
+    };
+
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure this only runs if the calculator is actually on the page
+    const calculatorElement = document.querySelector('.cta-box.left #calculator');
+    if (calculatorElement) {
+        quiz.initQuiz();
+    }
+});
+
+    </script>
+    <!-- END: Integrated Quiz JavaScript -->
+
 </body>
 </html>
