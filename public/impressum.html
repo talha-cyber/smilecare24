@@ -14,130 +14,52 @@
     <!-- Main scripts -->
     <script src="../src/js/script.js"></script>
     
-    <style>
-        .legal-content {
-            width: 80%;
-            max-width: 1000px;
-            margin: 120px auto 40px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            line-height: 1.6;
-        }
-        
-        .legal-content h1 {
-            color: #034848;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .legal-content h2 {
-            color: #034848;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-        
-        .legal-content p {
-            margin-bottom: 15px;
-        }
-        
-        .footer {
-            background-color: #fff;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
-        }
-        
-        .footer-links {
-            margin-bottom: 15px;
-        }
-        
-        .footer-links a {
-            color: #034848;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: #87A6A8;
-        }
-        
-        /* Navbar styles from index.html */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0px 30px;
-            box-shadow: none;
-            height: 120px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 100;
-        }
-        
-        .logo {
-            height: 200px;
-            width: auto;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: -40px;
-        }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                height: auto;
-                padding: 10px;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .logo {
-                position: static;
-                transform: none;
-                height: 150px;
-                margin-top: 10px;
-            }
-            
-            .legal-content {
-                width: 90%;
-                padding: 20px;
-                margin-top: 100px;
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+    <script>
+        if (typeof window.pageSpecificCalendlyInit === 'undefined') {
+            window.pageSpecificCalendlyInit = function() {
+                const initCalendlyPopup = (buttonId) => {
+                    const button = document.getElementById(buttonId);
+                    if (button) {
+                        button.addEventListener('click', function() {
+                            Calendly.initPopupWidget({
+                                url: 'https://calendly.com/smilecare24-barmenia/30min?primary_color=3d94a0'
+                            });
+                        });
+                    } 
+                };
+                initCalendlyPopup('calendlyButton');
+            };
+            if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+                window.pageSpecificCalendlyInit();
+            } else {
+                document.addEventListener('DOMContentLoaded', window.pageSpecificCalendlyInit);
             }
         }
-    </style>
+    </script>
 </head>
 <body>
     <nav class="navbar">
-        <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
-        
-        <!-- Hamburger Menu Button (Mobile Only) -->
+        <a href="index.html">
+            <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
+        </a>
         <button class="hamburger-btn mobile-only" id="hamburger-btn">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        
-        <!-- Mobile Menu -->
         <div class="mobile-menu mobile-only" id="mobile-menu">
             <div class="menu-links">
-                <a href="index.html" class="menu-link">HOME</a>
-                <a href="impressum.html" class="menu-link active">IMPRESSUM</a>
-                <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a>
+                <a href="index.html" class="menu-link">Startseite</a>
+                <a href="tarifrechner.html" class="menu-link">Tarifrechner</a>
+                <a href="impressum.html" class="menu-link">Impressum</a>
+                <a href="datenschutz.html" class="menu-link">Datenschutz</a>
             </div>
         </div>
+        <button class="calendly-button" id="calendlyButton" type="button">
+            Kostenlos Termin vereinbaren
+        </button>
     </nav>
     
     <div class="legal-content">

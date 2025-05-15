@@ -31,22 +31,20 @@
     <script src="../src/js/script.js"></script>
     <style>
         /* body styles removed from here to use global styles.css */
-        body {
+        /* body {
             font-family: 'Montserrat', sans-serif;
-            /* background: linear-gradient(90deg, #FFF, #E6F0F1, #B3D4D8, #66A5AA); */
-            /* background-size: 400% 100%; */
-            /* animation: gradientBG 15s ease infinite; */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* This can remain */
-            margin: 0; /* This can remain */
-            padding-top: 140px; /* This should be reviewed - global styles might handle navbar spacing */
+            min-height: 100vh; 
+            margin: 0; 
+            padding-top: 140px; 
             padding-bottom: 40px;
-        }
+        } */
 
-        #calculator {
+        /* Styles for #calculator removed from here, moved to styles.css */
+        /* #calculator {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(102, 165, 170, 0.4);
@@ -56,7 +54,7 @@
             max-width: 550px;
             width: 90%;
             overflow: hidden;
-        }
+        } */
 
         .step {
             opacity: 1;
@@ -328,16 +326,18 @@
     </button>
     <div class="mobile-menu mobile-only" id="mobile-menu">
         <div class="menu-links">
-            <a href="index.html" class="menu-link">HOME</a>
-            <a href="impressum.html" class="menu-link">IMPRESSUM</a>
-            <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a>
+            <a href="index.html" class="menu-link">Startseite</a>
+            <a href="tarifrechner.html" class="menu-link">Tarifrechner</a>
+            <a href="impressum.html" class="menu-link">Impressum</a>
+            <a href="datenschutz.html" class="menu-link">Datenschutz</a>
         </div>
     </div>
-    <button class="hero-cta-button" id="calendlyButton" type="button">
+    <button class="calendly-button" id="calendlyButton" type="button">
         Kostenlos Termin vereinbaren
     </button>
 </nav>
 
+<div class="calculator-page-wrapper">
 <div id="calculator">
     <div class="step" id="step-1">
         <p class="question-text">Wie dürfen wir Dich ansprechen?</p>
@@ -495,504 +495,7 @@
     </div>
 
 </div>
-
-<script>
-const quiz = (() => {
-    const steps = [
-        { id: 1, name: 'anrede', type: 'text', next: 2, required: true },
-        { id: 2, name: 'alter', type: 'number', next: 3, required: true, min: 0, max: 120 },
-        { id: 3, name: 'startdatum', type: 'date', next: 'description', required: true },
-        { id: 4, name: 'zaehne_fehlen', type: 'radio', next: (answer) => answer === 'Ja' ? 5 : 6, required: true },
-        { id: 5, name: 'anzahl_zaehne', type: 'radio', next: 6, required: true, skipIf: (answers) => answers.zaehne_fehlen !== 'Ja' },
-        { id: 6, name: 'in_behandlung', type: 'radio', next: (answer) => answer === 'Ja' ? 7 : 8, required: true },
-        { id: 7, name: 'behandlung_art', type: 'textarea', next: 8, required: true, skipIf: (answers) => answers.in_behandlung !== 'Ja' },
-        { id: 8, name: 'personal_data', type: 'form', next: 'final', required: true, fields: [
-                { name: 'voller_name', selector: '#q8-name', required: true, type: 'text' },
-                { name: 'strasse', selector: '#q8-strasse', required: true, type: 'text' },
-                { name: 'hausnummer', selector: '#q8-hausnummer', required: true, type: 'text' },
-                { name: 'plz', selector: '#q8-plz', required: true, type: 'text', pattern: /^\d{5}$/ },
-                { name: 'stadt', selector: '#q8-stadt', required: true, type: 'text' },
-                { name: 'email', selector: '#q8-email', required: true, type: 'email' },
-                { name: 'telefon', selector: '#q8-telefon', required: true, type: 'tel', pattern: /^[\d\s\+\-\/\(\)] {7,}$/ },
-                { name: 'iban', selector: '#q8-iban', required: true, type: 'text', pattern: /^[A-Z]{2}\d{2}[A-Z\d]{11,30}$/ }
-            ]
-        }
-    ];
-
-    const intermediateScreenId = 'description-screen';
-    const finalScreenId = 'final-screen';
-    const transitionDuration = 500;
-    const userAnswers = {};
-    const navigationHistory = [];
-    let currentStepIndex = 0;
-    let isPhase2 = false;
-
-    function getStepElement(stepId) {
-        const id = (typeof stepId === 'number') ? `step-${stepId}` : stepId;
-        return document.getElementById(id);
-    }
-
-    function getButtonForStep(stepId) {
-         const stepElement = getStepElement(stepId);
-         return stepElement ? stepElement.querySelector('.button') : null;
-    }
-
-     function getBackButtonForStep(stepId) {
-         const stepElement = getStepElement(stepId);
-         return stepElement ? stepElement.querySelector('.back-button') : null;
-     }
-
-      function getNextButtonForStep(stepId) {
-          const stepElement = getStepElement(stepId);
-          return stepElement ? stepElement.querySelector('.next-button') : null;
-      }
-
-     function getErrorElement(stepId, fieldName = null) {
-         const baseId = (typeof stepId === 'number') ? `error-${stepId}` : `error-${stepId}`;
-         const elementId = fieldName ? `${baseId}-${fieldName}` : baseId;
-         return document.getElementById(elementId);
-     }
-
-     function showErrorMessage(stepId, message, fieldName = null) {
-          const errorElement = getErrorElement(stepId, fieldName);
-          if (errorElement) {
-              errorElement.textContent = message;
-              errorElement.style.display = 'block';
-          }
-     }
-      function hideErrorMessage(stepId, fieldName = null) {
-          const errorElement = getErrorElement(stepId, fieldName);
-          const generalErrorElement = getErrorElement(stepId);
-
-          if (errorElement) errorElement.style.display = 'none';
-           if (generalErrorElement && generalErrorElement !== errorElement) {
-                 generalErrorElement.style.display = 'none';
-           }
-
-          if (steps[currentStepIndex]?.type === 'form' && steps[currentStepIndex]?.id === stepId) {
-              steps[currentStepIndex].fields.forEach(field => {
-                  const fieldError = getErrorElement(stepId, field.name);
-                  if (fieldError) fieldError.style.display = 'none';
-              });
-          }
-     }
-
-
-    function getInputValue(stepConfig) {
-        const stepElement = getStepElement(stepConfig.id);
-        if (!stepElement) return null;
-
-        switch (stepConfig.type) {
-            case 'text':
-            case 'number':
-            case 'date':
-            case 'email':
-            case 'tel':
-            case 'textarea':
-                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
-                return input ? input.value.trim() : null;
-            case 'radio':
-                const checkedRadio = stepElement.querySelector(`input[name='${stepConfig.name}']:checked`);
-                return checkedRadio ? checkedRadio.value : null;
-            case 'form':
-                 const formData = {};
-                 let formValid = true;
-                 stepConfig.fields.forEach(field => {
-                     const input = stepElement.querySelector(field.selector);
-                     const value = input ? input.value.trim() : '';
-                     formData[field.name] = value;
-                     if (field.required && !value) {
-                         formValid = false;
-                     }
-                 });
-                userAnswers[stepConfig.name] = formData;
-                return formValid ? formData : null;
-            default:
-                return null;
-        }
-    }
-
-     function validateInput(value, config) {
-        if (config.required && (value === null || value === '')) {
-            return 'Bitte füllen Sie dieses Feld aus.';
-        }
-        if (value === null || value === '') return null;
-
-        switch (config.validation || config.type) {
-            case 'number':
-                if (isNaN(value) || value === '') return 'Bitte geben Sie eine gültige Zahl ein.';
-                const num = Number(value);
-                if (config.min !== undefined && num < config.min) return `Wert muss mindestens ${config.min} sein.`;
-                if (config.max !== undefined && num > config.max) return `Wert darf maximal ${config.max} sein.`;
-                break;
-            case 'email':
-                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) return 'Bitte geben Sie eine gültige E-Mail Adresse ein.';
-                break;
-            case 'date':
-                 if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return 'Bitte geben Sie ein gültiges Datum ein.';
-                 const today = new Date();
-                 today.setHours(0,0,0,0);
-                 const selectedDate = new Date(value);
-                  if (selectedDate < today && config.id === 3) {
-              }
-             break;
-            case 'pattern':
-                if (config.pattern && !config.pattern.test(value)) {
-                    if (config.name === 'plz') return 'PLZ muss 5 Ziffern haben.';
-                    if (config.name === 'telefon') return 'Ungültiges Telefonnummernformat.';
-                    if (config.name === 'iban') return 'Ungültiges IBAN Format.';
-                    return 'Eingabe entspricht nicht dem erwarteten Format.';
-                }
-                break;
-             case 'text':
-                break;
-        }
-        return null;
-    }
-
-    function validateStep(stepConfig) {
-         hideErrorMessage(stepConfig.id);
-         let isValid = true;
-         console.log(`[validateStep] Validating Step ID: ${stepConfig.id}, Type: ${stepConfig.type}`);
-    
-         if (stepConfig.type === 'form') {
-             console.log(`[validateStep] Validating form fields for step ${stepConfig.id}`);
-             stepConfig.fields.forEach(field => {
-                 const inputElement = document.querySelector(field.selector);
-                 const value = inputElement ? inputElement.value.trim() : '';
-                 const error = validateInput(value, field);
-                  hideErrorMessage(stepConfig.id, field.name);
-                 if (error) {
-                     console.log(`[validateStep] Field '${field.name}' failed validation: ${error}`);
-                     showErrorMessage(stepConfig.id, error, field.name);
-                     isValid = false;
-                 } else {
-                     console.log(`[validateStep] Field '${field.name}' passed validation.`);
-                 }
-             });
-              if (!isValid) {
-                  console.log(`[validateStep] Form ${stepConfig.id} is NOT valid overall.`);
-              } else {
-                  console.log(`[validateStep] Form ${stepConfig.id} IS valid overall.`);
-                  userAnswers[stepConfig.name] = getInputValue(stepConfig);
-              }
-          } else {
-              console.log(`[validateStep] Validating non-form step ${stepConfig.id}`);
-              const value = getInputValue(stepConfig);
-              const error = validateInput(value, stepConfig);
-              if (error) {
-                  console.log(`[validateStep] Step ${stepConfig.id} failed validation: ${error}`);
-                  showErrorMessage(stepConfig.id, error);
-                  isValid = false;
-              } else {
-                  console.log(`[validateStep] Step ${stepConfig.id} passed validation.`);
-                  userAnswers[stepConfig.name] = value;
-              }
-         }
-         return isValid;
-    }
-
-
-    function checkStepCompletion(stepConfig) {
-        const stepElement = getStepElement(stepConfig.id);
-        const nextButton = getNextButtonForStep(stepConfig.id);
-        if (!stepElement || !nextButton) return;
-
-        let isComplete = false;
-        if (stepConfig.type === 'form') {
-            isComplete = true;
-            stepConfig.fields.forEach(field => {
-                 const input = stepElement.querySelector(field.selector);
-                 const value = input ? input.value.trim() : '';
-                 if (field.required && !value) {
-                     isComplete = false;
-                 }
-            });
-        } else {
-             const value = getInputValue(stepConfig);
-             isComplete = (value !== null && value !== '');
-        }
-        nextButton.disabled = !isComplete;
-    }
-
-
-    function showStep(stepId) {
-        const stepElement = getStepElement(stepId);
-        if (stepElement) {
-             hideErrorMessage(stepId);
-             stepElement.classList.remove('hidden');
-             if (navigationHistory[navigationHistory.length - 1] !== stepId) {
-                  navigationHistory.push(stepId);
-             }
-             console.log("Navigation History:", navigationHistory);
-
-             const backButton = getBackButtonForStep(stepId);
-             if (backButton) {
-                 backButton.disabled = navigationHistory.length <= 1;
-             }
-
-             const currentConfig = steps.find(s => s.id === stepId) || stepId === intermediateScreenId || stepId === finalScreenId;
-             if (currentConfig && typeof currentConfig === 'object') {
-                 checkStepCompletion(currentConfig);
-             } else if (stepId === intermediateScreenId) {
-                 const nextButton = getNextButtonForStep(intermediateScreenId);
-                 if(nextButton) nextButton.disabled = false;
-             } else {
-                 const nextButton = getNextButtonForStep(finalScreenId);
-                 if(nextButton) nextButton.disabled = true;
-             }
-
-             const firstInput = stepElement.querySelector('input:not([type=radio]), textarea');
-             if (firstInput) {
-                 setTimeout(() => firstInput.focus(), 50);
-             }
-             setTimeout(() => {
-                 stepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-             }, 100);
-        }
-    }
-
-    function hideStep(stepId) {
-        const stepElement = getStepElement(stepId);
-        if (stepElement) {
-            stepElement.classList.add('hidden');
-        }
-    }
-
-    function updateDescriptionScreen() {
-        console.log("Updating description screen. Answers so far:", userAnswers);
-        let calculatedPrice = 25;
-        let tarifOption = "Basis-Schutz";
-        const benefits = [
-             "Regelmäßige Zahnreinigung",
-             "Füllungen und Inlays",
-             "Wurzelbehandlungen"
-        ];
-
-        if (userAnswers.alter) {
-             const age = parseInt(userAnswers.alter, 10);
-             if (age > 50) calculatedPrice += 10;
-             if (age > 65) calculatedPrice += 15;
-        }
-        
-        document.getElementById('tarif-option').textContent = tarifOption;
-        document.getElementById('tarif-price').textContent = calculatedPrice;
-        const benefitList = document.getElementById('benefit-list');
-        benefitList.innerHTML = '';
-        benefits.forEach(benefit => {
-            const li = document.createElement('li');
-            li.textContent = benefit;
-            benefitList.appendChild(li);
-        });
-
-        userAnswers.calculated_tarif_price = calculatedPrice;
-        userAnswers.calculated_tarif_option = tarifOption;
-    }
-
-
-    function nextStep() {
-        console.log("nextStep called. Current index:", currentStepIndex, "Is Phase 2:", isPhase2);
-
-        const descriptionScreenElement = getStepElement(intermediateScreenId);
-        if (descriptionScreenElement && !descriptionScreenElement.classList.contains('hidden')) {
-            console.log("Transitioning from description screen.");
-            hideStep(intermediateScreenId);
-            setTimeout(() => {
-                 const phase2StartIndex = steps.findIndex(step => step.id === 4);
-                 if (phase2StartIndex !== -1) {
-                     currentStepIndex = phase2StartIndex;
-                     showStep(steps[currentStepIndex].id);
-                     checkStepCompletion(steps[currentStepIndex]);
-                 } else {
-                     console.error("Could not find start of Phase 2 (Step ID 4).");
-                 }
-            }, transitionDuration);
-            return;
-        }
-
-
-        const currentConfig = steps[currentStepIndex];
-        if (!currentConfig) {
-             console.error("nextStep failed: Invalid currentStepIndex", currentStepIndex);
-             return;
-        }
-        const currentId = currentConfig.id;
-        console.log(`Processing step ${currentId}: ${currentConfig.name}`);
-
-        if (currentConfig.required) {
-            console.log(`Validating step ${currentId}...`);
-             const isValid = validateStep(currentConfig);
-             console.log(`Validation result for step ${currentId}:`, isValid);
-            if (!isValid) {
-                 return;
-            }
-        }
-
-         if (currentConfig.type !== 'form' && userAnswers[currentConfig.name] === undefined) {
-             userAnswers[currentConfig.name] = getInputValue(currentConfig);
-         }
-
-        hideStep(currentId);
-
-        let nextStepId = null;
-        if (typeof currentConfig.next === 'function') {
-            nextStepId = currentConfig.next(userAnswers[currentConfig.name]);
-        } else {
-            nextStepId = currentConfig.next;
-        }
-
-        console.log(`Determined next step ID: ${nextStepId}`);
-
-        setTimeout(() => {
-            if (nextStepId === 'description') {
-                console.log("[nextStep Timeout] Transitioning to description screen.");
-                updateDescriptionScreen();
-                showStep(intermediateScreenId);
-                isPhase2 = true;
-            } else if (nextStepId === 'final') {
-                console.log("[nextStep Timeout] Transitioning to final screen.");
-                 showStep(finalScreenId);
-                 console.log("Final Answers:", userAnswers);
-            }
-            else {
-                let nextIndex = steps.findIndex(step => step.id === nextStepId);
-
-                while (nextIndex !== -1 && steps[nextIndex].skipIf && steps[nextIndex].skipIf(userAnswers)) {
-                     console.log(`Skipping step ${steps[nextIndex].id}`);
-                     const skippedConfig = steps[nextIndex];
-                     let nextAfterSkip = null;
-                      if (typeof skippedConfig.next === 'function') {
-                          let searchIndex = nextIndex + 1;
-                          while(searchIndex < steps.length && (steps[searchIndex].skipIf && steps[searchIndex].skipIf(userAnswers))) {
-                              searchIndex++;
-                          }
-                          if(searchIndex < steps.length) {
-                              nextStepId = steps[searchIndex].id;
-                              nextIndex = searchIndex;
-                          } else {
-                              if (typeof skippedConfig.next === 'string') {
-                                 nextStepId = skippedConfig.next;
-                                 nextIndex = -1;
-                              } else {
-                                  nextStepId = skippedConfig.next;
-                                  nextIndex = steps.findIndex(step => step.id === nextStepId);
-                              }
-                          }
-
-
-                     } else {
-                         nextStepId = skippedConfig.next;
-                         nextIndex = steps.findIndex(step => step.id === nextStepId);
-                     }
-                }
-
-
-                if (nextStepId === 'description') {
-                     updateDescriptionScreen();
-                     showStep(intermediateScreenId);
-                     isPhase2 = true;
-                } else if (nextStepId === 'final') {
-                     showStep(finalScreenId);
-                     console.log("Final Answers:", userAnswers);
-                } else if (nextIndex !== -1) {
-                    currentStepIndex = nextIndex;
-                    console.log(`[nextStep Timeout] Showing next step ${steps[currentStepIndex].id}`);
-                    console.log(`Showing next step ${steps[currentStepIndex].id}`);
-                    showStep(steps[currentStepIndex].id);
-                    checkStepCompletion(steps[currentStepIndex]);
-                } else {
-                     console.error("Could not determine next step after skips or invalid ID:", nextStepId);
-                }
-            }
-        }, transitionDuration);
-    }
-
-    function previousStep() {
-        console.log("previousStep called.");
-        const currentStepId = navigationHistory.pop();
-
-        if (!currentStepId) {
-            console.warn("History is empty, cannot go back.");
-            return;
-        }
-
-        const previousStepId = navigationHistory[navigationHistory.length - 1];
-
-        if (!previousStepId) {
-             console.warn("No previous step found in history.");
-             navigationHistory.push(currentStepId);
-             return;
-        }
-
-        console.log(`Going back from ${currentStepId} to ${previousStepId}`);
-        hideStep(currentStepId);
-
-        const previousIndex = steps.findIndex(s => s.id === previousStepId);
-        if (previousIndex !== -1) {
-             currentStepIndex = previousIndex;
-        } else {
-             console.log("Previous step is not in the main steps array (e.g., description screen).");
-             currentStepIndex = -1;
-        }
-
-        showStep(previousStepId);
-    }
-
-    function init() {
-        console.log("Quiz initializing...");
-        steps.forEach(stepConfig => {
-            const stepElement = getStepElement(stepConfig.id);
-            if (!stepElement) return;
-
-            const button = getButtonForStep(stepConfig.id);
-
-            if (stepConfig.type === 'form') {
-                 stepConfig.fields.forEach(field => {
-                    const input = stepElement.querySelector(field.selector);
-                    if (input) {
-                         input.addEventListener('input', () => checkStepCompletion(stepConfig));
-                         input.addEventListener('blur', () => validateStep(stepConfig));
-                    }
-                });
-            } else if (stepConfig.type === 'radio') {
-                 const radios = stepElement.querySelectorAll(`input[name='${stepConfig.name}']`);
-                 radios.forEach(radio => {
-                     radio.addEventListener('change', () => checkStepCompletion(stepConfig));
-                      radio.addEventListener('change', (e) => {
-                          const labels = stepElement.querySelectorAll('.options label');
-                          labels.forEach(lbl => lbl.classList.remove('checked-label'));
-                          if (e.target.checked) {
-                               e.target.closest('label').classList.add('checked-label');
-                          }
-                          checkStepCompletion(stepConfig);
-                     });
-                 });
-            } else {
-                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
-                 if (input) {
-                     input.addEventListener('input', () => checkStepCompletion(stepConfig));
-                     input.addEventListener('blur', () => validateStep(stepConfig));
-                 }
-            }
-        });
-
-        if (steps.length > 0) {
-             showStep(steps[0].id);
-             checkStepCompletion(steps[0]);
-             console.log("Quiz initialized. Showing step:", steps[0].id);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', init);
-
-    return {
-        nextStep,
-        previousStep,
-    };
-
-})();
-</script>
+</div>
 
 <footer class="footer">
     <div class="footer-links">
@@ -1014,6 +517,513 @@ const quiz = (() => {
             console.warn('setupHamburgerMenu function not found when called explicitly.');
         }
     });
+</script>
+
+<script>
+console.log('Tarifrechner Script Block: START');
+
+const quiz = (() => {
+    console.log('Tarifrechner Script: Quiz IIFE executing');
+
+    const steps = [
+        { id: 1, name: 'anrede', type: 'text', next: 2, required: true },
+        { id: 2, name: 'alter', type: 'number', next: 3, required: true, min: 0, max: 120 },
+        { id: 3, name: 'startdatum', type: 'date', next: 'description', required: true },
+        { id: 4, name: 'zaehne_fehlen', type: 'radio', next: (answer) => answer === 'Ja' ? 5 : 6, required: true },
+        { id: 5, name: 'anzahl_zaehne', type: 'radio', next: 6, required: true, skipIf: (answers) => answers.zaehne_fehlen !== 'Ja' },
+        { id: 6, name: 'in_behandlung', type: 'radio', next: (answer) => answer === 'Ja' ? 7 : 8, required: true },
+        { id: 7, name: 'behandlung_art', type: 'textarea', next: 8, required: true, skipIf: (answers) => answers.in_behandlung !== 'Ja' },
+        { id: 8, name: 'personal_data', type: 'form', next: 'final', required: true, fields: [
+                { name: 'voller_name', selector: '#q8-name', required: true, type: 'text' },
+                { name: 'strasse', selector: '#q8-strasse', required: true, type: 'text' },
+                { name: 'hausnummer', selector: '#q8-hausnummer', required: true, type: 'text' },
+                { name: 'plz', selector: '#q8-plz', required: true, type: 'text', pattern: /^\d{5}$/ },
+                { name: 'stadt', selector: '#q8-stadt', required: true, type: 'text' },
+                { name: 'email', selector: '#q8-email', required: true, type: 'email' },
+                { name: 'telefon', selector: '#q8-telefon', required: true, type: 'tel', pattern: /^[\d\s\+\-\/\(\)]{7,}$/ },
+                { name: 'iban', selector: '#q8-iban', required: true, type: 'text', pattern: /^[A-Z]{2}\d{2}[A-Z\d]{11,30}$/ }
+            ]
+        }
+    ];
+
+    const intermediateScreenId = 'description-screen';
+    const finalScreenId = 'final-screen';
+    const transitionDuration = 500; // Matches CSS transition for steps
+    const userAnswers = {};
+    const navigationHistory = [];
+    let currentStepIndex = 0;
+    let isPhase2 = false;
+    let isInitialQuizLoad = true;
+
+    function getStepElement(stepId) {
+        const id = (typeof stepId === 'number') ? `step-${stepId}` : stepId;
+        return document.getElementById(id);
+    }
+
+    function getNextButtonForStep(stepId) {
+        const stepElement = getStepElement(stepId);
+        return stepElement ? stepElement.querySelector('.next-button') : null;
+    }
+
+    function getBackButtonForStep(stepId) {
+        const stepElement = getStepElement(stepId);
+        return stepElement ? stepElement.querySelector('.back-button') : null;
+    }
+
+    function getErrorElement(stepId, fieldName = null) {
+        const stepElement = getStepElement(stepId);
+        if (!stepElement) return null;
+        const baseId = (typeof stepId === 'number') ? `error-${stepId}` : `error-${stepId.replace('step-', '')}`;
+        const elementId = fieldName ? `${baseId}-${fieldName}` : baseId;
+        return stepElement.querySelector(`#${elementId}`);
+    }
+
+    function showErrorMessage(stepId, message, fieldName = null) {
+        const errorElement = getErrorElement(stepId, fieldName);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+    }
+
+    function hideErrorMessage(stepId, fieldName = null) {
+        const errorElement = getErrorElement(stepId, fieldName);
+        if (errorElement) errorElement.style.display = 'none';
+
+        const generalErrorForStep = getErrorElement(stepId);
+        if (generalErrorForStep && !fieldName) {
+            generalErrorForStep.style.display = 'none';
+        }
+        
+        const currentStepConfig = steps.find(s => s.id.toString() === stepId.toString() || `step-${s.id}` === stepId.toString());
+        if (currentStepConfig && currentStepConfig.type === 'form') {
+            currentStepConfig.fields.forEach(field => {
+                const specificFieldError = getErrorElement(stepId, field.name);
+                if (specificFieldError) specificFieldError.style.display = 'none';
+            });
+        }
+    }
+
+    function getInputValue(stepConfig) {
+        const stepElement = getStepElement(stepConfig.id);
+        if (!stepElement) return null;
+
+        switch (stepConfig.type) {
+            case 'text':
+            case 'number':
+            case 'date':
+            case 'email':
+            case 'tel':
+            case 'textarea':
+                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
+                return input ? input.value.trim() : null;
+            case 'radio':
+                const checkedRadio = stepElement.querySelector(`input[name='${stepConfig.name}']:checked`);
+                return checkedRadio ? checkedRadio.value : null;
+            case 'form':
+                const formData = {};
+                let formValid = true;
+                stepConfig.fields.forEach(field => {
+                    const inputEl = stepElement.querySelector(field.selector);
+                    const value = inputEl ? inputEl.value.trim() : '';
+                    formData[field.name] = value;
+                    if (field.required && !value) {
+                        formValid = false; 
+                    }
+                });
+                return formValid ? formData : null;
+            default:
+                return null;
+        }
+    }
+
+    function validateInput(value, config) {
+        if (config.required && (value === null || value === '')) {
+            return 'Bitte füllen Sie dieses Feld aus.';
+        }
+        if (!config.required && (value === null || value === '')) return null;
+
+        let typeForValidation = config.validation || config.type;
+        if (config.selector) {
+            if (config.selector.includes('[type="number"]')) typeForValidation = 'number';
+            else if (config.selector.includes('[type="email"]')) typeForValidation = 'email';
+            else if (config.selector.includes('[type="date"]')) typeForValidation = 'date';
+            else if (config.selector.includes('[type="tel"]')) typeForValidation = 'tel';
+        }
+
+        switch (typeForValidation) {
+            case 'number':
+                if (isNaN(value) || value === '') return 'Bitte geben Sie eine gültige Zahl ein.';
+                const num = Number(value);
+                if (config.min !== undefined && num < config.min) return `Wert muss mindestens ${config.min} sein.`;
+                if (config.max !== undefined && num > config.max) return `Wert darf maximal ${config.max} sein.`;
+                break;
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) return 'Bitte geben Sie eine gültige E-Mail Adresse ein.';
+                break;
+            case 'date':
+                if (!/^\d{4}-\d{2}-\d{2}$/.test(value) && value !== '') return 'Bitte geben Sie ein gültiges Datum ein (YYYY-MM-DD).';
+                break;
+            case 'tel': 
+                const telPattern = config.pattern || /^[\\d\\s\\+\\-\\/\\(\\)]{7,}$/;
+                if (!telPattern.test(value)) return 'Ungültiges Telefonnummernformat.';
+                break;
+            case 'text': 
+                if (config.pattern && !config.pattern.test(value)) {
+                    if (config.name === 'plz') return 'PLZ muss 5 Ziffern haben.';
+                    if (config.name === 'iban') return 'Ungültige IBAN. Format: DE12345678901234567890';
+                    return 'Eingabe entspricht nicht dem erwarteten Format.';
+                }
+                break;
+        }
+        return null; 
+    }
+
+    function validateStep(stepConfig) {
+        let overallStepIsValid = true;
+        hideErrorMessage(stepConfig.id);
+
+        if (stepConfig.type === 'form') {
+            stepConfig.fields.forEach(field => {
+                const inputElement = document.querySelector(field.selector);
+                const value = inputElement ? inputElement.value.trim() : '';
+                hideErrorMessage(stepConfig.id, field.name);
+                const error = validateInput(value, field);
+                if (error) {
+                    showErrorMessage(stepConfig.id, error, field.name);
+                    overallStepIsValid = false;
+                }
+            });
+            if (overallStepIsValid) {
+                userAnswers[stepConfig.name] = getInputValue(stepConfig); 
+            }
+        } else {
+            const value = getInputValue(stepConfig);
+            const error = validateInput(value, stepConfig);
+            if (error) {
+                showErrorMessage(stepConfig.id, error);
+                overallStepIsValid = false;
+            } else {
+                userAnswers[stepConfig.name] = value; 
+            }
+        }
+        return overallStepIsValid;
+    }
+
+    function checkStepCompletion(stepConfig) {
+        const stepElement = getStepElement(stepConfig.id);
+        const nextButton = getNextButtonForStep(stepConfig.id);
+        if (!stepElement || !nextButton) return;
+
+        let isComplete = false;
+        if (stepConfig.type === 'form') {
+            isComplete = true; 
+            stepConfig.fields.forEach(field => {
+                const input = stepElement.querySelector(field.selector);
+                const value = input ? input.value.trim() : '';
+                if (field.required && !value) {
+                    isComplete = false; 
+                }
+            });
+        } else {
+            const value = getInputValue(stepConfig);
+            isComplete = (value !== null && value !== '');
+            if (stepConfig.type === 'number' && stepConfig.required && value === '0') {
+                isComplete = true;
+            }
+        }
+        nextButton.disabled = !isComplete;
+    }
+
+    function showStep(stepIdToShow) {
+        const stepElement = getStepElement(stepIdToShow);
+        if (stepElement) {
+            document.querySelectorAll('#calculator .step').forEach(s => {
+                if (s.id !== stepIdToShow && s.id !== getStepElement(stepIdToShow)?.id) {
+                    s.classList.add('hidden');
+                }
+            });
+
+            hideErrorMessage(stepIdToShow); 
+            stepElement.classList.remove('hidden');
+            
+            if (navigationHistory[navigationHistory.length - 1] !== stepIdToShow) {
+                navigationHistory.push(stepIdToShow);
+            }
+
+            const backButton = getBackButtonForStep(stepIdToShow);
+            if (backButton) {
+                backButton.disabled = navigationHistory.length <= 1;
+            }
+
+            let currentConfig = steps.find(s => s.id.toString() === stepIdToShow.toString() || `step-${s.id}` === stepIdToShow);
+            if (!currentConfig && (stepIdToShow === intermediateScreenId || stepIdToShow === finalScreenId)) {
+                // Special screen
+            }
+
+            if (currentConfig && typeof currentConfig === 'object') {
+                checkStepCompletion(currentConfig); 
+            } else if (stepIdToShow === intermediateScreenId) {
+                const nextButton = getNextButtonForStep(intermediateScreenId);
+                if(nextButton) nextButton.disabled = false; 
+            } else if (stepIdToShow === finalScreenId){
+                const nextButton = getNextButtonForStep(finalScreenId);
+                if(nextButton) nextButton.disabled = true; 
+            }
+
+            const firstInput = stepElement.querySelector('input:not([type=radio]):not([disabled]), textarea:not([disabled])');
+            if (firstInput && !isInitialQuizLoad) {
+                setTimeout(() => firstInput.focus(), 50); 
+            }
+            if (isInitialQuizLoad) {
+                isInitialQuizLoad = false;
+            }
+        }
+    }
+
+    function hideStep(stepIdToHide) {
+        const stepElement = getStepElement(stepIdToHide);
+        if (stepElement) {
+            stepElement.classList.add('hidden');
+        }
+    }
+
+    function updateDescriptionScreen() {
+        let calculatedPrice = 25;
+        let tarifOption = "Basis-Schutz";
+        const benefits = [
+            "Regelmäßige Zahnreinigung",
+            "Füllungen und Inlays",
+            "Wurzelbehandlungen"
+        ];
+
+        if (userAnswers.alter) {
+            const age = parseInt(userAnswers.alter, 10);
+            if (age > 50) calculatedPrice += 10;
+            if (age > 65) calculatedPrice += 15;
+        }
+        
+        const descScreen = getStepElement(intermediateScreenId);
+        if (!descScreen) return;
+
+        const tarifOptionEl = descScreen.querySelector('#tarif-option');
+        const tarifPriceEl = descScreen.querySelector('#tarif-price');
+        const benefitListEl = descScreen.querySelector('#benefit-list');
+
+        if(tarifOptionEl) tarifOptionEl.textContent = tarifOption;
+        if(tarifPriceEl) tarifPriceEl.textContent = calculatedPrice;
+        if(benefitListEl) {
+            benefitListEl.innerHTML = '';
+            benefits.forEach(benefit => {
+                const li = document.createElement('li');
+                li.textContent = benefit;
+                benefitListEl.appendChild(li);
+            });
+        }
+        userAnswers.calculated_tarif_price = calculatedPrice;
+        userAnswers.calculated_tarif_option = tarifOption;
+    }
+
+    function nextStep() {
+        console.log('Tarifrechner Script: quiz.nextStep() called');
+        const descriptionScreenElement = getStepElement(intermediateScreenId);
+        if (descriptionScreenElement && !descriptionScreenElement.classList.contains('hidden')) {
+            hideStep(intermediateScreenId);
+            setTimeout(() => {
+                const phase2StartIndex = steps.findIndex(step => step.id === 4);
+                if (phase2StartIndex !== -1) {
+                    currentStepIndex = phase2StartIndex;
+                    showStep(steps[currentStepIndex].id);
+                }
+            }, transitionDuration);
+            return;
+        }
+
+        const currentConfig = steps[currentStepIndex];
+        if (!currentConfig) return;
+
+        const currentId = currentConfig.id;
+        if (currentConfig.required && !validateStep(currentConfig)) {
+            return; 
+        }
+        
+        if (userAnswers[currentConfig.name] === undefined || (currentConfig.type === 'form' && validateStep(currentConfig))) {
+            userAnswers[currentConfig.name] = getInputValue(currentConfig);
+        }
+
+        hideStep(currentId);
+
+        let nextStepId = null;
+        if (typeof currentConfig.next === 'function') {
+            const currentAnswer = userAnswers[currentConfig.name];
+            nextStepId = currentConfig.next(currentAnswer);
+        } else {
+            nextStepId = currentConfig.next;
+        }
+
+        setTimeout(() => {
+            if (nextStepId === 'description') {
+                updateDescriptionScreen();
+                showStep(intermediateScreenId);
+                isPhase2 = true; 
+            } else if (nextStepId === 'final') {
+                showStep(finalScreenId);
+                console.log("Final Quiz Answers:", JSON.stringify(userAnswers)); 
+            } else {
+                let nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
+                while (nextIndex !== -1 && steps[nextIndex].skipIf && steps[nextIndex].skipIf(userAnswers)) {
+                    const skippedConfig = steps[nextIndex];
+                    if (typeof skippedConfig.next === 'function') {
+                        const answerForSkipLogic = userAnswers[skippedConfig.name] || getInputValue(skippedConfig); 
+                        nextStepId = skippedConfig.next(answerForSkipLogic); 
+                    } else {
+                        nextStepId = skippedConfig.next;
+                    }
+                    nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
+                }
+
+                if (nextStepId === 'description') { 
+                    updateDescriptionScreen();
+                    showStep(intermediateScreenId);
+                    isPhase2 = true;
+                } else if (nextStepId === 'final') { 
+                    showStep(finalScreenId);
+                    console.log("Final Quiz Answers (after skip):", JSON.stringify(userAnswers));
+                } else if (nextIndex !== -1) {
+                    currentStepIndex = nextIndex;
+                    showStep(steps[currentStepIndex].id);
+                }
+            }
+        }, transitionDuration);
+    }
+
+    function previousStep() {
+        console.log('Tarifrechner Script: quiz.previousStep() called');
+        if (navigationHistory.length <= 1) return; 
+
+        const currentStepIdFromHistory = navigationHistory.pop(); 
+        const previousStepId = navigationHistory[navigationHistory.length - 1]; 
+
+        if (!previousStepId) {
+            navigationHistory.push(currentStepIdFromHistory);
+            return; 
+        }
+
+        hideStep(currentStepIdFromHistory);
+
+        const previousIndex = steps.findIndex(s => s.id.toString() === previousStepId.toString() || `step-${s.id}` === previousStepId);
+        if (previousIndex !== -1) {
+            currentStepIndex = previousIndex;
+        } else if (previousStepId === intermediateScreenId) {
+            currentStepIndex = steps.findIndex(s => s.next === 'description');
+            isPhase2 = false; 
+        } else {
+            currentStepIndex = 0; 
+            isPhase2 = false;
+        }
+        showStep(previousStepId);
+    }
+
+    function initQuiz() {
+        console.log('Tarifrechner Script: initQuiz() called');
+        steps.forEach(stepConfig => {
+            const stepElement = getStepElement(stepConfig.id);
+            if (!stepElement) return;
+
+            const nextBtn = getNextButtonForStep(stepConfig.id);
+            const backBtn = getBackButtonForStep(stepConfig.id);
+
+            // Remove onclick attributes and add event listeners
+            if (nextBtn) {
+                nextBtn.removeAttribute('onclick'); 
+                nextBtn.addEventListener('click', nextStep);
+            } 
+            if (backBtn) {
+                backBtn.removeAttribute('onclick');
+                backBtn.addEventListener('click', previousStep);
+            }
+
+            // Function to handle Enter key press
+            const handleEnterKey = (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default form submission
+                    if (nextBtn && !nextBtn.disabled) {
+                        nextBtn.click(); // Trigger click on the next button
+                    }
+                }
+            };
+
+            if (stepConfig.type === 'form') {
+                stepConfig.fields.forEach(field => {
+                    const input = stepElement.querySelector(field.selector);
+                    if (input) {
+                        input.addEventListener('input', () => checkStepCompletion(stepConfig));
+                        input.addEventListener('blur', () => validateStep(stepConfig)); 
+                        input.addEventListener('keydown', handleEnterKey); // Add Enter key handler
+                    }
+                });
+            } else if (stepConfig.type === 'radio') {
+                const radios = stepElement.querySelectorAll(`input[name='${stepConfig.name}']`);
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        const labels = stepElement.querySelectorAll('.options label');
+                        labels.forEach(lbl => lbl.classList.remove('checked-label'));
+                        if (radio.checked) {
+                            const parentLabel = radio.closest('label');
+                            if (parentLabel) parentLabel.classList.add('checked-label');
+                        }
+                        checkStepCompletion(stepConfig);
+                    });
+                });
+            } else { // Text, number, date, textarea inputs
+                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
+                if (input) {
+                    input.addEventListener('input', () => checkStepCompletion(stepConfig));
+                    input.addEventListener('blur', () => validateStep(stepConfig)); 
+                    input.addEventListener('keydown', handleEnterKey); // Add Enter key handler
+                }
+            }
+        });
+        
+        // Set up intermediateScreen buttons
+        const descNextBtn = getNextButtonForStep(intermediateScreenId);
+        const descBackBtn = getBackButtonForStep(intermediateScreenId);
+        
+        if (descNextBtn) { 
+            descNextBtn.removeAttribute('onclick'); 
+            descNextBtn.addEventListener('click', nextStep); 
+        }
+        
+        if (descBackBtn) { 
+            descBackBtn.removeAttribute('onclick'); 
+            descBackBtn.addEventListener('click', previousStep); 
+        }
+
+        // Show first step
+        if (steps.length > 0) {
+            navigationHistory.push(`step-${steps[0].id}`);
+            showStep(`step-${steps[0].id}`);
+        }
+    }
+
+    return {
+        nextStep: nextStep,
+        previousStep: previousStep,
+        initQuiz: initQuiz
+    };
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Tarifrechner Script: DOMContentLoaded event fired.');
+    if (quiz && typeof quiz.initQuiz === 'function') {
+        quiz.initQuiz();
+    } else {
+        console.error('Tarifrechner Script: quiz object or quiz.initQuiz function not found on DOMContentLoaded.');
+    }
+});
+
+console.log('Tarifrechner Script Block: END');
 </script>
 
 </body>

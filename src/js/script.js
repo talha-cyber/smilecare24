@@ -1,4 +1,10 @@
+history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 document.addEventListener("DOMContentLoaded", function () {
+    // Ensure page loads scrolled to the top (can be re-asserted here or rely on above)
+    window.scrollTo(0, 0); 
+
     console.log("Document loaded");
     
     // Check if GSAP is available
@@ -83,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const isNowMobile = window.innerWidth <= 768;
         
         if (wasMobile !== isNowMobile) {
-            window.location.reload();
+            window.location.reload(); // This will also ensure scroll to top on reload due to new page load
         }
     });
 });
