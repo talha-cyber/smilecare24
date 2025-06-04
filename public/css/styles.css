@@ -1,0 +1,4813 @@
+html {
+    height: 100%;
+    background-color: transparent; /* Ensure html is transparent */
+    box-sizing: border-box; /* Apply box-sizing here */
+}
+
+*, *::before, *::after { /* Universal box-sizing */
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    touch-action: manipulation;
+    min-height: 100%; /* Ensure body is at least full viewport height, changed from 100vh */
+    background: linear-gradient(135deg, 
+        hsl(188, 35%, 88%), /* Very light teal/blue-grey like #E6F0F1 */
+        hsl(185, 30%, 75%), /* Lighter teal */
+        hsl(185, 40%, 60%), /* Mid teal like #66A5AA / #B3D4D8 */
+        hsl(190, 30%, 85%));/* Slightly different very light teal */
+    background-size: 400% 400%; 
+    background-repeat: no-repeat; /* Explicitly set no-repeat */
+    background-attachment: fixed; /* Key change for full page coverage */
+    animation: heroGradientShift 25s ease infinite alternate; 
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+    padding-top: 120px; /* Add padding for fixed navbar */
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 120px; /* Desktop navbar height */
+    display: flex;
+    /* justify-content: space-between; /* Adjust as logo & CTA are absolute */
+    align-items: center;
+    padding: 0 30px; /* Desktop padding */
+    background-color: rgba(255, 255, 255, 0.25); /* Reduced opacity for more gradient visibility */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1000 !important;
+    box-sizing: border-box; /* Ensure padding doesn't add to width/height */
+}
+
+.logo {
+    height: 138px; /* Increased by 38% from 100px */
+    width: auto;
+    position: absolute; /* For precise placement */
+    left: 30px; /* Align to the left */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center */
+}
+
+.logo-barmenia {
+    height: 83px; /* 60% of 138px */
+    width: auto;
+    position: absolute;
+    left: 220px; /* Position it right after SmileCare logo */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Remove the logo container styles */
+.logo-container {
+    position: relative; /* Simple container */
+}
+
+/* NEW: Logo container for grouping logos */
+.logo-container {
+    position: relative; /* Simple container - no complex flexbox */
+}
+
+.logo-container .logo {
+    /* Inherit from .logo class above */
+}
+
+.logo-container .logo-barmenia {
+    /* Inherit from .logo-barmenia class above */
+}
+
+/* Desktop specific styling for the Calendly button in the navbar */
+.navbar .calendly-button {
+    background-color: #3d94a0;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Slightly adjusted padding */
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute; 
+    right: 30px; /* Align to the right */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center */
+    display: inline-block; /* Ensure it's visible */
+}
+
+/* Control visibility of text and icon for desktop */
+.navbar .calendly-button .calendly-button-text {
+    display: inline !important; /* Show text by default (desktop) */
+}
+
+.navbar .calendly-button .calendly-button-icon {
+    display: none !important; /* Hide icon by default (desktop) */
+}
+
+.navbar .calendly-button:hover {
+    background-color: #357f89;
+    transform: translateY(-51%); /* Slight lift on hover */
+}
+
+.hero video {
+    width: 85%;
+    height: 100%;
+    object-fit: contain; /* Ensures the whole video is visible */
+    background-color: black; /* Optional: adds background if aspect ratio doesn't match */
+}
+
+.hero {
+    background: transparent;
+}
+
+.headline {
+    font-size: 30px;
+    font-weight: 600;
+    margin: 20px 0;
+    padding-top: 30px;
+    padding-bottom: 40px;
+}
+
+/* Chat Container */
+.chat-container {
+    width: 80%;
+    margin: 0 auto 60px; /* Reduced top margin since we now have the headline above */
+    border-radius: 25px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3); /* Reduced opacity */
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    position: relative;
+    z-index: 10;
+}
+
+/* Chat Box (Scrollable Area) */
+.chat-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Chat Message Styles */
+.chat-message {
+    max-width: 70%;
+    padding: 12px 15px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    border: 1px solid rgba(102, 165, 170, 0.2);
+    background: rgba(255, 255, 255, 0.5); /* Consistent transparency */
+}
+
+/* Override chat-message styling for AI messages to remove bubble */
+.chat-message.ai-message {
+    max-width: 100%; /* Allow AI message to take full width if needed */
+    padding: 8px 0; /* Vertical padding, no horizontal for bubble */
+    border: none; /* No border */
+    border-radius: 0; /* No border radius */
+    background: transparent; /* No bubble background */
+    box-shadow: none; /* Remove any shadow */
+}
+
+.user-message {
+    background: rgba(255, 255, 255, 0.5); /* Consistent transparency */
+    align-self: flex-end;
+    color: #333;
+}
+
+.ai-message {
+    /* background: rgba(255, 255, 255, 0.3); */ /* More transparent for AI messages */
+    background: transparent; /* No bubble */
+    align-self: flex-start;
+    color: #333;
+    padding: 8px 0; /* Vertical padding, no horizontal for bubble */
+    border: none; /* No border */
+    border-radius: 0; /* No border radius */
+    max-width: 100%; /* Allow AI message to take full width if needed */
+    box-shadow: none; /* Remove any shadow */
+}
+
+/* Loading Spinner for Chat */
+.loading-circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(102, 165, 170, 0.3);
+    border-radius: 50%;
+    border-top-color: #66a5aa;
+    animation: spin 1s linear infinite;
+    margin: 8px 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Styles for tables within AI messages */
+.chat-box .ai-message table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.9em; /* Slightly smaller font for tables */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-box .ai-message th, 
+.chat-box .ai-message td {
+    border: 1px solid rgba(102, 165, 170, 0.3); /* Theme-based border */
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.chat-box .ai-message th {
+    background-color: rgba(179, 212, 216, 0.2); /* Light teal from theme, slightly transparent */
+    color: #034848; /* Dark teal text for header */
+    font-weight: 600;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: flex;
+    gap: 3px;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #a0a0a0;
+    border-radius: 50%;
+    animation: blink 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Floating Chat Input Styling */
+.chat-input {
+    position: sticky;
+    bottom: 20px;
+    width: 90%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.4); /* Consistent transparency */
+    border: 1px solid rgba(102, 165, 170, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.chat-input-field {
+    flex-grow: 1;
+    padding: 0 15px;
+    border: none;
+    font-size: 16px;
+    border-radius: 15px;
+    outline: none;
+    background: transparent;
+    color: rgb(3, 3, 3);
+    resize: none;
+    overflow-y: auto;
+    min-height: 40px;
+    max-height: 120px;
+    line-height: 1.5; /* Better line height for readability */
+    text-align: left; /* Left-aligned text is easier to read */
+}
+
+.chat-input-field:empty::before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    /* pointer-events: none; */ /* Temporarily commented out for testing */
+    text-align: center; /* Center the placeholder */
+}
+
+.chat-input button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 20px;
+    color: white; /* Icon color */
+}
+
+/* Chat Input Button Styling */
+#enter-button {
+    background-color: rgba(175, 223, 221, 0.9); /* Match the container color but more solid */
+    color: #333;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+#enter-button:hover {
+    background-color: #87A6A8; /* Slightly darker on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+#enter-button i {
+    font-size: 24px; /* Increase arrow size */
+    color: black; /* Ensure arrow is visible */
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 1024px) {
+    .headline {
+        font-size: 26px;
+        padding-top: 20px;
+        padding-bottom: 30px;
+    }
+    
+    .info-box {
+        width: 80%;
+        font-size: 22px;
+    }
+    
+    .chat-container {
+        width: 90%;
+    }
+    
+    .partner-logo {
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* General Mobile Body & Layout Adjustments */
+    body {
+        /* font-size: 15px; /* Slightly smaller base font for mobile if needed */
+        /* -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
+    }
+
+    .content-wrapper {
+        margin-top: 60px; /* This is correct for general content */
+    }
+
+    /* Specific adjustment for hero section on mobile */
+    .hero-section {
+        /* margin-top: -60px; */ /* Was: Pulls the hero section up to counteract content-wrapper's margin */
+        margin-top: 0; /* Now: Align normally assuming content-wrapper is already correctly positioned */
+        /* padding-top: 60px; */  /* Was: Adds padding inside hero to push its actual content below the navbar */
+        padding-top: 0px; /* Now: Content starts at the top of hero-section. Slide's internal padding will apply. */
+                            /* This ensures the navbar doesn't overlap the hero content. */
+    }
+
+    /* --- MOBILE NAVBAR --- */
+    .navbar {
+        height: 60px !important; /* Fixed height */
+        padding: 0 15px !important; /* Horizontal padding */
+        flex-direction: row !important; /* Horizontal layout */
+        justify-content: space-between !important; /* Hamburger left, (placeholder for) right items */
+        align-items: center !important; /* Vertical centering */
+        position: fixed !important; /* Fixed at the top */
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
+        background-color: #f8f9fa !important; /* Light background, ensure visibility */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; /* Subtle shadow */
+        transform: translateY(0); /* Initial position */
+        transition: transform 0.3s ease-out; /* Smooth transition for JS-driven movement */
+    }
+
+    /* Remove or comment out the .navbar.nav-hidden rule as JS will handle visibility */
+    /*
+    .navbar.nav-hidden {
+        top: -65px !important; 
+    }
+    */
+
+    .navbar .logo {
+        height: 110px !important; /* Increased logo size for mobile (was 45px) */
+        width: auto !important; 
+        margin-top: 0 !important; 
+        position: absolute !important; 
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important; 
+    }
+
+    .navbar .logo-barmenia {
+        height: 66px !important; /* 60% of 110px for mobile */
+        width: auto !important;
+        position: absolute !important;
+        left: calc(50% + 120px) !important; /* Position it right after SmileCare logo */
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    /* Mobile logo container styles */
+    .navbar .logo-container {
+        position: relative !important; /* Simple container */
+    }
+
+    .navbar .hamburger-btn {
+        display: flex !important; /* Ensure it's visible and part of flex */
+        z-index: 1001 !important; /* Above logo if absolutely positioned */
+        /* margin-right: auto; /* Pushes logo to center if logo is not absolute, but we use absolute for logo */
+    }
+
+    .navbar .calendly-button {
+        display: flex !important; 
+        align-items: center; 
+        justify-content: center !important; /* Center the icon on mobile */
+        order: 3; 
+        padding: 6px 10px !important; /* Reduced padding for mobile */
+        font-size: 0.75rem; /* Smaller font size for mobile */
+        margin-left: 10px; 
+        white-space: nowrap; 
+        min-width: 40px !important; /* Ensure minimum width for the icon */
+        min-height: 40px !important; /* Ensure minimum height for the icon */
+    }
+
+    /* Mobile-specific calendly button styles - Override desktop styles */
+    .navbar .calendly-button .calendly-button-text {
+        display: none !important; /* Hide text on mobile */
+    }
+    
+    .navbar .calendly-button .calendly-icon {
+        display: inline-block !important; /* Show icon on mobile */
+        stroke: white !important; /* Ensure icon stroke is white */
+    }
+
+    /* --- MOBILE MENU (Overlay) --- */
+    .mobile-menu {
+        top: 60px !important; /* Start below the fixed navbar */
+        height: calc(100vh - 60px) !important; /* Full height minus navbar */
+        /* Other .mobile-menu styles (background, width, etc.) should be defined elsewhere if not here */
+    }
+    
+    /* Ensure these are not overriding the above mobile navbar styles if they exist elsewhere at this breakpoint */
+    /* For example, if there was another .logo or .navbar rule in a subsequent @media (max-width: 768px) block */
+
+    /* Styles for .scrolling-circles, .circle-container, .text-blocks, .faq-item etc. for mobile follow */
+    /* ... */
+
+    .mobile-menu {
+        /* Ensure mobile menu still works as expected with new navbar height */
+        top: 60px; /* Start below the new fixed navbar height */
+        height: calc(100vh - 60px); /* Full height minus navbar */
+    }
+    
+    body {
+        padding-top: 0px; /* Remove padding to reduce space by 60px */
+    }
+    
+    .content-wrapper {
+        margin-top: 0; /* Content wrapper starts below the navbar padding */
+    }
+    
+    .logo {
+        height: 50px; /* Further reduced logo for fixed navbar */
+        margin: 0; /* Reset margins */
+        position: absolute; /* Position absolutely to center */
+        left: 50%;
+        transform: translateX(-50%); /* Center align horizontally */
+        /* top: 50%; transform: translate(-50%, -50%); would also vertically center if needed */
+    }
+
+    /* Mobile styles moved to media query */
+
+    .hamburger-btn {
+        display: flex; /* Ensure hamburger is visible */
+        flex-direction: column; /* Stack the bars */
+        justify-content: space-around; /* Distribute space between bars */
+        width: 30px; /* Width of the hamburger icon */
+        height: 25px; /* Height of the hamburger icon */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1010; /* Above navbar background, below menu panel if it slides over */
+        margin-right: 0; 
+    }
+
+    .hamburger-btn span {
+        display: block;
+        width: 100%;
+        height: 3px; /* Thickness of the bars */
+        background-color: #034848; /* Color of the bars */
+        border-radius: 3px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Hamburger animation to X */
+    .hamburger-btn.open span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+    }
+    .hamburger-btn.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-btn.open span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+    }
+    
+    .headline {
+        font-size: 22px;
+        margin: 15px 0;
+    }
+    
+    .info-box {
+        width: 85%;
+        font-size: 18px;
+        padding: 15px;
+    }
+    
+    .logo-container {
+        gap: 20px;
+    }
+    
+    .partner-logo {
+        height: 50px;
+    }
+    
+    .chat-container {
+        width: 90%;
+        height: 600px;
+        margin: 0 auto 40px; /* Adjusted margins */
+    }
+    
+    .chat-input {
+        width: 85%;
+        bottom: 60px;
+    }
+    
+    .chat-input-field {
+        min-height: 30px;
+        line-height: 30px;
+    }
+    
+    .mobile-menu {
+        width: 100%;
+        left: 0;
+        top: 60px; /* Position below the fixed navbar */
+        height: calc(100vh - 60px); /* Full height minus navbar */
+        position: fixed; /* Fixed position for overlay */
+        background-color: rgba(159, 203, 207, 0.6); /* More transparent for gradient visibility */
+        backdrop-filter: blur(5px); /* Keep or adjust blur as needed */
+        -webkit-backdrop-filter: blur(5px); /* Keep or adjust blur as needed */
+        z-index: 1005; /* Below hamburger if it needs to be clickable, above content */
+        transform: translateX(-100%); /* Initially off-screen to the left */
+        transition: transform 0.3s ease-in-out;
+        padding: 20px; /* Padding for content inside */
+        box-sizing: border-box;
+        overflow-y: auto; /* Allow scrolling if menu items exceed height */
+        display: flex; /* Use flexbox for alignment */
+        flex-direction: column; /* Stack children vertically */
+        justify-content: flex-end; /* Align .menu-links to the bottom */
+        align-items: flex-start; /* Align .menu-links to the left */
+    }
+
+    .mobile-menu.open {
+        transform: translateX(0); /* Slide in from the left */
+    }
+    
+    .menu-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Links align to their container's start */
+        /* padding-bottom: 15%; // Removed, direct alignment used */
+        /* height: 100%; // Removed, parent handles height */
+        /* justify-content: flex-end; // Moved to parent */
+        width: auto; /* Take content width */
+    }
+
+    .menu-links a {
+        font-weight: bold; /* Make link text bold */
+        font-size: 1.2rem; /* Adjust font size as needed */
+        color: #034848; /* Link color */
+        text-decoration: none;
+        padding: 10px 0; /* Add some padding for touch targets */
+        transition: color 0.2s ease;
+    }
+
+    .menu-links a:hover {
+        color: #3d94a0; /* Hover color */
+    }
+    
+    .menu-link.active::after {
+        width: 0;
+    }
+    
+    /* Note: Circle content styling has been moved to the mobile optimization section */
+}
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        height: 70px;
+    }
+    
+    body {
+        padding-top: 80px;
+    }
+    
+    .logo {
+        height: 90px;
+    }
+    
+    .hero video {
+        width: 95%;
+    }
+    
+    .headline {
+        font-size: 18px;
+        margin: 10px 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .info-box {
+        width: 90%;
+        font-size: 16px;
+        padding: 12px;
+        margin: 15px auto;
+    }
+    
+    .logo-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .partner-logo {
+        height: 40px;
+    }
+    
+    .chat-container {
+        width: 95%;
+        height: 500px;
+        margin: 0 auto 30px; /* Adjusted margins */
+    }
+    
+    .chat-message {
+        max-width: 85%;
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+    
+    .chat-input {
+        width: 90%;
+        bottom: 40px;
+        padding: 8px;
+    }
+    
+    .chat-input-field {
+        padding: 0 10px;
+        font-size: 16px;
+        min-height: 30px;
+        line-height: 30px;
+    }
+    
+    #enter-button {
+        width: 36px;
+        height: 36px;
+        margin-right: 5px;
+    }
+    
+    #enter-button i {
+        font-size: 20px;
+    }
+    
+    /* Note: Mobile circle styles have been moved to the mobile optimization section */
+}
+
+/* Prevent text selection on logos and buttons */
+.logo, button, .partner-logo {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Scrolling Headlines */
+.scroll-headline-container {
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+    margin-top: 240px; /* Increased space (4x) between components */
+}
+
+.headline-content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adjust gap between headline items/group */
+    padding: 0 15px;
+    text-align: left;
+    position: relative; 
+}
+
+.chat-style-headline {
+    text-align: left;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    margin: 0; /* Ensure headlines themselves have no margin */
+    margin-left: clamp(15px, 5vw, 30px);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: #034848;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.headline-group {
+    position: relative; 
+}
+
+/* New rule for the wrappers of H2/T2 and H3/T3 */
+.headline-item {
+    position: relative; /* Positioning context for T2/T3 */
+}
+
+.headline-group .chat-style-headline {
+    margin-bottom: 0; 
+}
+
+.chat-style-text {
+    position: absolute; 
+    opacity: 0; /* Start hidden */
+    top: 100%; /* Position top edge at parent's bottom edge */
+    left: clamp(15px, 5vw, 30px); /* Left indent */
+    right: clamp(15px, 5vw, 30px); /* Right indent - matches left */
+    width: auto; /* Width is determined by left/right constraints */
+    margin-top: 5px; /* Add small space below the headline */
+    box-sizing: border-box; /* Include padding/border in element's total width/height */
+    /* max-width: none; -> Not needed when left/right are set */
+    font-size: clamp(0.9rem, 2vw, 1.1rem); 
+    color: #333; 
+    line-height: 1.5; 
+    margin-left: 0; 
+    text-align: left;
+    will-change: opacity, transform; 
+}
+
+/* Spacer to provide scrollable height */
+.scroll-spacer {
+    height: 300vh;
+}
+
+@media (max-width: 768px) {
+    .scroll-headline-container {
+        margin-top: 160px; /* Less space needed on mobile but still maintain separation */
+        padding: 10px 0;
+    }
+    
+    .headline-content-section {
+        gap: 5px; /* Further reduced gap for mobile */
+    }
+    
+    .chat-style-headline {
+        font-size: clamp(1rem, 3vw, 1.4rem); /* Slightly smaller on mobile */
+        margin-left: 15px; /* Less left margin on mobile */
+        max-width: 90%; /* Allow headlines to use more width on mobile */
+    }
+}
+
+/* Scrolling Circles Section */
+.scrolling-circles {
+    position: relative;
+    width: 100%;
+    height: 300vh; /* Increased from 200vh to 300vh to accommodate wider spacing */
+    overflow: hidden;
+    margin: 50px 0;
+    background: transparent;
+}
+
+.circle-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.circle-wrapper {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#circle1-wrapper {
+    top: 20vh; /* Increased from 10vh */
+}
+
+#circle2-wrapper {
+    top: 130vh; /* Increased from 70vh */
+}
+
+#circle3-wrapper {
+    top: 240vh; /* Increased from 130vh */
+}
+
+.circle {
+    position: relative;
+    width: 30vw; /* Adjusted size relative to viewport */
+    height: 30vw; /* Keep it circular by using same value for width and height */
+    min-width: 250px; /* Minimum size for very small screens */
+    min-height: 250px;
+    max-width: 450px; /* Maximum size */
+    max-height: 450px;
+    border-radius: 50%; /* Ensure circle shape */
+    background: rgba(255, 255, 255, 0.1); /* Slightly visible background */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0.3;
+    filter: blur(8px); 
+    transition: all 0.5s ease; /* Smoother transition */
+    box-sizing: border-box; /* Include padding in width/height */
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    aspect-ratio: 1/1; /* Enforce perfect circle */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.circle-right {
+    margin-left: 5%;
+}
+
+.circle-left {
+    margin-right: 5%;
+}
+
+.circle-content-container {
+    max-width: 40%;
+    opacity: 0.3;
+    filter: blur(8px);
+    transition: all 0.5s ease; /* Smoother transition */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.content-left {
+    margin-right: 5%;
+    text-align: right;
+}
+
+.content-right {
+    margin-left: 5%;
+    text-align: left;
+}
+
+.circle-icon {
+    width: 50px; /* Reduced size slightly */
+    height: auto;
+    margin-bottom: 15vh;
+    filter: brightness(1);
+}
+
+.circle-content {
+    font-size: clamp(12px, 1.5vw, 16px);
+    line-height: 1.6; 
+    color: #034848;
+    font-weight: 500;
+}
+
+#circle1 {
+    background-image: url('../assets/vertrauen.png');
+}
+
+#circle2 {
+    background-image: url('../assets/Smiling_2.png');
+}
+
+#circle3 {
+    background-image: url('../assets/flexibilität.png');
+}
+
+/* Media queries for circles on smaller screens */
+@media screen and (max-width: 768px) {
+    .circle {
+        width: 45vw;
+        height: 45vw;
+        min-width: 200px;
+        min-height: 200px;
+        aspect-ratio: 1/1; /* Enforce perfect circle */
+    }
+    
+    .circle-content-container {
+        max-width: 45%;
+    }
+    
+    .circle-icon {
+        width: 40px; /* Further reduced for mobile */
+    }
+
+    .circle-content {
+        font-size: clamp(11px, 2vw, 15px);
+    }
+
+    #circle2-wrapper {
+        top: 140vh; /* Adjusted for medium screens */
+    }
+
+    #circle3-wrapper {
+        top: 260vh; /* Adjusted for medium screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .circle-wrapper {
+        flex-direction: column;
+    }
+    
+    .circle {
+        width: 70vw; /* Larger percentage of viewport */
+        height: 70vw; /* Keep perfect circle by matching width */
+        min-width: 180px;
+        min-height: 180px;
+        margin: 20px auto !important; /* Override left/right margin */
+        aspect-ratio: 1/1; /* Enforce perfect circle */
+    }
+
+    .circle-content-container {
+        max-width: 85%;
+        margin: 20px auto !important; /* Override left/right margin */
+        order: 2; /* Content below circle on mobile */
+        text-align: center !important; /* Center text on mobile */
+    }
+    
+    .circle-icon {
+        width: 36px; /* Even smaller for mobile */
+    }
+
+    .circle-content {
+        font-size: clamp(10px, 2.5vw, 14px);
+    }
+
+    #circle2-wrapper {
+        top: 160vh; /* Adjusted for small screens */
+    }
+
+    #circle3-wrapper {
+        top: 300vh; /* Adjusted for small screens */
+    }
+}
+
+.highlight {
+    /* Base color is set by the gradient now */
+    background: linear-gradient(
+        to right,
+        #034848 20%,
+        #66A5AA 50%, /* Lighter theme color as spotlight */
+        #034848 80%
+    );
+    background-size: 200% auto;
+
+    /* Apply the gradient *inside* the text */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* Make the text fill transparent */
+    -webkit-text-fill-color: transparent;
+
+    /* Apply the animation */
+    animation: spotlight-effect 8s linear infinite; /* Slowed down from 5s */
+}
+
+/* Ensure content-wrapper and footer are transparent */
+.content-wrapper {
+    background: transparent !important; /* Ensure transparency */
+    position: relative;
+    z-index: 10;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    box-shadow: none;
+    width: 100%;
+    flex-shrink: 0;
+    background: transparent;
+}
+
+/* Text Blocks Component */
+.text-blocks {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-block-left, .text-block-right {
+    width: 80%;
+    margin: 30px auto;
+    opacity: 0; /* Start invisible for animation */
+    transform: translateY(50px); /* Start below final position */
+}
+
+.text-block-left {
+    text-align: left;
+    margin-right: auto;
+    margin-left: 5%;
+}
+
+.text-block-right {
+    text-align: right;
+    margin-left: auto;
+    margin-right: 5%;
+    margin-top: 30px; /* Added a smaller top margin for consistent spacing */
+}
+
+.text-block-left h3, .text-block-right h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Animation classes that GSAP will use */
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Media queries for text blocks on smaller screens */
+@media screen and (max-width: 768px) {
+    .text-blocks {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 85%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .text-block-right {
+        margin-top: 40px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .text-blocks {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .text-block-left, .text-block-right {
+        width: 90%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .text-block-right {
+        margin-top: 30px;
+    }
+    
+    .text-block-left h3, .text-block-right h3 {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+}
+
+/* Chat Headline */
+.chat-headline {
+    width: 80%;
+    margin: 120px auto 30px;
+    text-align: center;
+    position: relative;
+}
+
+.chat-headline h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #034848;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Media queries for chat headline on smaller screens */
+@media screen and (max-width: 768px) {
+    .chat-headline {
+        width: 90%;
+        margin: 80px auto 30px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .chat-headline {
+        width: 95%;
+        margin: 60px auto 25px;
+    }
+    
+    .chat-headline h2 {
+        font-size: 18px;
+        line-height: 1.4;
+    }
+}
+
+/* FAQ Section */
+.faq-section {
+    width: 90%;
+    margin: 80px auto;
+    position: relative;
+}
+
+.faq-headline {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-headline h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #034848;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.faq-item:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.faq-question {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #034848;
+    margin: 0;
+    flex: 1;
+}
+
+.faq-icon {
+    color: #034848;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 25px;
+}
+
+/* Keyframes for expand and collapse */
+@keyframes faqExpand {
+    from { max-height: 0; }
+    to   { max-height: 1000px; }
+}
+@keyframes faqCollapse {
+    from { max-height: 1000px; }
+    to   { max-height: 0; }
+}
+
+/* Apply expand animation when active */
+.faq-item.active .faq-answer {
+    animation: faqExpand 0.8s ease forwards;
+}
+
+/* Apply collapse animation when not active */
+.faq-item:not(.active) .faq-answer {
+    animation: faqCollapse 0.5s ease forwards;
+}
+
+/* REMOVE initial state from CSS - GSAP will handle it */
+/*
+.faq-item:nth-child(odd) {
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+.faq-item:nth-child(even) {
+    transform: translateX(20px);
+    opacity: 0;
+}
+*/
+
+/* This class was likely intended for the GSAP animation but isn't used by the current JS */
+/*
+.faq-item.fade-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+*/
+
+/* Media queries for FAQ section on smaller screens */
+@media screen and (max-width: 768px) {
+    .faq-section {
+        width: 95%;
+        margin: 60px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 28px;
+    }
+    
+    .faq-question h3 {
+        font-size: 18px;
+    }
+    
+    .faq-answer p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .faq-section {
+        width: 100%;
+        margin: 40px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 24px;
+    }
+    
+    .faq-question {
+        padding: 15px 20px;
+    }
+    
+    .faq-question h3 {
+        font-size: 16px;
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+    }
+    
+    .faq-answer p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}
+
+/* Mobile Optimizations - PWA-like Experience */
+@media screen and (max-width: 768px) {
+    body {
+        padding-top: 90px;
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        width: 100%;
+    }
+
+    /* Container alignment fix for mobile */
+    .container, 
+    .chat-container,
+    .text-blocks,
+    .faq-section,
+    .chat-headline,
+    .info-box,
+    .hero,
+    .header,
+    .footer {
+        width: calc(100% - 30px) !important; /* Set consistent width with padding */
+        max-width: 100%;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Navigation adjustments */
+    .navbar {
+        width: 100% !important;
+        padding: 0 15px;
+        box-sizing: border-box;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .navbar.nav-hidden {
+        transform: translateY(-100%);
+    }
+    
+    /* Mobile Circle Container - Replacing Accordion Section */
+    .mobile-circle-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+        padding: 30px 0;
+        margin: 20px auto;
+        width: 100%;
+    }
+    
+    /* Dynamic sizing for mobile cards */
+    .mobile-card {
+        width: 85vw; /* Slightly smaller to ensure no overflow */
+        max-width: 420px; /* Maximum size on larger screens */
+        height: auto;
+        aspect-ratio: 1/1; /* Maintain perfect circle */
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        margin: 0 auto !important; /* Center horizontally */
+        transform: none !important;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.1); /* Nearly transparent background to let gradient show through */
+    }
+    
+    .circle, 
+    .circle-content-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto !important;
+        transition: all 0.5s ease;
+    }
+    
+    .circle {
+        background-size: cover;
+        background-position: center center;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        filter: blur(0px); /* Start with unblurred state */
+        opacity: 1;
+    }
+    
+    /* Improved content container with better text fitting */
+    .circle-content-container {
+        z-index: 2;
+        background: transparent !important; /* Fully transparent to let gradient show */
+        padding: 10px 20px;
+        text-align: center;
+        flex-direction: column;
+        opacity: 0;
+        filter: none;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        overflow: visible;
+        display: flex;
+        width: 100%;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY(10px);
+    }
+    
+    /* Animation for content when it becomes visible */
+    .circle-content-container.content-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* In-view class for mobile cards */
+    .mobile-card.in-view .circle {
+        filter: blur(3px);
+        opacity: 0.2;
+    }
+    
+    /* When scrolled into view - show text */
+    .mobile-card.in-view .circle-content-container {
+        opacity: 1;
+    }
+    
+    /* Dynamic text sizing for better readability */
+    .mobile-card .circle-content {
+        color: #034848;
+        font-weight: 700;
+        /* Dynamic font sizing that grows with screen size but maintains readability */
+        font-size: clamp(13px, calc(12px + 1vw), 18px);
+        line-height: 1.4;
+        width: 85%; /* Leave some padding around text */
+        text-align: center;
+        margin: 0 auto;
+        display: block;
+        /* Only shrink text when it exceeds container */
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    
+    /* Dynamic icon sizing */
+    .mobile-card .circle-icon {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9));
+        margin-bottom: 12px;
+        /* Dynamic sizing for icon */
+        width: clamp(36px, calc(30px + 2vw), 50px);
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .mobile-card strong {
+        display: block;
+        margin-bottom: 8px;
+        /* Slightly larger than body text */
+        font-size: 1.1em;
+        color: #012020;
+    }
+    
+    /* Remove old flip instruction */
+    .flip-instruction {
+        display: none;
+    }
+    
+    /* Ensure background images scale proportionally with circles */
+    #mobile-circle1, #mobile-circle2, #mobile-circle3 {
+        background-size: cover; /* Maintain aspect ratio */
+    }
+    
+    /* Mobile scrolling circles section with improved dynamic scaling */
+    .scrolling-circles {
+        height: auto !important;
+        margin: 30px 0;
+        overflow: visible;
+        width: 100% !important;
+        padding: 0;
+    }
+    
+    .circle-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px 0;
+        height: auto;
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    .circle-wrapper {
+        position: static !important;
+        width: 90%;
+        max-width: 500px; /* Cap maximum size */
+        margin: 0 auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        left: 0 !important;
+        transform: none !important;
+    }
+    
+    /* Mobile text blocks */
+    .text-blocks {
+        margin: 40px auto;
+    }
+    
+    /* Ensure text blocks are properly aligned */
+    .text-block-left, 
+    .text-block-right {
+        width: 100%;
+        margin: 20px auto;
+        text-align: center;
+        padding: 0;
+        transform: none !important;
+        left: 0 !important;
+    }
+    
+    .text-block-right {
+        margin-top: 20px;
+    }
+    
+    /* Mobile FAQ section fix */
+    .faq-item {
+        transform: none !important;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .faq-question,
+    .faq-answer {
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Mobile FAQ section */
+    .faq-section {
+        margin: 40px auto;
+    }
+    
+    .faq-headline h2 {
+        font-size: 24px;
+    }
+    
+    /* Mobile chat container */
+    .chat-container {
+        height: 600px;
+        border-radius: 15px;
+    }
+    
+    .chat-headline {
+        margin: 40px auto 20px;
+    }
+}
+
+/* Fix for extra small screens */
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 80px;
+    }
+    
+    /* Mobile card specific adjustments for extra small screens */
+    .mobile-card {
+        width: 80vw; /* Even smaller for very small screens */
+        margin: 0 auto !important;
+    }
+    
+    /* Container consistency */
+    .container, 
+    .chat-container,
+    .text-blocks,
+    .faq-section,
+    .chat-headline,
+    .info-box {
+        width: calc(100% - 20px) !important;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    /* Adjust padding for very small screens */
+    .circle-content-container {
+        padding: 8px 15px;
+    }
+    
+    /* Smaller text for small screens */
+    .mobile-card .circle-content {
+        font-size: clamp(11px, 2vw, 14px);
+        line-height: 1.3;
+        width: 90%;
+    }
+}
+
+/* Adjustments for medium-sized mobile screens */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .mobile-card {
+        width: 85vw; /* Slightly smaller percentage on medium screens */
+        max-width: 420px;
+        background: transparent;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .mobile-card .circle-content {
+        width: 80%; /* More breathing room on medium screens */
+    }
+    
+    /* Adjusted spacing for medium screens */
+    .mobile-circle-container {
+        gap: 60px;
+        padding: 40px 0;
+    }
+}
+
+/* Hide desktop elements on mobile and vice versa */
+@media screen and (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+    /* The .legacy-mobile-chat-widget rule is being removed from this block */
+}
+
+@media screen and (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* --- START: Hero Section Styles --- */
+.hero-section {
+    position: relative;
+    text-align: center;
+    padding-top: 0; 
+    overflow: hidden; 
+    min-height: 70vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background: linear-gradient(to top, rgba(250,250,250,1) 0%, rgba(250,250,250,1) 90%, rgba(250,250,250,0.25) 100%); /* Fade to navbar alpha */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    width: 100%; /* Ensure full width */
+}
+
+/* White Glow Effect - Now global */
+.hero-glow-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70vmax;
+    height: 70vmax;
+    max-width: 1000px; 
+    max-height: 1000px;
+    background-image: radial-gradient(circle, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.06) 30%, 
+        transparent 60%);
+    border-radius: 50%;
+    filter: blur(70px);
+    transform: translate(-50%, -50%); 
+    z-index: 1;
+    animation: animateWhiteGlow 35s infinite alternate ease-in-out;
+    will-change: transform, opacity;
+    pointer-events: none; /* Make sure it doesn't interfere with clicks */
+}
+
+@keyframes animateWhiteGlow {
+    0% {
+        transform: translate(-55%, -55%) scale(0.9);
+        opacity: 0.5;
+    }
+    25% {
+        transform: translate(-45%, -60%) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -45%) scale(1.05);
+        opacity: 0.55;
+    }
+    75% {
+        transform: translate(-60%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-55%, -55%) scale(0.9);
+        opacity: 0.5;
+    }
+}
+
+/* Keyframes for hero section gradient animation */
+@keyframes heroGradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Old blob keyframes removed */
+/*
+@keyframes moveBlobA { ... }
+@keyframes moveBlobB { ... }
+@keyframes moveBlobC { ... }
+@keyframes moveBlobD { ... }
+*/
+
+
+/* hero-content-top is removed, ... */
+
+/* START: Hero Carousel Styles */
+.hero-carousel-wrapper { 
+    width: 100%;
+    max-width: 1100px; 
+    height: 600px; 
+    margin: 0 auto 20px auto; 
+    position: relative; 
+    z-index: 2;
+    overflow: visible; 
+    border-radius: 15px;
+    display: flex; 
+    align-items: center; 
+    /* background-color: #fafafa; */ /* Removed from here */
+}
+
+.hero-carousel-slides {
+    display: flex; /* Keep flex for initial layout if needed, but items will be absolute */
+    width: 100%;
+    height: 100%;
+    position: relative; /* Needed for absolute positioning of slides */
+    /* transition: transform 0.5s ease-in-out; */ /* Remove if using opacity/position for transitions */
+}
+
+.hero-carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /* display: none; */ /* Remove direct display control */
+    display: flex; /* Keep flex for internal layout of slide content */
+    flex-direction: row; 
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    position: absolute; /* Position slides on top of each other */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.7s ease-in-out; /* Smooth fade transition */
+    visibility: hidden; /* Use visibility to prevent interaction with hidden slides */
+}
+
+.hero-carousel-slide.active {
+    /* display: flex; */ /* No longer needed here if always flex */
+    opacity: 1; /* Make active slide visible */
+    visibility: visible;
+    z-index: 1; /* Ensure active slide is on top if needed, though opacity usually handles it */
+}
+
+.slide-image-placeholder {
+    flex: 0 0 45%;
+    height: calc(100% - 40px);
+    max-height: 520px;
+    background-color: rgba(224, 224, 224, 0.7);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+/* Apply transform only to the image in the first carousel slide */
+.hero-carousel-slide:first-child .slide-image {
+    transform: translateX(80px); /* Move image to the right */
+}
+
+/* Positioning for the second carousel slide content */
+.hero-carousel-slide:nth-child(2) .slide-content {
+    transform: translate(80px, 120px); /* Move text 80px right and 120px down */
+}
+
+/* Positioning for the second carousel slide image */
+.hero-carousel-slide:nth-child(2) .slide-image {
+    transform: translate(-70px, 15px); /* Adjusted: 20px more left, 15px down */
+}
+
+/* Layout for the third carousel slide */
+.hero-carousel-slide:nth-child(3) {
+    justify-content: space-between; /* Distribute space between the three content blocks */
+    align-items: center; /* Vertically align items in the center */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-left,
+.hero-carousel-slide:nth-child(3) .slide-content-right {
+    flex: 1; /* Allow left and right content to take available space */
+    padding: 0 20px; /* Add some padding */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-left {
+    text-align: left;
+    transform: translate(130px, 0px); /* Changed from -100px to 0px to prevent upward shift */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-right {
+    text-align: right;
+    transform: translate(-70px, 90px); /* Move subline left and down */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-middle {
+    flex: 0 0 auto; /* Middle content (image + CTA) takes only its necessary width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-carousel-slide:nth-child(3) .slide-image {
+    height: 500px; /* New height to extend upwards */
+    width: auto;   /* Allow height to drive aspect ratio, up to max-width */
+    max-width: 300px; /* Slightly increased max-width */
+    transform: translateY(30px); /* Adjusted: -30px + 60px = 30px */
+    object-fit: contain; /* Ensure the whole image is visible and scales correctly */
+}
+
+/* Wrapper for the CTA in slide 3 to center it */
+.hero-carousel-slide:nth-child(3) .slide3-cta-wrapper {
+    text-align: center; /* Center the inline-block button */
+    margin-top: 15px; /* Space above the CTA */
+}
+
+.hero-carousel-slide:nth-child(3) .cta-button.slide-cta {
+    /* Specific styles for slide 3 CTA, if any, would go here. */
+    /* For now, it inherits from .cta-button.slide-cta */
+}
+
+.slide-image {
+    flex: 0 0 45%; /* Match placeholder flex basis */
+    height: auto;   /* Adjust height automatically */
+    max-height: calc(100% - 40px); /* Max height like placeholder */
+    object-fit: contain; /* Ensure whole image is visible */
+    border-radius: 10px; /* Optional: match placeholder's rounded corners */
+    background-color: transparent; /* Explicitly no background */
+    border: none; /* Explicitly no border */
+}
+
+.slide-content {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
+}
+
+.slide-headline {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: #034848;
+    margin-bottom: 15px;
+    /* Apply spotlight effect properties */
+    background: linear-gradient(
+        to right,
+        #034848 20%,
+        #66A5AA 50%, /* Lighter theme color as spotlight */
+        #034848 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: spotlight-effect 8s linear infinite;
+}
+
+.slide-subline {
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.cta-button.slide-cta {
+    background-color: #3d94a0; 
+    color: white;
+    padding: 12px 30px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none; /* Remove border outline */
+    animation: pulseCTA 2s infinite ease-in-out; /* Add pulsating animation */
+}
+
+.cta-button.slide-cta:hover {
+    background-color: #357f89;
+    transform: translateY(-1px);
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #034848;
+    border: 1px solid rgba(0,0,0,0.05);
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 18px;
+    line-height: 1;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: none; /* Hide arrow buttons */
+}
+
+.carousel-control:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #023535;
+    box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+}
+
+.carousel-control.prev {
+    left: 25px;
+}
+
+.carousel-control.next {
+    right: 25px; 
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.carousel-indicators span {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%; /* Keep as circle for inactive */
+    cursor: pointer;
+    transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+.carousel-indicators span.active {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 25px; /* Make active indicator wider */
+    border-radius: 5px; /* Make it pill-shaped (height/2) */
+}
+/* END: Hero Carousel Styles */
+
+/* START: Two-Box CTA Component Styles */
+.hero-two-box-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px; 
+    margin: 110px auto 0; /* Added 110px top margin, kept auto for horizontal centering */
+    padding: 0 20px; 
+    position: relative;
+    z-index: 2;
+}
+
+.cta-box {
+    flex: 1;
+    min-width: 280px;
+    background-color: rgba(255, 255, 255, 0.5); /* Frosted glass: semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass: blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass: blur effect for Safari */
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    border: 1px solid rgba(255,255,255,0.18); /* Lighter border for glass effect */
+}
+
+.box-placeholder-text {
+    font-size: 1.1rem;
+    color: #034848;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.cta-button.box-cta {
+    background-color: #034848;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none;
+    width: auto;
+    min-width: 180px;
+}
+
+.cta-button.box-cta:hover {
+    background-color: #023535;
+    transform: translateY(-1px);
+}
+
+/* END: Two-Box CTA Component Styles */
+
+/* --- START: Integrated Quiz Styles (from tarifrechner.html) --- */
+.cta-box.left #calculator {
+    background-color: rgba(255, 255, 255, 0.5); /* Frosted glass: semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass: blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass: blur effect for Safari */
+    border: 1px solid rgba(255,255,255,0.18); /* Lighter border for glass effect */
+    padding: 20px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+    max-width: 100%; 
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cta-box.left .step {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out, max-height 0.6s ease-in-out, margin-bottom 0.5s ease-in-out, padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out;
+    max-height: 900px; /* Increased to accommodate potentially taller steps */
+    overflow: hidden;
+    margin-bottom: 20px; /* Adjusted */
+    text-align: center;
+    border-top: 1px solid rgba(102, 165, 170, 0.2); /* Lighter border */
+    padding-top: 20px; /* Adjusted */
+}
+
+.cta-box.left .step:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.cta-box.left .step.hidden {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: none; /* Remove border when hidden */
+    overflow: hidden;
+}
+
+.cta-box.left .step p.question-text {
+    font-size: clamp(1rem, 2.5vw, 1.1rem); /* Responsive font size */
+    margin-bottom: 15px;
+    color: #034848;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.cta-box.left .input-wrapper {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.cta-box.left input[type="text"],
+.cta-box.left input[type="number"],
+.cta-box.left input[type="email"],
+.cta-box.left input[type="tel"],
+.cta-box.left input[type="date"],
+.cta-box.left textarea {
+    width: 90%; /* Adjusted width */
+    max-width: 320px;
+    padding: 10px 12px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    border-radius: 6px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.cta-box.left input:focus,
+.cta-box.left textarea:focus {
+    border-color: #3d94a0;
+    outline: none;
+}
+
+.cta-box.left ::placeholder {
+    color: #999; /* Adjusted placeholder color */
+    opacity: 1;
+}
+.cta-box.left :-ms-input-placeholder {
+    color: #999;
+}
+.cta-box.left ::-ms-input-placeholder {
+    color: #999;
+}
+
+.cta-box.left .options {
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+    width: auto;
+    max-width: 100%; /* Allow options to take more width if needed */
+}
+
+.cta-box.left .options label {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(102, 165, 170, 0.3);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+
+.cta-box.left .options input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    transform: scale(1.05);
+}
+
+.cta-box.left .options label:hover {
+    background-color: rgba(230, 240, 241, 0.7); /* Lighter hover from theme */
+    border-color: rgba(102, 165, 170, 0.5);
+}
+
+.cta-box.left .options input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #034848;
+}
+
+/* Style for the label when its radio is checked */
+.cta-box.left .options input[type="radio"]:checked ~ label,
+.cta-box.left .options label:has(input[type="radio"]:checked) { /* Modern browsers */
+    background-color: rgba(179, 212, 216, 0.7); /* Light teal from theme */
+    border-color: #3d94a0;
+}
+
+
+.cta-box.left .form-group {
+    margin-bottom: 12px;
+    text-align: left;
+}
+.cta-box.left .form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #444; /* Darker label text */
+    font-size: clamp(0.85rem, 1.8vw, 0.9rem);
+}
+
+.cta-box.left .address-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.cta-box.left .address-group .street { flex: 3 1 58%; } /* Adjusted flex */
+.cta-box.left .address-group .hausnummer { flex: 1 1 30%; }
+.cta-box.left .address-group .plz { flex: 1 1 35%; }
+.cta-box.left .address-group .stadt { flex: 2 1 50%; }
+
+.cta-box.left .address-group input {
+    width: 100%; /* Inputs take full width of their flex item */
+}
+
+.cta-box.left .button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px; /* More rounded to match CTA style */
+    color: white;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+    min-width: 90px;
+}
+
+.cta-box.left .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.cta-box.left .button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.cta-box.left #description-screen p,
+.cta-box.left #final-screen p {
+    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #333;
+}
+.cta-box.left #description-screen ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+}
+.cta-box.left #description-screen ul li {
+    margin-bottom: 6px;
+    padding-left: 18px;
+    position: relative;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+.cta-box.left #description-screen ul li::before {
+    content: "✓";
+    color: #3d94a0;
+    font-weight: bold;
+    margin-right: 8px;
+    margin-left: -20px;
+    position: absolute;
+}
+
+.cta-box.left #final-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3d94a0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cta-box.left .error-message {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.cta-box.left .button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-box.left .back-button {
+    background: #6c757d;
+}
+
+.cta-box.left .back-button:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+.cta-box.left .next-button {
+    background: linear-gradient(135deg, #3d94a0, #66a5aa);
+}
+
+.cta-box.left .next-button:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(61, 148, 160, 0.4);
+}
+
+@media (max-width: 600px) {
+    .cta-box.left #calculator {
+        padding: 20px;
+    }
+
+    .cta-box.left .button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .cta-box.left .button-group {
+        flex-direction: column;
+    }
+    .cta-box.left .step p.question-text {
+        font-size: 16px;
+    }
+    .cta-box.left input[type="text"],
+    .cta-box.left select {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .cta-box.left .address-group {
+        flex-direction: column;
+    }
+    .cta-box.left .address-group .street,
+    .cta-box.left .address-group .hausnummer,
+    .cta-box.left .address-group .plz,
+    .cta-box.left .address-group .stadt {
+        flex: none;
+        width: 100%;
+    }
+}
+
+.cta-box.left {
+    min-height: 300px; 
+    padding: 30px 20px 20px 20px; 
+}
+
+
+/* --- END: Integrated Quiz Styles --- */
+
+/* --- START: Comparison Table Styles --- */
+.comparison-table-section {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: transparent; /* Changed from #f9f9f9 */
+}
+
+.comparison-table-section h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #034848;
+}
+
+.comparison-table-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto; /* Enable horizontal scrolling on smaller screens */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative; /* For pseudo-element indicator */
+}
+
+/* Visual cue for scrollable table on mobile */
+@media (max-width: 768px) {
+    .comparison-table-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+    .comparison-table-wrapper::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 3px;
+    }
+    .comparison-table-wrapper::after {
+        content: '\2192 Scroll for more'; /* Right arrow + text */
+        position: absolute;
+        top: 50%;
+        right: -20px; /* Initially hide it a bit to suggest it's off-screen */
+        transform: translateY(-50%) rotate(90deg);
+        background-color: rgba(61, 148, 160, 0.8);
+        color: white;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 0.7em;
+        opacity: 0;
+        transition: opacity 0.3s, right 0.3s;
+        pointer-events: none; /* So it doesn't interfere with scroll */
+        writing-mode: vertical-rl; /* If text should be vertical */
+        display: none; /* Let's hide it for now, can be reactivated if needed, as it might be too intrusive */
+    }
+    .comparison-table-wrapper.is-scrollable::after {
+        /* Only show if JS adds 'is-scrollable' and content actually overflows */
+        /* For now, relying on native scrollbars */
+    }
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Minimum width before horizontal scrolling kicks in */
+    background-color: rgba(220, 220, 220, 0.15); /* Light grey semi-transparent background */
+    border-radius: 8px; /* Match wrapper for a contained glass look */
+    overflow: hidden; /* Ensures border-radius clips content like background */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+thead {
+    /* background-color: rgba(3, 72, 72, 0.1); */ /* Removed old background */
+    background-color: rgba(3, 72, 72, 0.2); /* Darker teal semi-transparent background for header */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(102, 165, 170, 0.2); /* Subtle border for rows */
+    border-right: 1px solid rgba(102, 165, 170, 0.1); /* Subtle vertical line */
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    color: #333;
+}
+
+th:last-child,
+td:last-child {
+    border-right: none; /* Remove right border for the last column */
+}
+
+/* Darker background for the first cell in the header row */
+thead th:first-child {
+    background-color: rgba(0, 0, 0, 0.05); /* Slightly darker transparent grey */
+}
+
+th {
+    font-weight: 600;
+    color: #034848;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    text-align: center; /* Center align header text */
+}
+
+tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+tbody tr:nth-child(even) {
+    /* background-color: rgba(255, 255, 255, 0.1); */ /* Removed old background */
+}
+
+tbody tr:hover {
+    background-color: rgba(179, 212, 216, 0.3); /* Light teal hover from theme */
+}
+
+/* Specific column styling if needed */
+td:nth-child(1) { /* Leistung column */
+    font-weight: 500;
+    color: #034848;
+    background-color: rgba(0, 0, 0, 0.05); /* Slightly darker transparent grey for first column data cells */
+}
+
+td:nth-child(2) { /* Barmenia column */
+    font-weight: 600; /* Increased font weight */
+}
+
+td:not(:first-child) {
+    text-align: center; /* Center text for data columns */
+}
+
+@media (max-width: 768px) {
+    .comparison-table-section {
+        width: 95%;
+        margin: 40px auto;
+    }
+    .comparison-table-section h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: 30px;
+    }
+    .comparison-table-wrapper {
+        padding: 15px;
+    }
+    th, td {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comparison-table-section h2 {
+        font-size: clamp(1.3rem, 6vw, 1.8rem);
+    }
+    th, td {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+        padding: 8px 10px;
+    }
+}
+/* --- END: Comparison Table Styles --- */
+
+@media (max-width: 768px) {
+    .hero-section {
+        /* padding: 0 15px 40px 15px; // Already set */
+        margin-top: -105px; /* Moved up by 125px (from 20px) */
+        padding-bottom: 150px; /* Ensure enough space for carousel + indicators */
+        background: linear-gradient(to top, rgba(250,250,250,1) 0%, rgba(250,250,250,1) 90%, rgba(250,250,250,0.25) 100%); /* Match navbar frost for mobile */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+
+    .hero-content-top {
+        padding-top: 40px;
+        margin-bottom: 30px;
+    }
+
+    .hero-main-headline {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .hero-subheadline {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        max-width: 100%;
+    }
+
+    .hero-cta-primary .cta-button.primary {
+        padding: 12px 30px;
+        font-size: clamp(0.95rem, 3.5vw, 1rem);
+    }
+    
+    .hero-cta-secondary-group {
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hero-cta-secondary-group .cta-separator {
+        display: none;
+    }
+
+    .hero-carousel-wrapper {
+        /* padding: 15px; // Already set */
+        /* margin-bottom: 40px; // Already set */
+        height: 480px; /* Set a fixed height for mobile, adjust as needed */
+        /* max-width: 100%; // Already set */
+        /* overflow: hidden; // Already set */
+        background-color: transparent; /* Ensure no conflicting background */
+    }
+    .hero-carousel-slide {
+        flex-direction: column; /* Content within slide stacks vertically */
+        /* text-align: center; // Already set */
+        /* The following ensure slides are properly layered for fade effect */
+        position: absolute; /* Ensure it overrides any accidental relative positioning */
+        opacity: 0; /* Default to hidden, active class will override */
+        visibility: hidden; /* Default to hidden, active class will override */
+        width: 100%; /* Take full width of the .hero-carousel-slides container */
+        height: 100%; /* Take full height of the .hero-carousel-slides container */
+        top: 0;
+        left: 0;
+        /* padding and gap for the content inside the slide */
+        padding: 20px; 
+        gap: 15px; 
+    }
+
+    /* Reset transforms for specific slide elements on mobile */
+    .hero-carousel-slide:first-child .slide-image,
+    .hero-carousel-slide:nth-child(2) .slide-content,
+    .hero-carousel-slide:nth-child(2) .slide-image,
+    .hero-carousel-slide:nth-child(3) .slide-content-left,
+    .hero-carousel-slide:nth-child(3) .slide-content-right,
+    .hero-carousel-slide:nth-child(3) .slide-image {
+        transform: none !important; /* Reset all transforms */
+        margin: 10px auto; /* Add some margin for spacing */
+    }
+
+    .slide-image {
+        flex: 0 0 auto; /* Don't grow or shrink, use explicit size */
+        width: 80%;     /* Adjust width for mobile */
+        max-width: 300px; /* Max width for images */
+        height: auto;   /* Maintain aspect ratio */
+        max-height: 250px; /* Max height for images on mobile */
+        object-fit: contain;
+    }
+
+    .slide-content {
+        text-align: center;
+        padding-right: 0; /* Remove desktop padding */
+        width: 100%;
+    }
+
+    .slide-headline {
+        font-size: clamp(1.3rem, 5vw, 1.8rem); /* Smaller font for mobile */
+        margin-bottom: 10px;
+    }
+
+    .slide-subline {
+        font-size: clamp(0.8rem, 3.5vw, 1rem); /* Smaller font for mobile */
+        margin-bottom: 15px;
+    }
+
+    .cta-button.slide-cta {
+        padding: 10px 20px; /* Smaller padding */
+        font-size: 0.9rem; /* Smaller font */
+    }
+
+    /* Mobile layout for slide 3 */
+    .hero-carousel-slide:nth-child(3) {
+        justify-content: flex-start; /* Changed from center to allow top alignment */
+    }
+    .hero-carousel-slide:nth-child(3) .slide-content-left,
+    .hero-carousel-slide:nth-child(3) .slide-content-middle,
+    .hero-carousel-slide:nth-child(3) .slide-content-right {
+        flex: 1 1 100%; /* Each takes full width */
+        /* padding: 10px 0; Removed to be handled by specific rule for .slide-content-left */
+        text-align: center;
+    }
+    .hero-carousel-slide:nth-child(3) .slide-image {
+        order: -1; /* Optionally move image to top for this slide */
+        margin-bottom: 15px; /* Space below image */
+    }
+
+    /* Add specific padding-top for slide 3 left content on mobile */
+    .hero-carousel-slide:nth-child(3) .slide-content-left {
+        padding-top: 40px; /* Replaced margin-top with padding-top */
+        padding-bottom: 10px; /* Maintain some bottom padding */
+        /* text-align: center; /* Ensure text remains centered if not inherited */
+    }
+
+    .hero-carousel-slide:nth-child(3) .slide3-cta-wrapper {
+        margin-top: 10px;
+    }
+
+    .carousel-control {
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+    .carousel-control.prev {
+        left: 10px;
+    }
+    .carousel-control.next {
+        right: 10px;
+    }
+    .carousel-indicators {
+        bottom: -128px; /* Moved down by 88px (from previous -40px) */
+        /* left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; */
+        /* These are already set in the general styles, only bottom is changed for mobile */
+    }
+    .hero-two-box-cta {
+        /* gap: 20px; // Already set */
+        padding: 0 15px; /* Consistent padding for the container */
+        /* flex-direction: column; // Already set */
+        /* align-items: center; // Already set */
+        width: 100%; /* Ensure the container itself spans full width to use its padding effectively */
+        box-sizing: border-box; /* Include padding in the 100% width calculation */
+        /* margin-top: 150px; */ /* Increased from 40px to 150px (40 + 110) */ 
+        /* The hero-section padding-bottom will create space, this margin might be excessive or can be reduced */
+        margin-top: 20px; /* Reduce margin-top as hero-section now has padding-bottom */
+    }
+    .cta-box {
+        /* padding: 20px; // Already set */
+        width: 100%; /* Make boxes take full width of the padded parent */
+        /* max-width: 500px; // This can be kept if you want to cap box size even on wider mobile screens */
+        /* min-width: 0; // Already set */
+        box-sizing: border-box; /* Include padding in the box's own width calculation if it has internal padding */
+    }
+
+    /* Adjust text sizes within CTA boxes for mobile */
+    .cta-box .quiz-intro-text,
+    .cta-box .chat-intro-text {
+        font-size: 16px; /* Slightly smaller intro text */
+        margin-bottom: 15px;
+    }
+
+    .cta-box .chat-assistant-image {
+        max-width: 120px; /* Adjust image size for mobile context */
+        margin-bottom: 15px;
+    }
+
+    .cta-button.box-cta {
+        padding: 10px 25px;
+        width: 100%; /* Buttons already set to 100% width in this MQ */
+        font-size: 0.95rem;
+    }
+}
+/* --- END: New Hero Section (Rebuilt) --- */
+
+/* --- Global Keyframes (if not already defined) --- */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+} 
+
+/* --- START: Old Hero Section Styles (Commented Out) --- */
+/*
+.new-hero {
+    padding: 40px 0; 
+    min-height: 60vh;
+    display: flex;
+    align-items: center; 
+}
+
+.hero-container {
+    display: flex;
+    flex-wrap: wrap; 
+    width: 90%; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    gap: 30px; 
+}
+
+.hero-left,
+.hero-right {
+    flex: 1; 
+    min-width: 300px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+}
+
+.hero-left {
+    text-align: left; 
+}
+
+.hero-headline {
+    margin: 0; 
+    padding: 0; 
+    font-size: clamp(2rem, 5vw, 3.5rem); 
+    line-height: 1.2;
+}
+
+.hero-right {
+    align-items: center; 
+}
+
+.hero-placeholder {
+    border: 2px dashed #ccc; 
+    padding: 50px;
+    text-align: center;
+    color: #aaa;
+    width: 80%; 
+    max-width: 400px;
+    background-color: rgba(230, 240, 241, 0.5); 
+    border-radius: 10px;
+}
+*/
+/* Keyframes for the spotlight animation - THIS IS STILL USED BY .highlight */
+@keyframes spotlight-effect {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
+
+/* Responsive adjustments for the hero */
+/*
+@media (max-width: 768px) {
+    .hero-container {
+        flex-direction: column; 
+        width: 95%;
+        gap: 20px;
+        padding-top: 20px; 
+        padding-bottom: 20px; 
+    }
+    .hero-left {
+        text-align: left; 
+        order: 1; 
+    }
+    .hero-right {
+        order: 2; 
+    }
+    .hero-headline {
+        font-size: clamp(1.9rem, 6vw, 2.6rem); 
+    }
+    .hero-placeholder {
+        width: 90%;
+        padding: 30px;
+    }
+    .new-hero {
+        min-height: auto; 
+        padding: 30px 0;
+    }
+}
+*/
+/* --- END: Old Hero Section Styles (Commented Out) --- */ 
+
+/* --- START: Old Hero CTA Styles (Commented Out) --- */
+/*
+.hero-cta-group {
+    display: flex;
+    flex-direction: column; 
+    gap: 25px; 
+    width: 100%; 
+    align-items: center; 
+}
+
+.hero-cta-item {
+    background-color: rgba(255, 255, 255, 0.4); 
+    border-radius: 12px;
+    padding: 20px 25px;
+    width: 85%; 
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(102, 165, 170, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.hero-cta-item .cta-headline { 
+    color: #034848; 
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 15px 0; 
+}
+
+.hero-cta-button {
+    background-color: #3d94a0; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.hero-cta-button:hover {
+    background-color: #357f89; 
+    transform: translateY(-2px); 
+}
+
+@media (max-width: 768px) {
+    .hero-cta-group {
+        gap: 20px; 
+    }
+    .hero-cta-item {
+        width: 95%;
+        padding: 15px 20px;
+    }
+}
+*/
+/* --- END: Old Hero CTA Styles (Commented Out) --- */ 
+
+/* Chat Popup Styles (Desktop Only) */
+#chat-popup-wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.4);
+   display: none;
+   justify-content: center;
+   align-items: center;
+   z-index: 1050 !important;
+   backdrop-filter: blur(5px);
+}
+
+#chat-popup-wrapper .chat-container {
+   position: relative;
+   max-width: 600px;
+   max-height: 80vh;
+   width: 90%;
+   background-color: rgba(248, 249, 250, 0.95);
+   backdrop-filter: blur(12px);
+   -webkit-backdrop-filter: blur(12px);
+   border-radius: 20px;
+   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+   display: flex;
+   flex-direction: column;
+   overflow: hidden;
+   border: 1px solid rgba(102, 165, 170, 0.3);
+   cursor: move;
+}
+
+/* Chat Header */
+#chat-popup-wrapper .chat-header {
+   padding: 20px 25px;
+   background: linear-gradient(135deg, #3d94a0, #66a5aa);
+   color: white;
+   border-radius: 20px 20px 0 0;
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+#chat-popup-wrapper .chat-header h3 {
+   margin: 0;
+   font-size: 18px;
+   font-weight: 600;
+   text-align: center;
+}
+
+/* Ensure chat box within popup scrolls */
+#chat-popup-wrapper .chat-box {
+   height: calc(100% - 100px); /* Reduced from 150px to 100px to give more space to chat box */
+   max-height: none; /* Remove max-height constraint to allow full dynamic sizing */
+   overflow-y: auto; /* Ensure scrolling when content exceeds available space */
+}
+
+#closeChatPopup {
+   position: absolute;
+   top: 50%;
+   right: 20px;
+   transform: translateY(-50%);
+   background: rgba(255, 255, 255, 0.2);
+   border: none;
+   border-radius: 50%;
+   width: 32px;
+   height: 32px;
+   font-size: 20px;
+   font-weight: bold;
+   color: white;
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   line-height: 1;
+   transition: all 0.2s ease;
+   z-index: 1051;
+   backdrop-filter: blur(4px);
+}
+
+#closeChatPopup:hover {
+   background: rgba(255, 255, 255, 0.3);
+   transform: translateY(-50%) scale(1.05);
+}
+
+/* Chat Input Container - New Rounded Design */
+#chat-popup-wrapper .chat-input-container {
+   padding: 10px 20px; /* Reduced vertical padding from 15px to 10px for more compact design */
+   background: transparent;
+   display: flex;
+   align-items: center; /* Ensure vertical centering */
+   justify-content: center; /* Ensure horizontal centering */
+   gap: 12px;
+   margin-top: 10px; /* Greatly reduced from 70px to 10px to make container more compact */
+   min-height: 50px; /* Ensure container is at least as tall as send button */
+}
+
+#chat-popup-wrapper .chat-input {
+   flex: 1;
+   background: rgba(255, 255, 255, 0.9);
+   backdrop-filter: blur(8px);
+   -webkit-backdrop-filter: blur(8px);
+   border: 2px solid rgba(61, 148, 160, 0.2);
+   border-radius: 25px;
+   padding: 0 20px; /* Removed vertical padding to let height control sizing */
+   display: flex;
+   align-items: center; /* Center the content within this box */
+   height: 50px; /* Match send button height for perfect alignment */
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+   transition: all 0.3s ease;
+   cursor: text; /* Make the entire input area clickable */
+   pointer-events: auto; /* Ensure it can receive clicks */
+   margin: 0; /* Explicit margin reset for perfect alignment */
+}
+
+#chat-popup-wrapper .chat-input:focus-within {
+   border-color: #3d94a0;
+   box-shadow: 0 4px 15px rgba(61, 148, 160, 0.15);
+   /* transform: translateY(-1px); */ /* Removed to prevent misalignment */
+}
+
+/* Popup Chat Input Field */
+#chat-popup-wrapper .chat-input-field {
+   background: transparent !important;
+   border: none !important;
+   outline: none !important;
+   color: #333 !important;
+   font-size: 16px;
+   line-height: 1.4;
+   width: 100%;
+   min-height: 1.2em; /* Changed from auto to guarantee clickable height */
+   padding: 0;
+   resize: none;
+   font-family: 'Montserrat', sans-serif;
+   cursor: text !important; /* Ensure text cursor in input field */
+   pointer-events: auto !important; /* Explicitly enable pointer events */
+   z-index: 10; /* Ensure it's above other elements */
+   position: relative; /* Ensure proper positioning context */
+   
+   /* Perfect vertical centering for 50px height */
+   display: flex !important;
+   align-items: center; /* Center text vertically within the 50px height */
+   
+   /* Enhanced contenteditable support */
+   -webkit-user-select: text !important;
+   -moz-user-select: text !important;
+   -ms-user-select: text !important;
+   user-select: text !important;
+   
+   /* Ensure the field can be focused and typed in */
+   -webkit-touch-callout: default;
+   -webkit-user-modify: read-write-plaintext-only;
+   
+   /* Prevent any transforms or effects that might interfere */
+   transform: none !important;
+   transition: none !important;
+   
+   /* Ensure proper display for contenteditable */
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+}
+
+/* Popup Chat Input Field Placeholder */
+#chat-popup-wrapper .chat-input-field:empty::before {
+   content: attr(placeholder);
+   color: #999;
+   font-weight: 400;
+   pointer-events: none !important; /* Crucial: Make placeholder non-interactive */
+   position: absolute; /* Position it within the input field */
+   top: 0; /* Align to top of input field */
+   left: 0; /* Align to left of input field */
+   width: 100%; /* Span full width */
+   height: 100%; /* Span full height */
+   display: flex; /* To align text vertically */
+   align-items: center; /* Center placeholder text vertically */
+   /* The input field itself has padding: 0; */
+   /* The parent .chat-input has padding: 15px 20px; */
+   /* We need to make sure the placeholder text respects the parent's padding */
+   /* However, since the ::before is on .chat-input-field which has no padding, */
+   /* we don't add padding here directly. The text will start at the edge. */
+   /* If .chat-input-field gets padding later, this might need adjustment. */
+}
+
+/* Send Button */
+#chat-popup-wrapper .chat-send-btn {
+   background: linear-gradient(135deg, #3d94a0, #66a5aa);
+   color: white;
+   border: none;
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+   box-shadow: 0 4px 12px rgba(61, 148, 160, 0.3);
+   transition: all 0.3s ease;
+   flex-shrink: 0;
+   margin: 0; /* Explicit margin reset for perfect alignment */
+}
+
+#chat-popup-wrapper .chat-send-btn:hover {
+   transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 6px 20px rgba(61, 148, 160, 0.4);
+}
+
+#chat-popup-wrapper .chat-send-btn:active {
+   transform: translateY(0) scale(0.98);
+}
+
+#chat-popup-wrapper .chat-send-btn i {
+   font-size: 18px;
+}
+
+/* Cookie consent needs to be above glow, but below popups typically */
+.cookie-consent {
+    /* ... existing styles ... */
+    position: fixed; /* Or sticky */
+    z-index: 999; /* Below navbar/chat popups but above general content and glow */
+    background: rgba(255, 255, 255, 0.7); /* Example: It needs its own background */
+    /* backdrop-filter: blur(10px); */ /* Keep if desired */
+}
+
+/* Reset background for .mobile-card if it was made transparent by a broader rule earlier */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .mobile-card {
+        /* width: 85vw; */ /* keep existing width rules */
+        /* max-width: 420px; */
+        /* background: transparent; */ /* REMOVE if mobile cards should have their own background */
+        /* position: relative; */
+        /* z-index: 2; */
+        /* Re-apply its intended background if it was a card with its own bg */
+         background-color: rgba(255, 255, 255, 0.1); /* Example if it was a card */
+         backdrop-filter: blur(15px); /* Example */
+         /* It should already be display:flex from previous rules, or adjust as needed */
+    }
+} 
+
+/* New keyframes for CTA pulsation */
+@keyframes pulseCTA {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+    100% {
+        transform: scale(1);
+    }
+} 
+
+.cta-box.left {
+    /* Ensures the box has a minimum height if content is small */
+    min-height: 300px; 
+    /* Adjusted padding to accommodate the quiz better */
+    padding: 30px 20px 20px 20px; 
+}
+
+.quiz-intro-text {
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Styles for the calculator container within the left CTA box */
+#calculator { /* Styles for the calculator itself from tarifrechner.html moved here */
+    background: rgba(255, 255, 255, 0.3); /* Reduced opacity for gradient visibility */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px; /* Max width for the calculator */
+    text-align: center;
+    margin-top: 20px; /* Add some top margin if needed */
+    margin-bottom: 20px; /* Add some bottom margin */
+}
+
+.chat-intro-text {
+    color: #333; /* Same as quiz-intro-text */
+    font-size: 18px; /* Same as quiz-intro-text */
+    font-weight: 600; /* Same as quiz-intro-text */
+    margin-bottom: 10px; /* Adjusted margin */
+    text-align: center;
+}
+
+.chat-subline-text {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.chat-assistant-image {
+    display: block;
+    max-width: 200px; /* Increased size from 150px */
+    height: auto;
+    margin: 0 auto 25px auto; /* Center image and increased margin below */
+    border-radius: 50%; /* Optional: if the image is suitable for a circle */
+} 
+
+/* --- START: Tariff Plans Section Styles --- */
+.tariff-plans-section {
+    padding: 50px 20px;
+    background-color: transparent; /* Changed from #ffffff */
+}
+
+.tariff-plans-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2em;
+    color: #034848;
+}
+
+.tariff-plans-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    justify-content: center;
+    gap: 30px;
+}
+
+.tariff-plan-column {
+    flex: 1;
+    position: relative;
+    background: rgba(255, 255, 255, 0.3); /* Reduced opacity for gradient visibility */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 30px 20px;
+    margin: 15px;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tariff-plan-column:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.tariff-plan-column h3 {
+    font-size: 1.6em;
+    color: #3d94a0;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.tariff-details-group {
+    margin-bottom: 20px;
+    flex-grow: 1; /* Allow groups to take available space, helping alignment */
+}
+
+.tariff-details-group h4 {
+    font-size: 1.1em;
+    color: #034848;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    /* text-align: left; /* Reset if previously set, or ensure it's not centered if desired */
+}
+
+.tariff-details-group p,
+.tariff-details-group ul li {
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 8px;
+    /* text-align: left; /* REMOVE general left-alignment here */
+}
+
+.tariff-details-group ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 5px;
+    /* text-align: left; /* REMOVE general left-alignment here */
+}
+
+/* NEW: Specific styles for the extras list */
+.extras-list {
+    text-align: left; /* Ensure the UL block itself is left-aligned */
+    /* If you want the UL to only take width of its content and be flush left:
+    display: inline-block; 
+    margin-left: 0; 
+    */
+}
+
+.extras-list li {
+    text-align: left; /* Ensure list items are left-aligned */
+}
+
+.tariff-details-group strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.example-item {
+    background-color: #BBDADD;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+}
+
+.example-item h5 {
+    font-size: 1em;
+    color: #034848;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.example-item p {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+.example-item p strong {
+    color: #e74c3c; /* Highlight the cost */
+}
+
+.recommendation-badge {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    transform: rotate(5deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.cta-button.tariff-plan-cta {
+    display: block; /* Or inline-block */
+    width: calc(100% - 50px); /* Full width minus padding */
+    max-width: 250px; /* Max width for the button */
+    text-align: center;
+    padding: 12px 20px;
+    background-color: #3d94a0; /* Theme color */
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 20px auto 0 auto; /* Auto margins for centering block/inline-block */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    position: absolute; /* Position at the bottom */
+    bottom: 25px; /* Distance from bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+}
+
+.cta-button.tariff-plan-cta:hover {
+    background-color: #357f89; /* Darker shade on hover */
+    transform: translateX(-50%) scale(1.03);
+}
+
+/* Responsive adjustments for tariff plans */
+@media (max-width: 1024px) {
+    .tariff-plans-container {
+        /* flex-direction: column; /* Removed, flex-wrap will handle it */
+        /* align-items: center; */ /* Removed, justify-content: center is better */
+    }
+    .tariff-plan-column {
+        flex-basis: calc(50% - 15px); /* Two columns on medium screens, considering gap */
+        max-width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .tariff-plans-section {
+        padding: 30px 15px;
+    }
+    .tariff-plans-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+    .tariff-plans-container {
+        flex-direction: column; /* Stack vertically on small screens */
+        align-items: center; /* Center cards when stacked */
+    }
+    .tariff-plan-column {
+        width: 90%; 
+        max-width: 400px; /* Can adjust this based on preference */
+        margin-left: auto; /* Center the card */
+        margin-right: auto; /* Center the card */
+        margin-bottom: 30px; /* Increased bottom margin for spacing */
+        flex-basis: auto; 
+        position: relative; 
+        padding-bottom: 80px; /* Adjust if CTA needs more space on mobile */
+    }
+    .tariff-plan-column:last-child {
+        margin-bottom: 0;
+    }
+    .tariff-plan-column h3 {
+        font-size: 1.5em;
+    }
+    .recommendation-badge {
+        font-size: 0.8em;
+        padding: 5px 10px;
+        top: -12px;
+        right: 15px;
+    }
+    .cta-button.tariff-plan-cta {
+        /* Mobile specific adjustments if needed, but current should work well */
+        /* For example, ensure it doesn't get too wide: */
+        width: 80%; 
+        max-width: 280px; 
+        padding: 14px 20px; /* Slightly larger tap target */
+        bottom: 20px; /* Adjust bottom position for mobile if needed */
+    }
+}
+/* --- END: Tariff Plans Section Styles --- */
+
+/* --- START: Tarifrechner Page Specific Styles --- */
+.calculator-page-wrapper {
+    background: transparent !important; /* Ensure transparency */
+    padding: 40px 20px;
+    min-height: calc(100vh - 120px); /* Full height minus navbar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#calculator { /* Styles for the calculator itself from tarifrechner.html moved here */
+    background: rgba(255, 255, 255, 0.3); /* Reduced opacity for gradient visibility */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px; /* Max width for the calculator */
+    text-align: center;
+    margin-top: 20px; /* Add some top margin if needed */
+    margin-bottom: 20px; /* Add some bottom margin */
+}
+/* --- END: Tarifrechner Page Specific Styles --- */
+
+/* Tariff Plan Column Specific Text Colors */
+.gesamtkosten-label,
+.gesamtkosten-value {
+    color: red;
+}
+
+.eigenanteil-label,
+.eigenanteil-value {
+    color: green;
+}
+
+/* Styles for the CTA button inside tariff plan columns */
+.tariff-plan-cta {
+    display: block;
+    width: calc(100% - 40px); /* Adjust width considering padding */
+    margin: 20px auto 0;
+    padding: 12px 20px;
+    background-color: #034848; /* Dark green */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tariff-plan-cta:hover {
+    background-color: #023535; /* Slightly darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* --- END: Tariff Plans Section --- */
+
+.mobile-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 85%;
+    margin: 0 auto 30px;
+    position: relative;
+    max-width: 380px;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    background: rgba(255, 255, 255, 0.3); /* Reduced opacity for gradient visibility */
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 15px;
+}
+
+/* Resetting individual slide transforms for mobile if they cause issues */
+.hero-carousel-slide:first-child .slide-image,
+.hero-carousel-slide:nth-child(2) .slide-content,
+.hero-carousel-slide:nth-child(2) .slide-image,
+.hero-carousel-slide:nth-child(3) .slide-content-left,
+.hero-carousel-slide:nth-child(3) .slide-content-right,
+.hero-carousel-slide:nth-child(3) .slide-image {
+    transform: none !important; /* Reset all transforms */
+    margin: 10px auto; /* Add some margin for spacing */
+}
+
+.hero-carousel-slide:nth-child(3) .slide-content-left,
+.hero-carousel-slide:nth-child(3) .slide-content-right {
+    flex: 0 1 auto; /* Allow them to shrink and not force width */
+    text-align: center; /* Center text for mobile */
+    padding: 0 10px; /* Add some horizontal padding */
+    margin-top: 20px; /* Added to push content down on mobile */
+}
+
+/* Specific styling for the image in slide 3 on mobile */
+.hero-carousel-slide:nth-child(3) .slide-image {
+    order: -1; /* Optionally move image to top for this slide */
+    margin-bottom: 15px; /* Space below image */
+}
+
+/* Add specific margin-top for slide 3 left content on mobile */
+.hero-carousel-slide:nth-child(3) .slide-content-left {
+    margin-top: 30px; /* Push this content block down further */
+}
+
+.hero-carousel-slide:nth-child(3) .slide3-cta-wrapper {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    
+    body {
+        padding-top: 60px; /* Add padding to body for fixed navbar */
+    }
+    
+    .content-wrapper {
+        margin-top: 0; /* Content wrapper starts below the navbar padding */
+    }
+    
+    .hero-section {
+        margin-top: 0; /* Remove extra margin since we have body padding */
+        /* The hero-section will now start right below the fixed navbar */
+    }
+    
+    .navbar {
+        background: rgba(159, 203, 207, 0.15); /* More transparent for gradient visibility */
+        backdrop-filter: blur(5px); /* Add blur effect */
+        -webkit-backdrop-filter: blur(5px); /* For Safari support */
+        position: fixed; /* Make navbar fixed */
+        top: 0; /* Stick to top */
+        left: 0; /* Start from left edge */
+        right: 0; /* Extend to right edge */
+        width: 100%; /* Full width */
+        height: 60px; /* Fixed height for consistency */
+        z-index: 1000; /* Above other content */
+        display: flex !important; /* Use flexbox for mobile layout */
+        align-items: center !important;
+        justify-content: space-between !important; /* Space between hamburger, logos, and CTA */
+        padding: 0 15px !important; /* Add horizontal padding */
+        box-sizing: border-box;
+    }
+
+    .navbar .hamburger-btn {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 1010;
+        order: 1; /* First item on the left */
+    }
+
+    .navbar .hamburger-btn span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #034848;
+        border-radius: 3px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Hamburger animation to X */
+    .navbar .hamburger-btn.open span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+    }
+    .navbar .hamburger-btn.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .navbar .hamburger-btn.open span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+    }
+
+    /* Center logo container */
+    .navbar .logo-container {
+        position: static !important; /* Remove absolute positioning */
+        display: flex !important;
+        align-items: center !important;
+        gap: 0 !important;
+        order: 2; /* Second item in the center */
+        flex: 1 !important; /* Take remaining space */
+        justify-content: center !important; /* Center the logos */
+        line-height: 0 !important; /* Add this to remove line-height spacing */
+    }
+
+    .navbar .logo {
+        height: 80px !important; /* Increased from 45px for maximum mobile size */
+        width: auto !important; 
+        position: static !important; /* Remove absolute positioning */
+        transform: none !important; /* Remove transforms */
+        margin: 0 !important;
+        padding: 0 !important; /* Add padding: 0 */
+        display: block !important; /* Add display: block */
+        vertical-align: top !important; /* Add vertical-align: top */
+    }
+
+    .navbar .logo-barmenia {
+        height: 43px !important; /* Current user-set height */
+        width: auto !important;
+        position: static !important;
+        transform: none !important;
+        margin: 0 !important; /* Ensures no other margins interfere */
+        margin-left: -31px !important; /* Adjusted from -85px to move right by 54px */
+        padding: 0 !important;
+        display: block !important;
+        vertical-align: top !important;
+    }
+
+    .navbar .calendly-button {
+        display: flex !important; 
+        align-items: center !important; 
+        justify-content: center !important;
+        order: 3; /* Third item on the right */
+        padding: 8px 12px !important;
+        font-size: 0.75rem !important;
+        white-space: nowrap !important; 
+        min-width: 45px !important;
+        min-height: 45px !important;
+        position: static !important; /* Remove absolute positioning */
+        transform: none !important; /* Remove transforms */
+    }
+
+    /* Mobile-specific calendly button styles - Override desktop styles */
+    .navbar .calendly-button .calendly-button-text {
+        display: none !important; /* Hide text on mobile */
+    }
+    
+    .navbar .calendly-button .calendly-button-icon {
+        display: inline-block !important; /* Show icon on mobile */
+        stroke: white !important; /* Ensure icon stroke is white */
+    }
+
+    /* Mobile menu styles */
+    .mobile-menu {
+        width: 100%;
+        left: 0;
+        top: 60px; /* Position below the fixed navbar */
+        height: calc(100vh - 60px); /* Full height minus navbar */
+        position: fixed; /* Fixed position for overlay */
+        background-color: rgba(159, 203, 207, 0.9); /* Semi-transparent background */
+        backdrop-filter: blur(10px); /* Add blur effect */
+        -webkit-backdrop-filter: blur(10px); /* For Safari support */
+        z-index: 1005; /* Below hamburger but above content */
+        transform: translateX(-100%); /* Initially off-screen to the left */
+        transition: transform 0.3s ease-in-out;
+        padding: 20px; /* Padding for content inside */
+        box-sizing: border-box;
+        overflow-y: auto; /* Allow scrolling if menu items exceed height */
+        display: flex; /* Use flexbox for alignment */
+        flex-direction: column; /* Stack children vertically */
+        justify-content: flex-end; /* Align .menu-links to the bottom */
+        align-items: flex-start; /* Align .menu-links to the left */
+    }
+
+    .mobile-menu.open {
+        transform: translateX(0); /* Slide in from the left */
+    }
+    
+    .menu-links {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Links align to their container's start */
+        width: auto; /* Take content width */
+    }
+
+    .menu-links a {
+        font-weight: bold; /* Make link text bold */
+        font-size: 1.2rem; /* Adjust font size as needed */
+        color: #034848; /* Link color */
+        text-decoration: none;
+        padding: 10px 0; /* Add some padding for touch targets */
+        transition: color 0.2s ease;
+    }
+
+    .menu-links a:hover {
+        color: #3d94a0; /* Hover color */
+    }
+}
+
+/* END: Hero Carousel Styles */
+
+/* START: CTA Section Styles */
+.cta-section {
+    width: 100%;
+    padding: 40px 0; /* Add some vertical padding */
+    /* background-color: #f4f7f6; */ /* Optional: if you want a slightly different background for this section */
+    box-sizing: border-box;
+}
+/* END: CTA Section Styles */
+
+/* START: Two-Box CTA Component Styles */
+.hero-two-box-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px; 
+    margin: 110px auto 0; /* Added 110px top margin, kept auto for horizontal centering */
+    padding: 0 20px; 
+    position: relative;
+    z-index: 2;
+}
+
+.cta-box {
+    flex: 1;
+    min-width: 280px;
+    background-color: rgba(255, 255, 255, 0.5); /* Frosted glass: semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass: blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass: blur effect for Safari */
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+    border: 1px solid rgba(255,255,255,0.18); /* Lighter border for glass effect */
+}
+
+.box-placeholder-text {
+    font-size: 1.1rem;
+    color: #034848;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.cta-button.box-cta {
+    background-color: #034848;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none;
+    width: auto;
+    min-width: 180px;
+}
+
+.cta-button.box-cta:hover {
+    background-color: #023535;
+    transform: translateY(-1px);
+}
+
+/* END: Two-Box CTA Component Styles */
+
+/* --- START: Integrated Quiz Styles (from tarifrechner.html) --- */
+.cta-box.left #calculator {
+    background-color: rgba(255, 255, 255, 0.5); /* Frosted glass: semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass: blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Frosted glass: blur effect for Safari */
+    border: 1px solid rgba(255,255,255,0.18); /* Lighter border for glass effect */
+    padding: 20px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+    max-width: 100%; 
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.cta-box.left .step {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out, max-height 0.6s ease-in-out, margin-bottom 0.5s ease-in-out, padding-top 0.5s ease-in-out, padding-bottom 0.5s ease-in-out;
+    max-height: 900px; /* Increased to accommodate potentially taller steps */
+    overflow: hidden;
+    margin-bottom: 20px; /* Adjusted */
+    text-align: center;
+    border-top: 1px solid rgba(102, 165, 170, 0.2); /* Lighter border */
+    padding-top: 20px; /* Adjusted */
+}
+
+.cta-box.left .step:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+.cta-box.left .step.hidden {
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: none; /* Remove border when hidden */
+    overflow: hidden;
+}
+
+.cta-box.left .step p.question-text {
+    font-size: clamp(1rem, 2.5vw, 1.1rem); /* Responsive font size */
+    margin-bottom: 15px;
+    color: #034848;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.cta-box.left .input-wrapper {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.cta-box.left input[type="text"],
+.cta-box.left input[type="number"],
+.cta-box.left input[type="email"],
+.cta-box.left input[type="tel"],
+.cta-box.left input[type="date"],
+.cta-box.left textarea {
+    width: 90%; /* Adjusted width */
+    max-width: 320px;
+    padding: 10px 12px;
+    border: 1px solid rgba(102, 165, 170, 0.4);
+    border-radius: 6px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.cta-box.left input:focus,
+.cta-box.left textarea:focus {
+    border-color: #3d94a0;
+    outline: none;
+}
+
+.cta-box.left ::placeholder {
+    color: #999; /* Adjusted placeholder color */
+    opacity: 1;
+}
+.cta-box.left :-ms-input-placeholder {
+    color: #999;
+}
+.cta-box.left ::-ms-input-placeholder {
+    color: #999;
+}
+
+.cta-box.left .options {
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+    width: auto;
+    max-width: 100%; /* Allow options to take more width if needed */
+}
+
+.cta-box.left .options label {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(102, 165, 170, 0.3);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+
+.cta-box.left .options input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    transform: scale(1.05);
+}
+
+.cta-box.left .options label:hover {
+    background-color: rgba(230, 240, 241, 0.7); /* Lighter hover from theme */
+    border-color: rgba(102, 165, 170, 0.5);
+}
+
+.cta-box.left .options input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #034848;
+}
+
+/* Style for the label when its radio is checked */
+.cta-box.left .options input[type="radio"]:checked ~ label,
+.cta-box.left .options label:has(input[type="radio"]:checked) { /* Modern browsers */
+    background-color: rgba(179, 212, 216, 0.7); /* Light teal from theme */
+    border-color: #3d94a0;
+}
+
+
+.cta-box.left .form-group {
+    margin-bottom: 12px;
+    text-align: left;
+}
+.cta-box.left .form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: #444; /* Darker label text */
+    font-size: clamp(0.85rem, 1.8vw, 0.9rem);
+}
+
+.cta-box.left .address-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.cta-box.left .address-group .street { flex: 3 1 58%; } /* Adjusted flex */
+.cta-box.left .address-group .hausnummer { flex: 1 1 30%; }
+.cta-box.left .address-group .plz { flex: 1 1 35%; }
+.cta-box.left .address-group .stadt { flex: 2 1 50%; }
+
+.cta-box.left .address-group input {
+    width: 100%; /* Inputs take full width of their flex item */
+}
+
+.cta-box.left .button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px; /* More rounded to match CTA style */
+    color: white;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.1s ease;
+    min-width: 90px;
+}
+
+.cta-box.left .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.cta-box.left .button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.cta-box.left #description-screen p,
+.cta-box.left #final-screen p {
+    font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #333;
+}
+.cta-box.left #description-screen ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+    text-align: left;
+    display: inline-block;
+}
+.cta-box.left #description-screen ul li {
+    margin-bottom: 6px;
+    padding-left: 18px;
+    position: relative;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+}
+.cta-box.left #description-screen ul li::before {
+    content: "✓";
+    color: #3d94a0;
+    font-weight: bold;
+    margin-right: 8px;
+    margin-left: -20px;
+    position: absolute;
+}
+
+.cta-box.left #final-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3d94a0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cta-box.left .error-message {
+    color: #e74c3c;
+    background: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.cta-box.left .button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-box.left .back-button {
+    background: #6c757d;
+}
+
+.cta-box.left .back-button:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+.cta-box.left .next-button {
+    background: linear-gradient(135deg, #3d94a0, #66a5aa);
+}
+
+.cta-box.left .next-button:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(61, 148, 160, 0.4);
+}
+
+@media (max-width: 600px) {
+    .cta-box.left #calculator {
+        padding: 20px;
+    }
+
+    .cta-box.left .button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .cta-box.left .button-group {
+        flex-direction: column;
+    }
+    .cta-box.left .step p.question-text {
+        font-size: 16px;
+    }
+    .cta-box.left input[type="text"],
+    .cta-box.left select {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .cta-box.left .address-group {
+        flex-direction: column;
+    }
+    .cta-box.left .address-group .street,
+    .cta-box.left .address-group .hausnummer,
+    .cta-box.left .address-group .plz,
+    .cta-box.left .address-group .stadt {
+        flex: none;
+        width: 100%;
+    }
+}
+
+.cta-box.left {
+    min-height: 300px; 
+    padding: 30px 20px 20px 20px; 
+}
+
+
+/* --- END: Integrated Quiz Styles --- */
+
+/* --- START: Comparison Table Styles --- */
+.comparison-table-section {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: transparent; /* Changed from #f9f9f9 */
+}
+
+.comparison-table-section h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #034848;
+}
+
+.comparison-table-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    overflow-x: auto; /* Enable horizontal scrolling on smaller screens */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    position: relative; /* For pseudo-element indicator */
+}
+
+/* Visual cue for scrollable table on mobile */
+@media (max-width: 768px) {
+    .comparison-table-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+    .comparison-table-wrapper::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 3px;
+    }
+    .comparison-table-wrapper::after {
+        content: '\2192 Scroll for more'; /* Right arrow + text */
+        position: absolute;
+        top: 50%;
+        right: -20px; /* Initially hide it a bit to suggest it's off-screen */
+        transform: translateY(-50%) rotate(90deg);
+        background-color: rgba(61, 148, 160, 0.8);
+        color: white;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 0.7em;
+        opacity: 0;
+        transition: opacity 0.3s, right 0.3s;
+        pointer-events: none; /* So it doesn't interfere with scroll */
+        writing-mode: vertical-rl; /* If text should be vertical */
+        display: none; /* Let's hide it for now, can be reactivated if needed, as it might be too intrusive */
+    }
+    .comparison-table-wrapper.is-scrollable::after {
+        /* Only show if JS adds 'is-scrollable' and content actually overflows */
+        /* For now, relying on native scrollbars */
+    }
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Minimum width before horizontal scrolling kicks in */
+    background-color: rgba(220, 220, 220, 0.15); /* Light grey semi-transparent background */
+    border-radius: 8px; /* Match wrapper for a contained glass look */
+    overflow: hidden; /* Ensures border-radius clips content like background */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+thead {
+    /* background-color: rgba(3, 72, 72, 0.1); */ /* Removed old background */
+    background-color: rgba(3, 72, 72, 0.2); /* Darker teal semi-transparent background for header */
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(102, 165, 170, 0.2); /* Subtle border for rows */
+    border-right: 1px solid rgba(102, 165, 170, 0.1); /* Subtle vertical line */
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+    color: #333;
+}
+
+th:last-child,
+td:last-child {
+    border-right: none; /* Remove right border for the last column */
+}
+
+/* Darker background for the first cell in the header row */
+thead th:first-child {
+    background-color: rgba(0, 0, 0, 0.05); /* Slightly darker transparent grey */
+}
+
+th {
+    font-weight: 600;
+    color: #034848;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    text-align: center; /* Center align header text */
+}
+
+tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+tbody tr:nth-child(even) {
+    /* background-color: rgba(255, 255, 255, 0.1); */ /* Removed old background */
+}
+
+tbody tr:hover {
+    background-color: rgba(179, 212, 216, 0.3); /* Light teal hover from theme */
+}
+
+/* Specific column styling if needed */
+td:nth-child(1) { /* Leistung column */
+    font-weight: 500;
+    color: #034848;
+    background-color: rgba(0, 0, 0, 0.05); /* Slightly darker transparent grey for first column data cells */
+}
+
+td:nth-child(2) { /* Barmenia column */
+    font-weight: 600; /* Increased font weight */
+}
+
+td:not(:first-child) {
+    text-align: center; /* Center text for data columns */
+}
+
+@media (max-width: 768px) {
+    .comparison-table-section {
+        width: 95%;
+        margin: 40px auto;
+    }
+    .comparison-table-section h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: 30px;
+    }
+    .comparison-table-wrapper {
+        padding: 15px;
+    }
+    th, td {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comparison-table-section h2 {
+        font-size: clamp(1.3rem, 6vw, 1.8rem);
+    }
+    th, td {
+        font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+        padding: 8px 10px;
+    }
+}
+/* --- END: Comparison Table Styles --- */
+
+@media (max-width: 768px) {
+    .hero-section {
+        /* padding: 0 15px 40px 15px; // Already set */
+        margin-top: -105px; /* Moved up by 125px (from 20px) */
+        padding-bottom: 150px; /* Ensure enough space for carousel + indicators */
+        background: linear-gradient(to top, rgba(250,250,250,1) 0%, rgba(250,250,250,1) 90%, rgba(250,250,250,0.25) 100%); /* Match navbar frost for mobile */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
+
+    .hero-content-top {
+        padding-top: 40px;
+        margin-bottom: 30px;
+    }
+
+    .hero-main-headline {
+        font-size: clamp(1.8rem, 7vw, 2.5rem);
+    }
+
+    .hero-subheadline {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        max-width: 100%;
+    }
+
+    .hero-cta-primary .cta-button.primary {
+        padding: 12px 30px;
+        font-size: clamp(0.95rem, 3.5vw, 1rem);
+    }
+    
+    .hero-cta-secondary-group {
+        text-align: center;
+        gap: 8px;
+    }
+
+    .hero-cta-secondary-group .cta-separator {
+        display: none;
+    }
+
+    .hero-carousel-wrapper {
+        /* padding: 15px; // Already set */
+    }
+}
+
+/* --- START: Mobile Floating Chat Widget Styles --- */
+#chat-widget-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1010;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* States control visibility of children */
+#chat-widget-container.state-initial #chat-cta-button { display: block; }
+#chat-widget-container.state-initial #chat-minimized-bubble,
+#chat-widget-container.state-initial #chat-window,
+#chat-widget-container.state-initial #drop-zone { display: none; }
+
+#chat-widget-container.state-minimized-bubble #chat-minimized-bubble { display: flex; }
+#chat-widget-container.state-minimized-bubble #chat-cta-button,
+#chat-widget-container.state-minimized-bubble #chat-window,
+#chat-widget-container.state-minimized-bubble #drop-zone { display: none; }
+
+#chat-widget-container.state-open #chat-window { display: flex; }
+#chat-widget-container.state-open #chat-cta-button,
+#chat-widget-container.state-open #chat-minimized-bubble,
+#chat-widget-container.state-open #drop-zone { display: none; }
+
+
+#chat-cta-button {
+    background-color: #034848; /* Primary color */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#chat-cta-button:hover {
+    background-color: #023535; /* Darker shade */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+#chat-minimized-bubble {
+    width: 50px; /* Smaller size */
+    height: 50px; /* Smaller size */
+    background-color: rgba(255, 255, 255, 0.8); /* Lighter, semi-transparent */
+    color: #034848; /* Icon color changed to primary site color */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    cursor: grab;
+    transition: transform 0.2s ease-out, background-color 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Softer border */
+}
+#chat-minimized-bubble:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+#chat-minimized-bubble::before { /* Using FontAwesome icon */
+    content: "\f4ad"; 
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 22px; /* Adjusted icon size */
+    color: #034848; /* Explicitly set icon color here too for clarity */
+}
+
+#chat-window {
+    width: clamp(300px, 85vw, 380px); /* Slightly adjusted max-width */
+    height: clamp(400px, 70vh, 550px); /* Slightly adjusted max-height */
+    background-color: rgba(255, 255, 255, 0.7); /* More pronounced frosted glass */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 18px; /* Slightly larger radius */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer, more diffuse shadow */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(200, 200, 200, 0.4); /* Softer border */
+    position: relative;
+}
+
+#minimize-chat {
+    background: none;
+    border: none;
+    color: #034848; /* Primary color */
+    font-size: 1.6rem; /* Slightly smaller */
+    cursor: pointer;
+    padding: 10px;
+    line-height: 1;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+    transition: opacity 0.2s ease;
+}
+#minimize-chat:hover {
+    opacity: 0.6;
+}
+#minimize-chat::before { /* FA minus icon */
+    content: "\f068";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+#mobile-chat-area { /* This is the main chat box for messages */
+    flex-grow: 1;
+    padding: 15px;
+    /* padding-top: 50px; Old value, will be removed by context */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Spacing between messages */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin;
+    scrollbar-color: #034848 rgba(255, 255, 255, 0.7);
+}
+#mobile-chat-area::-webkit-scrollbar {
+    width: 6px;
+}
+#mobile-chat-area::-webkit-scrollbar-thumb {
+    background-color: #034848;
+    border-radius: 3px;
+}
+#mobile-chat-area::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#mobile-chat-area .message {
+    padding: 10px 15px;
+    border-radius: 18px; /* Softer radius for messages */
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: left; /* Explicitly left-align text within bubbles */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#mobile-chat-area .sent {
+    background-color: #034848; /* Primary site color */
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px; /* Characteristic shape */
+}
+
+#mobile-chat-area .received {
+    background-color: transparent; /* Transparent AI bubbles */
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px; /* Characteristic shape */
+}
+/* Style for AI messages when transparent background is desired, with a light border */
+/*
+#mobile-chat-area .received.transparent-ai {
+    background-color: transparent;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #333;
+}
+*/
+
+#mobile-chat-area .loading-indicator { /* Replaces .loading-circle for the 3-dot style */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center dots in the bubble */
+    padding: 10px 15px; /* Match message padding */
+    background-color: #e9e9eb; /* Or transparent if preferred */
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+#mobile-chat-area .loading-indicator span {
+    height: 8px;
+    width: 8px;
+    margin: 0 2px;
+    background-color: #034848; /* Primary color for dots */
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: mobileChatLoadingAnimation 1.4s infinite ease-in-out both;
+}
+#mobile-chat-area .loading-indicator span:nth-child(1) { animation-delay: -0.32s; }
+#mobile-chat-area .loading-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes mobileChatLoadingAnimation {
+    0%, 80%, 100% { opacity: 0.4; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+}
+
+
+/* Container for input and send button for better layout control */
+.mobile-chat-input-area {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    background-color: rgba(255,255,255,0.6); /* Slight tint to distinguish from chat area */
+}
+
+#mobile-chat-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    resize: none; /* Prevent manual resize */
+    margin-right: 8px;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#mobile-chat-input:focus {
+    outline: none;
+    border-color: #034848;
+    box-shadow: 0 0 0 2px rgba(3, 72, 72, 0.15);
+}
+
+#mobile-send-button {
+    background-color: #034848;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 42px; /* Slightly larger */
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem; /* Icon size */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+#mobile-send-button:hover {
+    background-color: #023535;
+}
+#mobile-send-button::before { /* Paper plane icon */
+    content: "\f1d8";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+#drop-zone {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    width: 70px;
+    height: 70px;
+    background-color: rgba(220, 53, 69, 0.6); /* Bootstrap danger, semi-transparent */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Below chat widget, but above other content */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease-out, background-color 0.2s ease;
+    pointer-events: none;
+}
+#drop-zone.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
+}
+#drop-zone.highlighted {
+    background-color: rgba(220, 53, 69, 0.9); /* More opaque on highlight */
+    transform: translateX(-50%) scale(1.15);
+}
+#drop-zone::before { /* FA trash icon */
+    content: "\f2ed";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 28px;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Ensure the mobile chat widget is only shown on mobile */
+@media screen and (min-width: 769px) {
+    #chat-widget-container {
+        display: none !important;
+    }
+}
+/* --- END: Mobile Floating Chat Widget Styles --- */
+
+#mobile-chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.7); /* Match chat window bg for seamless frost */
+    /* backdrop-filter: blur(18px); Should inherit from #chat-window if #chat-window has overflow:hidden */
+    color: #034848; /* Primary color for text */
+    font-weight: 600;
+    font-size: 1.1rem;
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+#mobile-chat-header span {
+    flex-grow: 1; /* Allow text to take available space */
+    text-align: left; /* Align text to the left */
+}
+
+#minimize-chat {
+    background: none;
+    border: none;
+    color: #034848; /* Primary color */
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 5px; /* Adjust padding as it's in flex now */
+    line-height: 1;
+    /* Removed absolute positioning properties */
+    transition: opacity 0.2s ease;
+}
+#minimize-chat:hover {
+    opacity: 0.6;
+}
+#minimize-chat::before { /* FA minus icon */
+    content: "\f068";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.cta-box.right {
+    position: relative; /* Ensure positioning context for the badge */
+}
+
+.badge-container {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    z-index: 5; /* Ensure it\'s above other content in the box */
+}
+
+.beta-badge {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative; /* For tooltip positioning */
+    display: inline-block; /* To allow padding and positioning */
+}
+
+.beta-tooltip {
+    visibility: hidden;
+    width: 250px; /* Adjust as needed */
+    background-color: #555; /* Darker background for tooltip */
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 10; /* Ensure tooltip is above the badge and other elements */
+    bottom: 125%; /* Position above the badge */
+    left: 50%;
+    margin-left: -125px; /* Use half of the tooltip\'s width to center it */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-size: 0.9rem; /* Slightly smaller text for tooltip */
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    overflow-wrap: break-word; /* Ensure long words break to a new line */
+    word-wrap: break-word; /* For older browser compatibility */
+}
+
+/* Arrow for the tooltip */
+.beta-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.beta-badge:hover .beta-tooltip,
+.beta-badge:focus .beta-tooltip,
+.beta-badge:active .beta-tooltip { /* Added :active for mobile tap */
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Specific adjustments for mobile if needed */
+@media (max-width: 768px) {
+    .beta-tooltip {
+        width: auto; /* Allow it to size to content up to max-width */
+        max-width: min(200px, calc(100vw - 40px)); /* Responsive width with viewport padding */
+        left: 100%; /* Align tooltip's left edge to badge's right edge */
+        transform: translateX(-100%); /* Shift tooltip left by its own width, aligning right edges */
+        margin-left: 0; /* Ensure no residual desktop margin */
+        /* Tooltip remains above the badge (bottom: 125%) */
+    }
+
+    .beta-tooltip::after {
+        left: calc(100% - 20px); /* Position for arrow to point to badge center */
+                                 /* (Approx BadgeWidth/2) - (ArrowVisualShift) = 25px - 5px = 20px from right */
+        margin-left: -5px;       /* This is crucial for the arrow shape, ensure it's not 0 */
+        transform: none;         /* Remove any previous horizontal transform */
+    }
+}
+
+/* END: Two-Box CTA Component Styles */
+
+/* ... existing code ... */
+
+/* Styles for side-by-side form groups (e.g., Vorname/Nachname) */
+.form-group-row {
+    display: flex;
+    gap: 15px; /* Adjust gap as needed */
+    margin-bottom: 15px; /* Standard spacing below the row */
+}
+
+.form-group-row > .form-group {
+    flex: 1; /* Distribute space equally */
+    margin-bottom: 0; /* Remove individual bottom margin as parent has it */
+}
+
+.form-group-row > .form-group input[type="text"],
+.form-group-row > .form-group input[type="email"],
+.form-group-row > .form-group input[type="tel"] {
+    width: 100%; /* Make input take full width of its .form-group parent */
+    box-sizing: border-box;
+}
+
+/* Existing styles for .tarifrechner-page-specific-styles or other sections continue below */
+
+/* --- END: Tariff Plans Section --- */
+
+/* --- Legal Pages (Impressum, Datenschutz) --- */
+.legal-content {
+    max-width: 800px; /* Limit width for readability on desktop */
+    margin: 40px auto; /* Center content, add top/bottom margin */
+    padding: 30px;    /* Increased padding inside the container */
+    background-color: rgba(255, 255, 255, 0.6); /* Light, slightly transparent background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 15px; /* Slightly larger radius */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07); /* Softer shadow */
+    text-align: left; /* Default text alignment */
+    line-height: 1.75; /* Improved line height for readability */
+    color: #333; /* Default text color */
+    font-size: 1rem; /* Base font size for legal text */
+}
+
+.legal-content h1 {
+    font-size: clamp(2rem, 5vw, 2.8rem); /* Responsive font size */
+    color: #034848; /* Main theme color for primary heading */
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(3, 72, 72, 0.15); /* Subtle separator */
+    text-align: center;
+}
+
+.legal-content h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: #3d94a0; /* Secondary theme color */
+    margin-top: 45px;
+    margin-bottom: 20px;
+}
+
+.legal-content h3 { /* For sub-sections if any */
+    font-size: clamp(1.3rem, 3.5vw, 1.6rem);
+    color: #034848;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+.legal-content p {
+    margin-bottom: 22px; /* Space between paragraphs */
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem); /* Ensuring p is not smaller than base */
+}
+
+.legal-content ul {
+    list-style-type: disc; /* Standard disc bullets */
+    margin-left: 25px; /* Indent list */
+    margin-bottom: 22px;
+    padding-left: 20px;
+}
+
+.legal-content ul li {
+    margin-bottom: 12px; /* Space between list items */
+    padding-left: 5px; /* Align text slightly from bullet */
+}
+
+.legal-content a {
+    color: #3d94a0; /* Theme color for links */
+    text-decoration: none;
+    font-weight: 500; /* Make links slightly bolder */
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.legal-content a:hover {
+    color: #023535; /* Darker theme color on hover */
+    text-decoration: underline;
+}
+
+.legal-content .uppercase { /* For the specific uppercase paragraph in datenschutz */
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #034848;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive adjustments for legal content */
+@media screen and (max-width: 768px) {
+    .legal-content {
+        margin: 25px auto;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .legal-content h1 {
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+
+    .legal-content h2 {
+        margin-top: 35px;
+        margin-bottom: 15px;
+    }
+    .legal-content p, .legal-content ul li {
+        font-size: clamp(0.9rem, 2.8vw, 1rem); /* Slightly adjust mobile font size */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .legal-content {
+        padding: 15px;
+        margin: 20px 10px; /* Add side margin for very small screens */
+        width: auto; /* Allow it to not be full width if side margins are present */
+    }
+    .legal-content h1 {
+        font-size: clamp(1.6rem, 6vw, 2rem);
+    }
+    .legal-content h2 {
+        font-size: clamp(1.3rem, 5vw, 1.6rem);
+    }
+     .legal-content p, .legal-content ul li {
+        font-size: clamp(0.85rem, 3vw, 0.95rem);
+    }
+}
+
+/* END: Legal Pages */
+
+/* --- Footer Enhancements --- */
+.footer {
+    position: relative; /* Needed for absolute positioning of the credit */
+    padding-bottom: 50px; /* Add some padding to make space for the credit, increased from 40px */
+    /* Existing footer styles like text-align, etc., will be inherited or should remain */
+}
+
+.footer-credit {
+    position: absolute;
+    bottom: 15px; /* Adjusted for better spacing */
+    right: 20px; /* Adjusted for better spacing */
+    font-size: 0.75em; /* Slightly smaller for subtlety */
+    color: #4A4A4A; /* Dark grey for a modern, subtle look */
+    text-align: right;
+}
+
+.footer-credit a {
+    color: #034848; /* Link color to match existing footer links or primary accent */
+    text-decoration: none;
+    font-weight: 600; /* Make the link slightly bolder */
+}
+
+.footer-credit a:hover {
+    text-decoration: underline;
+    color: #023535; /* Darken link on hover */
+}
+
+/* Responsive adjustments for footer credit if needed */
+@media (max-width: 768px) {
+    .footer {
+        padding-bottom: 60px; /* More space on mobile if content is dense */
+    }
+    .footer-credit {
+        /* On smaller screens, you might want it to be less intrusive or positioned differently */
+        font-size: 0.7em;
+        bottom: 10px;
+        right: 10px;
+        /* Or make it centered / static */
+        /* position: static; */
+        /* text-align: center; */
+        /* margin-top: 10px; */
+    }
+}
+

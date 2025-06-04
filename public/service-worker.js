@@ -7,16 +7,16 @@ const CACHE_ASSETS = [
   '/index.html',
   '/impressum.html',
   '/datenschutz.html',
-  '../src/css/styles.css',
-  '../src/js/script.js',
-  '../src/assets/smilecare_logo.png',
-  '../src/assets/vertrauen.png',
-  '../src/assets/Smiling_2.png',
-  '../src/assets/flexibilität.png',
-  '../src/assets/certicificate.svg',
-  '../src/assets/tooth.svg',
-  '../src/assets/contract.svg',
-  '../src/assets/hero_vid.mp4'
+  'css/styles.css',
+  'js/script.js',
+  'assets/smilecare_logo.png',
+  'assets/vertrauen.png',
+  'assets/Smiling_2.png',
+  'assets/flexibilität.png',
+  'assets/certicificate.svg',
+  'assets/tooth.svg',
+  'assets/contract.svg',
+  'assets/hero_vid.mp4'
 ];
 
 // Install event

@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SmileCare24</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- GSAP Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Main scripts -->
-    <script src="../src/js/script.js"></script>
+    <script src="js/script.js"></script>
     <!-- interact.js for mobile chat -->
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <!-- Calendly Integration -->
@@ -78,8 +78,52 @@
         .footer-links a:hover {
             color: #87A6A8;
         }
+
+        /* Mobile Menu Item Animation */
+        .mobile-menu.open .menu-link {
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideInFromLeft 0.3s ease-out forwards;
+        }
+
+        @keyframes slideInFromLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
         
-        /* Cookie Consent Styles */
+        /* Staggered animation for menu items */
+        .mobile-menu.open .menu-link:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-menu.open .menu-link:nth-child(2) { animation-delay: 0.15s; }
+        .mobile-menu.open .menu-link:nth-child(3) { animation-delay: 0.2s; }
+        .mobile-menu.open .menu-link:nth-child(4) { animation-delay: 0.25s; }
+        /* Add more if there are more links */
+
+        /* General Button Tap Feedback */
+        .cta-button:active,
+        .calendly-button:active,
+        .button:active, /* For tarifrechner quiz buttons if they use this class */
+        .cookie-btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+            transition: transform 0.05s ease-out, opacity 0.05s ease-out;
+        }
+        
+        /* Chat Popup Styles */
+        /* Ensure these styles are managed in the external styles.css file to avoid conflicts */
+        /* .chat-popup-wrapper { ... } */
+        /* .chat-container { ... } */
+        /* .chat-header { ... } */
+        /* .chat-header h3 { ... } */
+        /* .close-chat-btn { ... } */
+        /* .chat-box { ... } */
+        /* .chat-input-container { ... } */
+        /* .chat-input { ... } */
+        /* .chat-input-field[contenteditable=true]:empty:before { ... } */
+        /* .chat-send-btn { ... } */
+
+        /* Cookie Consent Popup Styling */
         .cookie-consent {
             position: fixed;
             bottom: 0;
@@ -164,6 +208,32 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 14px;
         }
+
+        @media (max-width: 600px) {
+            .cookie-consent {
+                flex-direction: column;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .cookie-text {
+                padding-right: 0;
+                margin-bottom: 15px;
+                font-size: 13px;
+            }
+
+            .cookie-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .cookie-btn {
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
         
         @media (max-width: 768px) {
             /* These rules will be moved to styles.css
@@ -201,30 +271,7 @@
 <body>
     <div class="hero-glow-effect"></div> <!-- Moved glow effect to be a direct child of body -->
     <div class="content-wrapper">
-        <nav class="navbar">
-            <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
-            
-            <!-- Hamburger Menu Button (Mobile Only) -->
-            <button class="hamburger-btn mobile-only" id="hamburger-btn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            
-            <!-- Mobile Menu -->
-            <div class="mobile-menu mobile-only" id="mobile-menu">
-                <div class="menu-links">
-                    <a href="index.html" class="menu-link active">Startseite</a>
-                    <a href="tarifrechner.html" class="menu-link">Tarifrechner</a>
-                    <a href="impressum.html" class="menu-link">Impressum</a>
-                    <!-- <a href="datenschutz.html" class="menu-link">DATENSCHUTZ</a> -->
-                </div>
-            </div>
-            
-            <button class="calendly-button" id="calendlyButton" type="button">
-                Kostenlos Termin vereinbaren
-            </button>
-        </nav>
+        <div id="navbar-container"></div>
 
         <!-- START: Rebuilt Hero Section -->
         <section class="hero-section">
@@ -235,7 +282,7 @@
                 <div class="hero-carousel-slides">
                     <!-- Slide 1 -->
                     <div class="hero-carousel-slide active">
-                        <img src="../src/assets/carousel_img1.png" alt="100% sorgenfrei lächeln" class="slide-image">
+                        <img src="assets/carousel_img1.png" alt="100% sorgenfrei lächeln" class="slide-image">
                         <div class="slide-content">
                             <h3 class="slide-headline">100% sorgenfrei lächeln!</h3>
                             <p class="slide-subline">Komplette Kostenübernahme für Zahnreinigung & Füllungen.</p>
@@ -249,7 +296,7 @@
                             <p class="slide-subline">Einfach Rechnung hochladen und Geld zurückbekommen.</p>
                             <a href="tarifrechner.html" class="cta-button slide-cta">Mehr erfahren</a>
                         </div>
-                        <img src="../src/assets/carousel_img2.png" alt="Schnelle Erstattung per App" class="slide-image">
+                        <img src="assets/carousel_img2.png" alt="Schnelle Erstattung per App" class="slide-image">
                     </div>
                     <!-- Slide 3 -->
                     <div class="hero-carousel-slide">
@@ -257,7 +304,7 @@
                             <h3 class="slide-headline">Keine Wartezeiten</h3>
                         </div>
                         <div class="slide-content-middle">
-                            <img src="../src/assets/carousel_img3.png" alt="Keine Wartezeiten" class="slide-image slide3-image">
+                            <img src="assets/carousel_img3.png" alt="Keine Wartezeiten" class="slide-image slide3-image">
                     </div>
                         <div class="slide-content-right">
                             <p class="slide-subline">Dein Zahnschutz beginnt sofort nach Vertragsabschluss.</p>
@@ -274,8 +321,11 @@
                 </div>
             </div>
             <!-- END: Hero Carousel -->
+        </section>
+        <!-- END: Rebuilt Hero Section -->
 
-            <!-- START: Two-Box CTA Component -->
+        <!-- START: CTA Section -->
+        <section class="cta-section">
             <div class="hero-two-box-cta">
                 <div class="cta-box left">
                     <p class="quiz-intro-text">Berechne jetzt innerhalb von 3 Minuten Deinen persönlichen Tarif</p>
@@ -333,7 +383,7 @@
     </div>
 
     <div class="step hidden" id="step-4">
-        <p class="question-text">Fehlen Ihnen aktuell Zähne?</p>
+        <p class="question-text">Fehlen Dir aktuell Zähne?</p>
         <div class="options">
             <label><input type="radio" name="zaehne_fehlen" value="Ja"> <span>Ja</span></label>
             <label><input type="radio" name="zaehne_fehlen" value="Nein"> <span>Nein</span></label>
@@ -346,7 +396,7 @@
     </div>
 
     <div class="step hidden" id="step-5">
-        <p class="question-text">Wie viele Zähne fehlen Ihnen?</p>
+        <p class="question-text">Wie viele Zähne fehlen Dir?</p>
         <div class="options">
             <label><input type="radio" name="anzahl_zaehne" value="1"> <span>1</span></label>
             <label><input type="radio" name="anzahl_zaehne" value="2"> <span>2</span></label>
@@ -361,7 +411,7 @@
     </div>
 
     <div class="step hidden" id="step-6">
-        <p class="question-text">Befinden Sie sich aktuell in einer zahnärztlichen Behandlung?</p>
+        <p class="question-text">Befindest Du Dich aktuell in einer zahnärztlichen Behandlung?</p>
          <div class="options">
             <label><input type="radio" name="in_behandlung" value="Ja"> <span>Ja</span></label>
             <label><input type="radio" name="in_behandlung" value="Nein"> <span>Nein</span></label>
@@ -374,7 +424,7 @@
     </div>
 
     <div class="step hidden" id="step-7">
-        <p class="question-text">In welcher zahnärztlichen Behandlung befinden Sie sich?</p>
+        <p class="question-text">In welcher zahnärztlichen Behandlung befindest Du Dich?</p>
         <div class="input-wrapper">
              <textarea id="q7-behandlung_art" name="behandlung_art" rows="3" placeholder="Behandlung beschreiben..." required></textarea>
              <div class="error-message" id="error-7"></div>
@@ -386,12 +436,19 @@
     </div>
 
     <div class="step hidden" id="step-8">
-        <p class="question-text">Bitte geben Sie noch Ihre persönlichen Daten ein</p>
+        <p class="question-text">Bitte gib noch Deine persönlichen Daten ein</p>
 
-        <div class="form-group">
-            <label for="q8-name">Vollständiger Name</label>
-            <input type="text" id="q8-name" name="voller_name" placeholder="Vorname Nachname" required>
-            <div class="error-message" id="error-8-name"></div>
+        <div class="form-group-row">
+            <div class="form-group">
+                <label for="q8-vorname">Vorname</label>
+                <input type="text" id="q8-vorname" name="vorname" placeholder="Max" required>
+                <div class="error-message" id="error-8-vorname"></div>
+            </div>
+            <div class="form-group">
+                <label for="q8-nachname">Nachname</label>
+                <input type="text" id="q8-nachname" name="nachname" placeholder="Mustermann" required>
+                <div class="error-message" id="error-8-nachname"></div>
+            </div>
         </div>
 
         <div class="form-group">
@@ -399,7 +456,7 @@
             <div class="address-group">
                  <input type="text" id="q8-strasse" class="street" name="strasse" placeholder="Straße" required>
                  <input type="text" id="q8-hausnummer" class="hausnummer" name="hausnummer" placeholder="Nr." required>
-                 <input type="text" id="q8-plz" class="plz" name="plz" placeholder="PLZ" required pattern="\\d{5}">
+                 <input type="text" id="q8-plz" class="plz" name="plz" placeholder="PLZ" required pattern="[0-9]{5}">
                  <input type="text" id="q8-stadt" class="stadt" name="stadt" placeholder="Stadt" required>
             </div>
              <div class="error-message" id="error-8-address"></div>
@@ -413,7 +470,7 @@
 
         <div class="form-group">
              <label for="q8-telefon">Telefonnummer</label>
-             <input type="tel" id="q8-telefon" name="telefon" placeholder="Telefonnummer eingeben" required pattern="[\\d\\s\\+\\-\\/\\(\\)]{7,}">
+             <input type="tel" id="q8-telefon" name="telefon" placeholder="Telefonnummer eingeben" required>
              <div class="error-message" id="error-8-telefon"></div>
         </div>
 
@@ -422,6 +479,15 @@
              <input type="text" id="q8-iban" name="iban" required>
              <div class="error-message" id="error-8-iban"></div>
         </div>
+
+        <div class="form-group">
+            <label style="display: flex; align-items: center; flex-wrap: nowrap;">
+                <input type="checkbox" id="q8-datenschutz" name="datenschutz_zugestimmt" required style="width: auto; margin-right: 10px; flex-shrink: 0;">
+                <span style="font-size: 0.9em;">Ich stimme der <a href="datenschutz.html" target="_blank" style="color: #3d94a0; text-decoration: underline;">Datenschutzerklärung</a> zu und bin mit der Verarbeitung meiner Daten für diesen Zweck einverstanden.</span>
+            </label>
+            <div class="error-message" id="error-8-datenschutz_zugestimmt"></div>
+        </div>
+
          <div class="error-message" id="error-8-general"></div>
 
         <div class="button-group">
@@ -431,22 +497,26 @@
     </div>
 
      <div class="step hidden" id="final-screen">
-        <p style="font-size: 1.2em; line-height: 1.6;">Vielen Dank für Deine Hilfe! Wir melden uns schnellstmöglich bei dir mit Näherem.</p>
+        <p style="font-size: 1.2em; line-height: 1.6;">Vielen Dank für Deine Hilfe! Wir melden uns schnellstmöglich bei Dir mit Näherem.</p>
     </div>
 </div>
                 </div>
                 <div class="cta-box right">
+                    <div class="badge-container">
+                        <span class="beta-badge">
+                            Beta
+                            <span class="beta-tooltip">Unser Chatbot befindet sich momentan noch in der Betatest-Phase, weshalb weshalb wir nicht gewährleisten können, dass alle Informationen, die sich aus einem Chat ergeben zu 100% der Wahrheit entsprechen. Für Rückfragen und Sicherstellung bitten wir Dich direkt aus uns zuzukommen: kontakt@smilecare24.de</span>
+                        </span>
+                    </div>
                     <p class="chat-intro-text">Lass dich von unserem KI-Assistenten beraten!</p>
-                    <img src="../src/assets/chat_assistant.png" alt="KI Assistent" class="chat-assistant-image">
+                    <img src="assets/chat_assistant.png" alt="KI Assistent" class="chat-assistant-image">
                     <button class="cta-button box-cta" id="openChatButtonAlternate">
                         Jetzt chatten
                     </button>
                 </div>
             </div>
-            <!-- END: Two-Box CTA Component -->
-
         </section>
-        <!-- END: Rebuilt Hero Section -->
+        <!-- END: CTA Section -->
 
             <!-- START: Comparison Table -->
             <section class="comparison-table-section">
@@ -508,18 +578,18 @@
             <section class="tariff-plans-section">
                 <h2>Unsere Zahnzusatz-Tarife im Detail</h2>
                 <div class="tariff-plans-container">
-                    <!-- Tariff Plan 1: Mehr Zahn 80 -->
+                    <!-- Tariff Plan 1: Mehr Zahn 100 (Moved from 3rd to 1st) -->
                     <div class="tariff-plan-column">
-                        <h3>Mehr Zahn 80</h3>
+                        <h3>Mehr Zahn 100</h3>
                         <div class="tariff-details-group">
                             <h4>Leistungen</h4>
-                            <p><strong>Zahnersatz:</strong> 80 % (inkl. GKV-Vorleistung)</p>
-                            <p><strong>Inlays:</strong> 80 % (inkl. GKV-Vorleistung)</p>
+                            <p><strong>Zahnersatz:</strong> 100 % (inkl. GKV-Vorleistung)</p>
+                            <p><strong>Inlays:</strong> 100 % (inkl. GKV-Vorleistung)</p>
                             <p><strong>Regelversorgung:</strong> 100 % (inkl. GKV-Vorleistung)</p>
                         </div>
                         <div class="tariff-details-group">
                             <h4>Extras</h4>
-                            <ul>
+                            <ul class="extras-list">
                                 <li>Knochenaufbau</li>
                                 <li>Funktionsanalyse und -diagnostik</li>
                                 <li>Keramikverblendungen bis Zahn 8</li>
@@ -540,22 +610,23 @@
                             <h4>Beispielrechnungen</h4>
                             <div class="example-item">
                                 <h5>Krone</h5>
-                                <p>Gesamtkosten: 755 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">755 €</span></p>
                                 <p>GKV-Anteil: 260 €</p>
-                                <p>Erstattung: 344 €</p>
-                                <p><strong>Ihr Eigenanteil: 151 €</strong></p>
+                                <p>Erstattung: 495 €</p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">0 €</span></strong></p>
                             </div>
                             <div class="example-item">
                                 <h5>Inlay</h5>
-                                <p>Gesamtkosten: 750 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">750 €</span></p>
                                 <p>GKV-Anteil: 43 €</p>
-                                <p>Erstattung: 557 €</p>
-                                <p><strong>Ihr Eigenanteil: 150 €</strong></p>
+                                <p>Erstattung: 707 €</p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">0 €</span></strong></p>
                             </div>
                         </div>
+                        <a href="tarifrechner.html" class="cta-button tariff-plan-cta">Jetzt absichern</a>
                     </div>
 
-                    <!-- Tariff Plan 2: Mehr Zahn 90 -->
+                    <!-- Tariff Plan 2: Mehr Zahn 90 (Remains 2nd) -->
                     <div class="tariff-plan-column recommended">
                         <span class="recommendation-badge">Empfohlen</span>
                         <h3>Mehr Zahn 90</h3>
@@ -567,7 +638,7 @@
                         </div>
                         <div class="tariff-details-group">
                             <h4>Extras</h4>
-                            <ul>
+                            <ul class="extras-list">
                                 <li>Knochenaufbau</li>
                                 <li>Funktionsanalyse und -diagnostik</li>
                                 <li>Keramikverblendungen bis Zahn 8</li>
@@ -588,33 +659,34 @@
                             <h4>Beispielrechnungen</h4>
                             <div class="example-item">
                                 <h5>Krone</h5>
-                                <p>Gesamtkosten: 755 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">755 €</span></p>
                                 <p>GKV-Anteil: 260 €</p>
                                 <p>Erstattung: 419,50 €</p>
-                                <p><strong>Ihr Eigenanteil: 75,50 €</strong></p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">75,50 €</span></strong></p>
                             </div>
                             <div class="example-item">
                                 <h5>Inlay</h5>
-                                <p>Gesamtkosten: 750 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">750 €</span></p>
                                 <p>GKV-Anteil: 43 €</p>
                                 <p>Erstattung: 632 €</p>
-                                <p><strong>Ihr Eigenanteil: 75 €</strong></p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">75 €</span></strong></p>
                             </div>
                         </div>
+                        <a href="tarifrechner.html" class="cta-button tariff-plan-cta">Jetzt absichern</a>
                     </div>
 
-                    <!-- Tariff Plan 3: Mehr Zahn 100 -->
+                    <!-- Tariff Plan 3: Mehr Zahn 80 (Moved from 1st to 3rd) -->
                     <div class="tariff-plan-column">
-                        <h3>Mehr Zahn 100</h3>
+                        <h3>Mehr Zahn 80</h3>
                         <div class="tariff-details-group">
                             <h4>Leistungen</h4>
-                            <p><strong>Zahnersatz:</strong> 100 % (inkl. GKV-Vorleistung)</p>
-                            <p><strong>Inlays:</strong> 100 % (inkl. GKV-Vorleistung)</p>
+                            <p><strong>Zahnersatz:</strong> 80 % (inkl. GKV-Vorleistung)</p>
+                            <p><strong>Inlays:</strong> 80 % (inkl. GKV-Vorleistung)</p>
                             <p><strong>Regelversorgung:</strong> 100 % (inkl. GKV-Vorleistung)</p>
                         </div>
                         <div class="tariff-details-group">
                             <h4>Extras</h4>
-                            <ul>
+                            <ul class="extras-list">
                                 <li>Knochenaufbau</li>
                                 <li>Funktionsanalyse und -diagnostik</li>
                                 <li>Keramikverblendungen bis Zahn 8</li>
@@ -635,19 +707,20 @@
                             <h4>Beispielrechnungen</h4>
                             <div class="example-item">
                                 <h5>Krone</h5>
-                                <p>Gesamtkosten: 755 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">755 €</span></p>
                                 <p>GKV-Anteil: 260 €</p>
-                                <p>Erstattung: 495 €</p>
-                                <p><strong>Ihr Eigenanteil: 0 €</strong></p>
+                                <p>Erstattung: 344 €</p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">151 €</span></strong></p>
                             </div>
                             <div class="example-item">
                                 <h5>Inlay</h5>
-                                <p>Gesamtkosten: 750 €</p>
+                                <p><span class="gesamtkosten-label">Gesamtkosten:</span> <span class="gesamtkosten-value">750 €</span></p>
                                 <p>GKV-Anteil: 43 €</p>
-                                <p>Erstattung: 707 €</p>
-                                <p><strong>Ihr Eigenanteil: 0 €</strong></p>
+                                <p>Erstattung: 557 €</p>
+                                <p><strong><span class="eigenanteil-label">Dein Eigenanteil:</span> <span class="eigenanteil-value">150 €</span></strong></p>
                             </div>
                         </div>
+                        <a href="tarifrechner.html" class="cta-button tariff-plan-cta">Jetzt absichern</a>
                     </div>
                 </div>
             </section>
@@ -901,52 +974,21 @@
                 <a href="datenschutz.html">Datenschutz</a>
             </div>
             <p>&copy; 2024 SmileCare24. Alle Rechte vorbehalten.</p>
+            <div class="footer-credit">
+                webdesign & ideation by <a href="mailto:talhauddin@outlook.de">talha</a>
+            </div>
         </footer>
         
         <!-- Cookie Consent Banner -->
-        <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-consent" id="cookieConsentBanner">
             <div class="cookie-text">
-                Wir verwenden Cookies, um Dir die bestmögliche Erfahrung auf unserer Website zu bieten. Durch die weitere Nutzung unserer Website stimmst Du der Verwendung von Cookies zu. Mehr Informationen findest Du in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
+                Diese Webseite verwendet Cookies, um sicherzustellen, dass Sie das beste Erlebnis auf unserer Webseite erhalten. Weitere Informationen finden Sie in unserer <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a>.
             </div>
             <div class="cookie-buttons">
-                <button class="cookie-settings" id="cookieSettings">Einstellungen</button>
-                <button class="cookie-btn accept-necessary" id="acceptNecessary">Nur notwendige</button>
-                <button class="cookie-btn accept-all" id="acceptAll">Alle akzeptieren</button>
+                <button class="cookie-btn accept-all" id="acceptAllCookies">Alle akzeptieren</button>
+                <button class="cookie-btn accept-necessary" id="acceptNecessaryCookies">Nur notwendige akzeptieren</button>
             </div>
         </div>
-        
-        <script>
-            // Cookie consent functionality
-            document.addEventListener('DOMContentLoaded', function() {
-                // Existing cookie consent code
-                if (!localStorage.getItem('cookieConsent')) {
-                    setTimeout(function() {
-                        document.getElementById('cookieConsent').classList.add('show');
-                    }, 1000);
-                }
-                
-                // Accept all cookies
-                document.getElementById('acceptAll').addEventListener('click', function() {
-                    localStorage.setItem('cookieConsent', 'all');
-                    document.getElementById('cookieConsent').classList.remove('show');
-                    // Here you would enable all cookies/tracking
-                });
-                
-                // Accept only necessary cookies
-                document.getElementById('acceptNecessary').addEventListener('click', function() {
-                    localStorage.setItem('cookieConsent', 'necessary');
-                    document.getElementById('cookieConsent').classList.remove('show');
-                    // Here you would disable all non-essential cookies/tracking
-                });
-                
-                // Cookie settings button (would typically open a modal with detailed settings)
-                document.getElementById('cookieSettings').addEventListener('click', function() {
-                    // This would typically open a detailed cookie settings modal
-                    // For now, we'll just redirect to the privacy policy
-                    window.location.href = 'datenschutz.html';
-                });
-            });
-        </script>
     </div>
 
     <!-- Basic Carousel JavaScript -->
@@ -1114,522 +1156,6 @@
         });
     </script>
 
-    <!-- START: Integrated Quiz JavaScript -->
-    <script>
-        const quiz = (() => {
-    const steps = [
-        { id: 1, name: 'anrede', type: 'text', next: 2, required: true },
-        { id: 2, name: 'alter', type: 'number', next: 3, required: true, min: 0, max: 120 },
-        { id: 3, name: 'startdatum', type: 'date', next: 'description', required: true },
-        { id: 4, name: 'zaehne_fehlen', type: 'radio', next: (answer) => answer === 'Ja' ? 5 : 6, required: true },
-        { id: 5, name: 'anzahl_zaehne', type: 'radio', next: 6, required: true, skipIf: (answers) => answers.zaehne_fehlen !== 'Ja' },
-        { id: 6, name: 'in_behandlung', type: 'radio', next: (answer) => answer === 'Ja' ? 7 : 8, required: true },
-        { id: 7, name: 'behandlung_art', type: 'textarea', next: 8, required: true, skipIf: (answers) => answers.in_behandlung !== 'Ja' },
-        { id: 8, name: 'personal_data', type: 'form', next: 'final', required: true, fields: [
-                { name: 'voller_name', selector: '#q8-name', required: true, type: 'text' },
-                { name: 'strasse', selector: '#q8-strasse', required: true, type: 'text' },
-                { name: 'hausnummer', selector: '#q8-hausnummer', required: true, type: 'text' },
-                { name: 'plz', selector: '#q8-plz', required: true, type: 'text', pattern: /^\d{5}$/ },
-                { name: 'stadt', selector: '#q8-stadt', required: true, type: 'text' },
-                { name: 'email', selector: '#q8-email', required: true, type: 'email' },
-                { name: 'telefon', selector: '#q8-telefon', required: true, type: 'tel', pattern: /^[\d\s\+\-\/\(\)] {7,}$/ },
-                { name: 'iban', selector: '#q8-iban', required: true, type: 'text', pattern: /^[A-Z]{2}\d{2}[A-Z\d]{11,30}$/ }
-            ]
-        }
-    ];
-
-    const intermediateScreenId = 'description-screen';
-    const finalScreenId = 'final-screen';
-    const transitionDuration = 500; // Matches CSS transition for steps
-    const userAnswers = {};
-    const navigationHistory = [];
-    let currentStepIndex = 0;
-    let isPhase2 = false;
-    let isInitialQuizLoad = true; // Flag for initial load
-
-    function getStepElement(stepId) {
-        const id = (typeof stepId === 'number') ? `step-${stepId}` : stepId;
-        const calculatorElement = document.querySelector('.cta-box.left #calculator');
-        return calculatorElement ? calculatorElement.querySelector(`#${id}`) : null;
-    }
-
-    function getBackButtonForStep(stepId) {
-         const stepElement = getStepElement(stepId);
-         return stepElement ? stepElement.querySelector('.back-button') : null;
-     }
-
-      function getNextButtonForStep(stepId) {
-          const stepElement = getStepElement(stepId);
-          return stepElement ? stepElement.querySelector('.next-button') : null;
-      }
-
-     function getErrorElement(stepId, fieldName = null) {
-         const stepElement = getStepElement(stepId);
-         if (!stepElement) return null;
-         const baseId = (typeof stepId === 'number') ? `error-${stepId}` : `error-${stepId.replace('step-', 'error-')}`;
-         const elementId = fieldName ? `${baseId}-${fieldName}` : baseId;
-         return stepElement.querySelector(`#${elementId}`);
-     }
-
-     function showErrorMessage(stepId, message, fieldName = null) {
-          const errorElement = getErrorElement(stepId, fieldName);
-          if (errorElement) {
-              errorElement.textContent = message;
-              errorElement.style.display = 'block';
-          }
-     }
-
-      function hideErrorMessage(stepId, fieldName = null) {
-          const errorElement = getErrorElement(stepId, fieldName);
-          if (errorElement) errorElement.style.display = 'none';
-
-          const generalErrorForStep = getErrorElement(stepId);
-          if (generalErrorForStep && !fieldName) { // if hiding a general step error
-            generalErrorForStep.style.display = 'none';
-          }
-          
-          const currentStepConfig = steps.find(s => s.id.toString() === stepId.toString() || `step-${s.id}` === stepId.toString());
-          if (currentStepConfig && currentStepConfig.type === 'form') {
-              currentStepConfig.fields.forEach(field => {
-                  const specificFieldError = getErrorElement(stepId, field.name);
-                  if (specificFieldError) specificFieldError.style.display = 'none';
-              });
-          }
-     }
-
-
-    function getInputValue(stepConfig) {
-        const stepElement = getStepElement(stepConfig.id);
-        if (!stepElement) return null;
-
-        switch (stepConfig.type) {
-            case 'text':
-            case 'number':
-            case 'date':
-            case 'email':
-            case 'tel':
-            case 'textarea':
-                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
-                return input ? input.value.trim() : null;
-            case 'radio':
-                const checkedRadio = stepElement.querySelector(`input[name='${stepConfig.name}']:checked`);
-                return checkedRadio ? checkedRadio.value : null;
-            case 'form':
-                 const formData = {};
-                 let formValid = true; // Temp flag for this function's return, actual validation is separate
-                 stepConfig.fields.forEach(field => {
-                     const inputEl = stepElement.querySelector(field.selector);
-                     const value = inputEl ? inputEl.value.trim() : '';
-                     formData[field.name] = value;
-                     if (field.required && !value) {
-                         formValid = false; 
-                     }
-                 });
-                // userAnswers[stepConfig.name] = formData; // Store data in validateStep after successful validation
-                return formValid ? formData : null; // Return null if any required field is empty, for checkStepCompletion
-            default:
-                return null;
-        }
-    }
-
-     function validateInput(value, config) {
-        if (config.required && (value === null || value === '')) {
-            return 'Bitte füllen Sie dieses Feld aus.';
-        }
-        if (!config.required && (value === null || value === '')) return null; // Not required and empty is fine
-
-        let typeForValidation = config.validation || config.type;
-         // Infer type from selector if not directly in config.type (for form fields)
-        if (config.selector) {
-            if (config.selector.includes('[type="number"]')) typeForValidation = 'number';
-            else if (config.selector.includes('[type="email"]')) typeForValidation = 'email';
-            else if (config.selector.includes('[type="date"]')) typeForValidation = 'date';
-            else if (config.selector.includes('[type="tel"]')) typeForValidation = 'tel';
-        }
-
-
-        switch (typeForValidation) {
-            case 'number':
-                if (isNaN(value) || value === '') return 'Bitte geben Sie eine gültige Zahl ein.';
-                const num = Number(value);
-                if (config.min !== undefined && num < config.min) return `Wert muss mindestens ${config.min} sein.`;
-                if (config.max !== undefined && num > config.max) return `Wert darf maximal ${config.max} sein.`;
-                break;
-            case 'email':
-                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value)) return 'Bitte geben Sie eine gültige E-Mail Adresse ein.';
-                break;
-            case 'date':
-                 if (!/^\d{4}-\d{2}-\d{2}$/.test(value) && value !== '') return 'Bitte geben Sie ein gültiges Datum ein (YYYY-MM-DD).';
-                 const today = new Date(); today.setHours(0,0,0,0);
-                 const selectedDate = new Date(value);
-                 if (config.id === 3 && selectedDate < today && value !== '') {
-                    // return 'Das Startdatum darf nicht in der Vergangenheit liegen.'; // Future validation example
-                 }
-                 break;
-            case 'tel': 
-                const telPattern = config.pattern || /^[\\d\\s\\+\\-\\/\\(\\)]{7,}$/; // Default or specified pattern
-                if (!telPattern.test(value)) return 'Ungültiges Telefonnummernformat.';
-                break;
-             case 'text': 
-                if (config.pattern && !config.pattern.test(value)) {
-                    if (config.name === 'plz') return 'PLZ muss 5 Ziffern haben.';
-                    if (config.name === 'iban') return 'Ungültige IBAN. Format: DE12345678901234567890';
-                    return 'Eingabe entspricht nicht dem erwarteten Format.';
-                }
-                break;
-        }
-        return null; 
-    }
-
-    function validateStep(stepConfig) {
-         let overallStepIsValid = true;
-         hideErrorMessage(stepConfig.id); // Clear general step error
-
-         if (stepConfig.type === 'form') {
-             stepConfig.fields.forEach(field => {
-                 const inputElement = document.querySelector('.cta-box.left #calculator ' + field.selector);
-                 const value = inputElement ? inputElement.value.trim() : '';
-                 hideErrorMessage(stepConfig.id, field.name); // Clear specific field error
-                 const error = validateInput(value, field);
-                 if (error) {
-                     showErrorMessage(stepConfig.id, error, field.name);
-                     overallStepIsValid = false;
-                 }
-             });
-             if (overallStepIsValid) { // Only store if all fields are valid
-                 userAnswers[stepConfig.name] = getInputValue(stepConfig); 
-             }
-          } else {
-              const value = getInputValue(stepConfig);
-              const error = validateInput(value, stepConfig);
-              if (error) {
-                  showErrorMessage(stepConfig.id, error);
-                  overallStepIsValid = false;
-              } else {
-                  userAnswers[stepConfig.name] = value; 
-              }
-         }
-         return overallStepIsValid;
-    }
-
-
-    function checkStepCompletion(stepConfig) {
-        const stepElement = getStepElement(stepConfig.id);
-        const nextButton = getNextButtonForStep(stepConfig.id);
-        if (!stepElement || !nextButton) return;
-
-        let isComplete = false;
-        if (stepConfig.type === 'form') {
-            isComplete = true; 
-            stepConfig.fields.forEach(field => {
-                 const input = stepElement.querySelector(field.selector);
-                 const value = input ? input.value.trim() : '';
-                 if (field.required && !value) {
-                     isComplete = false; 
-                 }
-            });
-        } else {
-             const value = getInputValue(stepConfig);
-             isComplete = (value !== null && value !== '');
-             if (stepConfig.type === 'number' && stepConfig.required && value === '0') { // Specifically allow 0 for required numbers
-                isComplete = true;
-             }
-        }
-        nextButton.disabled = !isComplete;
-    }
-
-
-    function showStep(stepIdToShow) {
-        const stepElement = getStepElement(stepIdToShow);
-        if (stepElement) {
-             document.querySelectorAll('.cta-box.left #calculator .step').forEach(s => {
-                 if (s.id !== stepIdToShow && s.id !== getStepElement(stepIdToShow)?.id) { // Ensure correct comparison
-                    s.classList.add('hidden');
-                 }
-             });
-
-             hideErrorMessage(stepIdToShow); 
-             stepElement.classList.remove('hidden');
-             
-             if (navigationHistory[navigationHistory.length - 1] !== stepIdToShow) {
-                  navigationHistory.push(stepIdToShow);
-             }
-
-             const backButton = getBackButtonForStep(stepIdToShow);
-             if (backButton) {
-                 backButton.disabled = navigationHistory.length <= 1;
-             }
-
-             let currentConfig = steps.find(s => s.id.toString() === stepIdToShow.toString() || `step-${s.id}` === stepIdToShow.toString());
-             if (!currentConfig && (stepIdToShow === intermediateScreenId || stepIdToShow === finalScreenId)) {
-                // It's a special screen
-             }
-
-
-             if (currentConfig && typeof currentConfig === 'object') {
-                 checkStepCompletion(currentConfig); 
-             } else if (stepIdToShow === intermediateScreenId) {
-                 const nextButton = getNextButtonForStep(intermediateScreenId);
-                 if(nextButton) nextButton.disabled = false; 
-             } else if (stepIdToShow === finalScreenId){
-                 const nextButton = getNextButtonForStep(finalScreenId);
-                 if(nextButton) nextButton.disabled = true; 
-             }
-
-             const firstInput = stepElement.querySelector('input:not([type=radio]):not([disabled]), textarea:not([disabled])');
-             if (firstInput && !isInitialQuizLoad) { // Only focus if not initial load
-                 setTimeout(() => firstInput.focus(), 50); 
-             }
-             if (isInitialQuizLoad) {
-                 isInitialQuizLoad = false; // Set flag to false after first step is shown
-             }
-
-             const calculatorDiv = document.querySelector('.cta-box.left #calculator');
-             if (calculatorDiv) { // Scroll into view logic
-                 const rect = calculatorDiv.getBoundingClientRect();
-                 const ctaBoxLeft = document.querySelector('.cta-box.left');
-                 const ctaBoxRect = ctaBoxLeft ? ctaBoxLeft.getBoundingClientRect() : null;
-
-                 if (ctaBoxRect && (rect.top < ctaBoxRect.top || rect.bottom > ctaBoxRect.bottom)) {
-                    // If step is outside visible area of cta-box, scroll cta-box
-                    ctaBoxLeft.scrollTop = stepElement.offsetTop - ctaBoxLeft.offsetTop - 20; // 20px buffer
-                 } else if (rect.top < 0 || rect.bottom > window.innerHeight) { 
-                    // Fallback: if still outside viewport, scroll whole window
-                    stepElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                 }
-             }
-        }
-    }
-
-    function hideStep(stepIdToHide) {
-        const stepElement = getStepElement(stepIdToHide);
-        if (stepElement) {
-            stepElement.classList.add('hidden');
-        }
-    }
-
-    function updateDescriptionScreen() {
-        let calculatedPrice = 25;
-        let tarifOption = "Basis-Schutz";
-        const benefits = [
-             "Regelmäßige Zahnreinigung",
-             "Füllungen und Inlays",
-             "Wurzelbehandlungen"
-        ];
-
-        if (userAnswers.alter) {
-             const age = parseInt(userAnswers.alter, 10);
-             if (age > 50) calculatedPrice += 10;
-             if (age > 65) calculatedPrice += 15;
-        }
-        
-        const descScreen = getStepElement(intermediateScreenId);
-        if (!descScreen) return;
-
-        const tarifOptionEl = descScreen.querySelector('#tarif-option');
-        const tarifPriceEl = descScreen.querySelector('#tarif-price');
-        const benefitListEl = descScreen.querySelector('#benefit-list');
-
-        if(tarifOptionEl) tarifOptionEl.textContent = tarifOption;
-        if(tarifPriceEl) tarifPriceEl.textContent = calculatedPrice;
-        if(benefitListEl) {
-            benefitListEl.innerHTML = '';
-            benefits.forEach(benefit => {
-                const li = document.createElement('li');
-                li.textContent = benefit;
-                benefitListEl.appendChild(li);
-            });
-        }
-        userAnswers.calculated_tarif_price = calculatedPrice;
-        userAnswers.calculated_tarif_option = tarifOption;
-    }
-
-
-    function nextStep() {
-        const descriptionScreenElement = getStepElement(intermediateScreenId);
-        if (descriptionScreenElement && !descriptionScreenElement.classList.contains('hidden')) {
-            hideStep(intermediateScreenId);
-            setTimeout(() => {
-                 const phase2StartIndex = steps.findIndex(step => step.id === 4);
-                 if (phase2StartIndex !== -1) {
-                     currentStepIndex = phase2StartIndex;
-                     showStep(steps[currentStepIndex].id);
-                 }
-            }, transitionDuration);
-            return;
-        }
-
-        const currentConfig = steps[currentStepIndex];
-        if (!currentConfig) return;
-
-        const currentId = currentConfig.id;
-        if (currentConfig.required && !validateStep(currentConfig)) {
-            return; 
-        }
-        // Ensure answer is captured if not already by validateStep (e.g. non-required field or form with all valid)
-        if (userAnswers[currentConfig.name] === undefined || (currentConfig.type ==='form' && validateStep(currentConfig)) ) {
-             userAnswers[currentConfig.name] = getInputValue(currentConfig);
-        }
-
-
-        hideStep(currentId);
-
-        let nextStepId = null;
-        if (typeof currentConfig.next === 'function') {
-            const currentAnswer = userAnswers[currentConfig.name]; // Use the stored answer
-            nextStepId = currentConfig.next(currentAnswer);
-        } else {
-            nextStepId = currentConfig.next;
-        }
-
-        setTimeout(() => {
-            if (nextStepId === 'description') {
-                updateDescriptionScreen();
-                showStep(intermediateScreenId);
-                isPhase2 = true; 
-            } else if (nextStepId === 'final') {
-                 showStep(finalScreenId);
-                 console.log("Final Quiz Answers:", JSON.stringify(userAnswers)); 
-            } else {
-                let nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
-                while (nextIndex !== -1 && steps[nextIndex].skipIf && steps[nextIndex].skipIf(userAnswers)) {
-                     const skippedConfig = steps[nextIndex];
-                      if (typeof skippedConfig.next === 'function') {
-                           const answerForSkipLogic = userAnswers[skippedConfig.name] || getInputValue(skippedConfig); 
-                           nextStepId = skippedConfig.next(answerForSkipLogic); 
-                      } else {
-                          nextStepId = skippedConfig.next;
-                      }
-                     nextIndex = steps.findIndex(step => step.id.toString() === nextStepId.toString());
-                }
-
-                if (nextStepId === 'description') { 
-                    updateDescriptionScreen();
-                    showStep(intermediateScreenId);
-                    isPhase2 = true;
-                } else if (nextStepId === 'final') { 
-                    showStep(finalScreenId);
-                    console.log("Final Quiz Answers (after skip):", JSON.stringify(userAnswers));
-                } else if (nextIndex !== -1) {
-                    currentStepIndex = nextIndex;
-                    showStep(steps[currentStepIndex].id);
-                }
-            }
-        }, transitionDuration);
-    }
-
-    function previousStep() {
-        if (navigationHistory.length <= 1) return; 
-
-        const currentStepIdFromHistory = navigationHistory.pop(); 
-        const previousStepId = navigationHistory[navigationHistory.length - 1]; 
-
-        if (!previousStepId) { // Should not happen with guard above
-            navigationHistory.push(currentStepIdFromHistory); // Re-add if no prev
-            return; 
-        }
-
-        hideStep(currentStepIdFromHistory);
-
-        const previousIndex = steps.findIndex(s => s.id.toString() === previousStepId.toString() || `step-${s.id}` === previousStepId.toString());
-        if (previousIndex !== -1) {
-             currentStepIndex = previousIndex;
-        } else if (previousStepId === intermediateScreenId) {
-            currentStepIndex = steps.findIndex(s => s.next === 'description'); // Find the step that leads to description
-            isPhase2 = false; 
-        } else {
-            // Fallback, should ideally not be needed if history is correct
-            currentStepIndex = 0; 
-            isPhase2 = false;
-        }
-        showStep(previousStepId);
-    }
-
-    function initQuiz() {
-        steps.forEach(stepConfig => {
-            const stepElement = getStepElement(stepConfig.id);
-            if (!stepElement) return;
-
-            const nextBtn = getNextButtonForStep(stepConfig.id);
-            const backBtn = getBackButtonForStep(stepConfig.id);
-
-            if(nextBtn) {
-                nextBtn.removeAttribute('onclick'); 
-                nextBtn.addEventListener('click', nextStep);
-            } 
-            if(backBtn) {
-                backBtn.removeAttribute('onclick');
-                backBtn.addEventListener('click', previousStep);
-            }
-
-            // Function to handle Enter key press
-            const handleEnterKey = (event) => {
-                if (event.key === 'Enter') {
-                    event.preventDefault(); // Prevent default form submission or newline
-                    if (nextBtn && !nextBtn.disabled) {
-                        nextBtn.click();
-                    }
-                }
-            };
-
-            if (stepConfig.type === 'form') {
-                 stepConfig.fields.forEach(field => {
-                    const input = stepElement.querySelector(field.selector);
-                    if (input) {
-                         input.addEventListener('input', () => checkStepCompletion(stepConfig));
-                         input.addEventListener('blur', () => validateStep(stepConfig)); 
-                         input.addEventListener('keydown', handleEnterKey); // Add keydown listener
-                    }
-                });
-            } else if (stepConfig.type === 'radio') {
-                 const radios = stepElement.querySelectorAll(`input[name='${stepConfig.name}']`);
-                 radios.forEach(radio => {
-                     radio.addEventListener('change', () => {
-                        const labels = stepElement.querySelectorAll('.options label');
-                        labels.forEach(lbl => lbl.classList.remove('checked-label')); // Using a class for checked state
-                        if (radio.checked) {
-                            const parentLabel = radio.closest('label');
-                            if (parentLabel) parentLabel.classList.add('checked-label');
-                        }
-                        checkStepCompletion(stepConfig);
-                     });
-                 });
-            } else { // Text, number, date, textarea
-                const input = stepElement.querySelector(`#q${stepConfig.id}-${stepConfig.name}, textarea[name='${stepConfig.name}']`);
-                 if (input) {
-                     input.addEventListener('input', () => checkStepCompletion(stepConfig));
-                     input.addEventListener('blur', () => validateStep(stepConfig)); 
-                     input.addEventListener('keydown', handleEnterKey); // Add keydown listener
-                 }
-            }
-        });
-        
-        const descNextBtn = getNextButtonForStep(intermediateScreenId);
-        if(descNextBtn) { descNextBtn.removeAttribute('onclick'); descNextBtn.addEventListener('click', nextStep); }
-        const descBackBtn = getBackButtonForStep(intermediateScreenId);
-        if(descBackBtn) { descBackBtn.removeAttribute('onclick'); descBackBtn.addEventListener('click', previousStep); }
-
-        if (steps.length > 0) {
-             showStep(steps[0].id); 
-        } 
-    }
-    return {
-        initQuiz 
-    };
-
-})();
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Ensure this only runs if the calculator is actually on the page
-    const calculatorElement = document.querySelector('.cta-box.left #calculator');
-    if (calculatorElement) {
-        quiz.initQuiz();
-    }
-});
-
-    </script>
-    <!-- END: Integrated Quiz JavaScript -->
-
+    <script src="js/quiz-logic.js" defer></script>
 </body>
 </html>

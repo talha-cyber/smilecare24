@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Impressum - SmileCare24</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../src/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- GSAP Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Main scripts -->
-    <script src="../src/js/script.js"></script>
+    <script src="js/script.js"></script>
     
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
@@ -40,27 +40,7 @@
     </script>
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html">
-            <img src="../src/assets/smilecare_logo.png" alt="SmileCare24 Logo" class="logo">
-        </a>
-        <button class="hamburger-btn mobile-only" id="hamburger-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="mobile-menu mobile-only" id="mobile-menu">
-            <div class="menu-links">
-                <a href="index.html" class="menu-link">Startseite</a>
-                <a href="tarifrechner.html" class="menu-link">Tarifrechner</a>
-                <a href="impressum.html" class="menu-link">Impressum</a>
-                <a href="datenschutz.html" class="menu-link">Datenschutz</a>
-            </div>
-        </div>
-        <button class="calendly-button" id="calendlyButton" type="button">
-            Kostenlos Termin vereinbaren
-        </button>
-    </nav>
+    <div id="navbar-container"></div>
     
     <div class="legal-content">
         <h1>Impressum</h1>
@@ -77,8 +57,8 @@
         
         <h2>Kontakt:</h2>
         <p>
-            Website: <a href="https://pfotenschutz24-barmenia.de/">https://pfotenschutz24-barmenia.de/</a><br>
-            E-Mail: Kontakt@barmenia-pfotenschutz24.de<br>
+            Website: <a href="https://www.smilecare24.de/">www.smilecare24.de</a><br>
+            E-Mail: kontakt@smilecare24.de<br>
             Telefon: 015776461999
         </p>
         
@@ -167,6 +147,13 @@
             <a href="datenschutz.html">Datenschutz</a>
         </div>
         <p>&copy; 2024 SmileCare24. Alle Rechte vorbehalten.</p>
+        <div class="footer-credit">
+            webdesign & ideation by <a href="mailto:talhauddin@outlook.de">talha</a>
+        </div>
     </footer>
+
+    <div class="cookie-consent" id="cookieConsentBanner">
+        <!-- Cookie consent content -->
+    </div>
 </body>
 </html> 
