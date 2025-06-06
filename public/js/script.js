@@ -367,7 +367,7 @@ function setupMobileExperience() {
         const loadingElement = displayMessage('', 'loading', chatBox); // Use global displayMessage
 
         try {
-            const response = await fetch("http://127.0.0.1:5051/chat", {
+            const response = await fetch("/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: messageContent })
@@ -877,7 +877,7 @@ async function sendMessage() {
 
     try {
         // Send message to server
-        const response = await fetch("http://127.0.0.1:5051/chat", {
+        const response = await fetch("/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: messageContent })
@@ -1279,7 +1279,7 @@ function setupChatPopup() {
 
        try {
            // Send message to server
-           const response = await fetch("http://127.0.0.1:5051/chat", {
+           const response = await fetch("/chat", {
                method: "POST",
                headers: { "Content-Type": "application/json" },
                body: JSON.stringify({ message: messageContent })
