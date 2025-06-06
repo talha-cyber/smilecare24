@@ -505,7 +505,7 @@
                     <div class="badge-container">
                         <span class="beta-badge">
                             Beta
-                            <span class="beta-tooltip">Unser Chatbot befindet sich momentan noch in der Betatest-Phase, weshalb weshalb wir nicht gewährleisten können, dass alle Informationen, die sich aus einem Chat ergeben zu 100% der Wahrheit entsprechen. Für Rückfragen und Sicherstellung bitten wir Dich direkt aus uns zuzukommen: kontakt@smilecare24.de</span>
+                            <span class="beta-tooltip">Unser Chatbot befindet sich momentan noch in der Betatest-Phase, weshalb wir nicht gewährleisten können, dass alle Informationen, die sich aus einem Chat ergeben zu 100% der Wahrheit entsprechen. Für Rückfragen und Sicherstellung bitten wir Dich direkt aus uns zuzukommen: kontakt@smilecare24.de</span>
                         </span>
                     </div>
                     <p class="chat-intro-text">Lass dich von unserem KI-Assistenten beraten!</p>
@@ -518,7 +518,11 @@
         </section>
         <!-- END: CTA Section -->
 
-            <!-- START: Comparison Table -->
+
+
+
+
+        <!-- START: Comparison Table -->
             <section class="comparison-table-section">
                 <h2>Unsere Leistungen im Vergleich</h2>
                 <div class="comparison-table-wrapper">
@@ -979,6 +983,57 @@
             </div>
         </footer>
         
+        <!-- Chat Popup -->
+        <div id="chat-popup-wrapper" style="display: none;">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>SmileCare24 Beratung</h3>
+                    <button id="closeChatPopup" aria-label="Chat schließen">×</button>
+                </div>
+                <div class="chat-box" id="chat-box">
+                    <div class="chat-message ai-message">
+                        <div>Hallo! Ich bin dein SmileCare24 Assistent. Wie kann ich dir bei deiner Zahnzusatzversicherung helfen?</div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <div class="chat-input-field" contenteditable="true" id="popup-chat-input" placeholder="Schreibe deine Nachricht..."></div>
+                    </div>
+                    <button class="chat-send-btn" aria-label="Nachricht senden">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Chat Widget -->
+        <div id="chat-widget-container" class="state-initial">
+            <button id="chat-cta-button">
+                💬 Chat starten
+            </button>
+            
+            <div id="chat-minimized-bubble">
+                
+            </div>
+            
+            <div id="chat-window">
+                <div id="mobile-chat-header">
+                    <span>SmileCare24 Chat</span>
+                    <button id="minimize-chat" aria-label="Chat minimieren"></button>
+                </div>
+                <div id="mobile-chat-area"></div>
+                <div class="mobile-chat-input-area">
+                    <input type="text" id="mobile-chat-input" placeholder="Nachricht eingeben...">
+                    <button id="mobile-send-button" aria-label="Senden"></button>
+                </div>
+            </div>
+            
+            <div id="drop-zone">
+                <i class="fas fa-trash"></i>
+                <span>Zum Löschen hier ablegen</span>
+            </div>
+        </div>
+
         <!-- Cookie Consent Banner -->
         <div class="cookie-consent" id="cookieConsentBanner">
             <div class="cookie-text">

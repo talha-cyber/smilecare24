@@ -108,9 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setupMobileExperience();
     } else {
         // Desktop experience
-        setupCircleAnimations();
         setupTextBlockAnimations();
-        setupHeadlinePinningAnimation();
     }
     
     // Set up FAQ animations and interactions (for both mobile and desktop)
@@ -212,11 +210,7 @@ function initializeCookieConsent() {
 
 // Mobile experience setup
 function setupMobileExperience() {
-    // Create mobile circles if they don't exist
-    // createMobileCircleCards(); // Commented out as per user request
-    
-    // Set up mobile circle cards with scroll effects
-    setupMobileCircleCards();
+
     
     // Set up mobile text block animations
     setupMobileTextBlockAnimations();
@@ -504,150 +498,9 @@ function setupMobileExperience() {
     // --- END: Floating Mobile Chat Logic ---
 }
 
-// Create mobile circle cards dynamically if they don't exist
-function createMobileCircleCards() {
-    // Check if mobile circle container already exists
-    if (document.getElementById('mobile-circle-container')) return;
-    
-    // Create mobile circle container
-    const mobileCircleContainer = document.createElement('div');
-    mobileCircleContainer.className = 'mobile-circle-container mobile-only';
-    mobileCircleContainer.id = 'mobile-circle-container';
-    
-    // Define the circle data
-    const cardsData = [
-        {
-            id: 'mobile-circle1',
-            title: 'Vertrauen',
-            text: '98% unserer Kunden empfehlen uns weiter. Höchste Zufriedenheit dank transparenter Kommunikation.',
-            backgroundImage: 'assets/vertrauen.png',
-            iconSrc: 'assets/certicificate.svg',
-            iconAlt: 'Certificate Icon'
-        },
-        {
-            id: 'mobile-circle2',
-            title: 'Leistungen',
-            text: 'Ob Zahnersatz, Zahnreinigung oder Kieferorthopädie – wir bieten umfassenden Schutz.',
-            backgroundImage: 'assets/Smiling_2.png',
-            iconSrc: 'assets/tooth.svg',
-            iconAlt: 'Tooth Icon'
-        },
-        {
-            id: 'mobile-circle3',
-            title: 'Flexibilität',
-            text: 'Täglich kündbar und ohne Wartezeiten. Wähle den Tarif, der zu Deinem Leben passt.',
-            backgroundImage: 'assets/flexibilität.png',
-            iconSrc: 'assets/contract.svg',
-            iconAlt: 'Contract Icon'
-        }
-    ];
-    
-    // Create each mobile card
-    cardsData.forEach((data) => {
-        // Create card element
-        const mobileCard = document.createElement('div');
-        mobileCard.className = 'mobile-card';
-        mobileCard.id = data.id;
-        
-        // Create circle element
-        const circle = document.createElement('div');
-        circle.className = 'circle';
-        circle.id = data.id;
-        circle.style.backgroundImage = `url('${data.backgroundImage}')`;
-        
-        // Create content container
-        const contentContainer = document.createElement('div');
-        contentContainer.className = 'circle-content-container';
-        
-        // Create icon
-        const icon = document.createElement('img');
-        icon.src = data.iconSrc;
-        icon.alt = data.iconAlt;
-        icon.className = 'circle-icon';
-        
-        // Create content
-        const content = document.createElement('div');
-        content.className = 'circle-content';
-        content.innerHTML = `<strong>${data.title}</strong> ${data.text}`;
-        
-        // Assemble content container
-        contentContainer.appendChild(icon);
-        contentContainer.appendChild(content);
-        
-        // Assemble mobile card
-        mobileCard.appendChild(circle);
-        mobileCard.appendChild(contentContainer);
-        
-        // Add to container
-        mobileCircleContainer.appendChild(mobileCard);
-    });
-    
-    // Add the mobile circle container directly to the page instead of replacing accordion
-    const scrollingCirclesSection = document.querySelector('.scrolling-circles');
-    if (scrollingCirclesSection) {
-        scrollingCirclesSection.after(mobileCircleContainer);
-    } else {
-        // Fallback - add to body
-        document.body.appendChild(mobileCircleContainer);
-    }
-}
 
-// Set up mobile circle cards with scroll-based blur effect
-function setupMobileCircleCards() {
-    // Get all mobile cards
-    const mobileCards = document.querySelectorAll('.mobile-card');
-    
-    // If no mobile cards were found or created, exit the function
-    if (mobileCards.length === 0) return;
-    
-    // Set up intersection observer for scroll animations
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                // When a card comes into view
-                if (entry.isIntersecting) {
-                    // Add in-view class much faster
-                    setTimeout(() => {
-                        entry.target.classList.add('in-view');
-                        
-                        // Find the content container and add content-visible class faster
-                        const contentContainer = entry.target.querySelector('.circle-content-container');
-                        if (contentContainer) {
-                            setTimeout(() => {
-                                contentContainer.classList.add('content-visible');
-                            }, 50); // Reduced delay for content visibility
-                        }
-                    }, 50); // Reduced delay for applying in-view effect
-                } else {
-                    // When card leaves viewport, remove the classes
-                    entry.target.classList.remove('in-view');
-                    const contentContainer = entry.target.querySelector('.circle-content-container');
-                    if (contentContainer) {
-                        contentContainer.classList.remove('content-visible');
-                    }
-                }
-            });
-        },
-        { 
-            threshold: 0.4, // Trigger when 40% is visible (sooner)
-            rootMargin: '0px 0px' // Trigger closer to viewport edge
-        }
-    );
-    
-    // Observe all mobile cards
-    mobileCards.forEach(card => {
-        observer.observe(card);
-    });
-    
-    // Create a simple entrance animation for the cards
-    gsap.from('.mobile-card', {
-        y: 30,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.25, // Increase stagger for better sequential effect
-        ease: "power2.out"
-    });
-}
+
+
 
 // Mobile text block animations
 function setupMobileTextBlockAnimations() {
@@ -900,59 +753,7 @@ function setupTextBlockAnimations() {
     });
 }
 
-// Function to set up circle animations
-function setupCircleAnimations() {
-    // Animation for Circle 1 and its content
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: "#circle1-wrapper",
-            start: "top 100%",
-            end: "bottom 98%",
-            scrub: 1,
-            toggleActions: "play pause resume reset"
-        }
-    })
-    .to(["#circle1", "#content1"], { // Animate circle and content together
-        filter: "blur(0px)",
-        opacity: 1, // Fade in completely
-        duration: 1, // Duration relative to scroll distance
-        ease: "none" // Linear ease for scrubbed animations
-    }, 0); // Start immediately
 
-    // Animation for Circle 2 and its content
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: "#circle2-wrapper",
-            start: "top 100%",
-            end: "bottom 98%",
-            scrub: 1,
-            toggleActions: "play pause resume reset"
-        }
-    })
-    .to(["#circle2", "#content2"], {
-        filter: "blur(0px)",
-        opacity: 1,
-        duration: 1,
-        ease: "none"
-    }, 0);
-
-    // Animation for Circle 3 and its content
-    gsap.timeline({
-        scrollTrigger: {
-            trigger: "#circle3-wrapper",
-            start: "top 120%",
-            end: "bottom 98%",
-            scrub: 1,
-            toggleActions: "play pause resume reset"
-        }
-    })
-    .to(["#circle3", "#content3"], {
-        filter: "blur(0px)",
-        opacity: 1,
-        duration: 1,
-        ease: "none"
-    }, 0);
-}
 
 // Helper function for typewriter effect
 function typeWriter(element, text, speed = 30, chatBoxToScroll) { // speed in milliseconds
@@ -1143,11 +944,9 @@ document.addEventListener('DOMContentLoaded', () => {
             setupMobileExperience(); 
         } else {
             // Desktop-specific setups (excluding headline animation)
-            setupCircleAnimations();
             setupTextBlockAnimations();
         }
         // Common setups for both
-        setupHeadlinePinningAnimation(); // Call this for both mobile and desktop
         setupFAQSection();
         setupChatPopup(); // Initialize chat popup logic
 
@@ -1164,20 +963,16 @@ window.addEventListener("resize", () => {
         console.log("Resizing, re-setting up animations...");
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
              const isMobile = window.innerWidth <= 768;
-             // Clean up old triggers specifically for this animation
-             ScrollTrigger.getById("headline-pin-trigger")?.kill();
-             ScrollTrigger.getById("headline-section-pin-trigger")?.kill();
+             // Clean up old triggers
  
              if (isMobile) {
                  // Mobile-specific setups (excluding headline animation)
                  setupMobileExperience(); 
              } else {
                  // Desktop-specific setups (excluding headline animation)
-                 setupCircleAnimations();
                  setupTextBlockAnimations();
              }
              // Common setups for both
-             setupHeadlinePinningAnimation(); // Re-run this for both mobile and desktop
              setupFAQSection(); // Re-run FAQ setup
              setupChatPopup(); // Re-initialize chat popup logic
 
@@ -1187,154 +982,7 @@ window.addEventListener("resize", () => {
     }, 250);
 });
 
-// --- Revised Headline Pinning Animation ---
-function setupHeadlinePinningAnimation() {
-    console.log("Setting up yPercent headline animation + simple text fade...");
 
-    // Kill previous triggers
-    ScrollTrigger.getById("headline-section-pin-trigger")?.kill();
-
-    const headlines = document.querySelectorAll('.chat-style-headline');
-    const textElements = document.querySelectorAll('.chat-style-text');
-    const headlineSection = document.getElementById('scrollHeadlinesSection');
-
-    if (!headlineSection || headlines.length < 3 || textElements.length < 3) {
-        console.error("Required elements not found. Need at least 3 headlines and 3 text elements.");
-        return;
-    }
-
-    const h1 = headlines[0]; 
-    const h2 = headlines[1];
-    const h3 = headlines[2];
-    const text1 = textElements[0];
-    const text2 = textElements[1];
-    const text3 = textElements[2];
-
-    // Determine initial Y offset based on screen width
-    const isMobile = window.innerWidth <= 768;
-    // Set the same initial offset for consistency after desktop headline adjustment
-    const initialTextY = -180; 
-    
-    // Determine final headline Y positions based on screen width
-    const finalHeadlineYPercent = isMobile ? -950 : -550; // User's adjusted desktop value
-
-    // Reset positions/styles
-    gsap.set([h1, h2, h3], { yPercent: 0 }); 
-    // Set initial opacity to 0 and conditional vertical offset
-    gsap.set([text1, text2, text3], { y: initialTextY, opacity: 0 }); 
-
-    // Create the animation timeline
-    const animationTimeline = gsap.timeline({ paused: true });
-    
-    const headlineMoveDuration = 0.4; // Conceptual duration within the timeline for movement
-    const textFadeDuration = 0.3;     // Duration for text fade in/out
-    const textVisibleDuration = 0.5;  // How long text stays visible
-    const delayAfterHMove = 0.05;     // Small delay between headline move end and text fade in start
-    const delayAfterTFadeOut = 0.1; // Small delay between text fade out end and next headline move start
-
-    let currentTime = 0;
-
-    // --- Section 1: H1 & T1 --- 
-    // H1 moves up
-    animationTimeline.to(h1, {
-        yPercent: finalHeadlineYPercent, // Use conditional value
-        ease: "none",
-        duration: headlineMoveDuration
-    }, currentTime);
-    const h1MoveEnd = currentTime + headlineMoveDuration;
-
-    // T1 fades in (starts AFTER H1 move ends)
-    const t1FadeInStart = h1MoveEnd + delayAfterHMove; 
-    animationTimeline.to(text1, {
-        opacity: 1,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t1FadeInStart);
-    const t1FadeInEnd = t1FadeInStart + textFadeDuration;
-
-    // T1 fades out
-    const t1FadeOutStart = t1FadeInEnd + textVisibleDuration;
-    animationTimeline.to(text1, {
-        opacity: 0,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t1FadeOutStart);
-    const t1FadeOutEnd = t1FadeOutStart + textFadeDuration;
-    
-    // Update time for next section start
-    currentTime = t1FadeOutEnd + delayAfterTFadeOut; 
-
-    // --- Section 2: H2 & T2 --- 
-    // H2 moves up
-    animationTimeline.to(h2, {
-        yPercent: finalHeadlineYPercent, // Use conditional value
-        ease: "none",
-        duration: headlineMoveDuration
-    }, currentTime);
-    const h2MoveEnd = currentTime + headlineMoveDuration;
-
-    // T2 fades in (starts AFTER H2 move ends)
-    const t2FadeInStart = h2MoveEnd + delayAfterHMove;
-    animationTimeline.to(text2, {
-        opacity: 1,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t2FadeInStart);
-    const t2FadeInEnd = t2FadeInStart + textFadeDuration;
-
-    // T2 fades out
-    const t2FadeOutStart = t2FadeInEnd + textVisibleDuration;
-    animationTimeline.to(text2, {
-        opacity: 0,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t2FadeOutStart);
-    const t2FadeOutEnd = t2FadeOutStart + textFadeDuration;
-    
-    // Update time for next section start
-    currentTime = t2FadeOutEnd + delayAfterTFadeOut; 
-
-    // --- Section 3: H3 & T3 --- 
-    // H3 moves up
-    animationTimeline.to(h3, {
-        yPercent: finalHeadlineYPercent, // Use conditional value
-        ease: "none",
-        duration: headlineMoveDuration
-    }, currentTime);
-    const h3MoveEnd = currentTime + headlineMoveDuration;
-
-    // T3 fades in (starts AFTER H3 move ends)
-    const t3FadeInStart = h3MoveEnd + delayAfterHMove; 
-    animationTimeline.to(text3, {
-        opacity: 1,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t3FadeInStart);
-    const t3FadeInEnd = t3FadeInStart + textFadeDuration;
-
-    // T3 fades out
-    const t3FadeOutStart = t3FadeInEnd + textVisibleDuration;
-    animationTimeline.to(text3, {
-        opacity: 0,
-        duration: textFadeDuration,
-        ease: "power1.inOut"
-    }, t3FadeOutStart);
-    // const t3FadeOutEnd = t3FadeOutStart + textFadeDuration; // End of sequence
-
-    // Create the main ScrollTrigger (controls the whole timeline)
-    ScrollTrigger.create({
-        trigger: headlineSection,
-        animation: animationTimeline, 
-        start: "center 85%", // Changed from "center center" to position headlines lower on the screen
-        end: "+=1500", // Reduced scroll distance to make animation pin earlier to bottom      
-        pin: true,             
-        pinSpacing: true,      
-        scrub: 1,              
-        id: "headline-section-pin-trigger",
-        markers: false,        
-        invalidateOnRefresh: true
-    });
-}
 
 // --- START: Chat Popup Logic ---
 function setupChatPopup() {

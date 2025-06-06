@@ -724,273 +724,9 @@ body {
     user-select: none;
 }
 
-/* Scrolling Headlines */
-.scroll-headline-container {
-    position: relative;
-    width: 100%;
-    padding: 20px 0;
-    margin-top: 240px; /* Increased space (4x) between components */
-}
 
-.headline-content-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Adjust gap between headline items/group */
-    padding: 0 15px;
-    text-align: left;
-    position: relative; 
-}
 
-.chat-style-headline {
-    text-align: left;
-    font-size: inherit;
-    font-weight: inherit;
-    color: inherit;
-    margin: 0; /* Ensure headlines themselves have no margin */
-    margin-left: clamp(15px, 5vw, 30px);
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    color: #034848;
-    font-weight: 600;
-    line-height: 1.4;
-}
 
-.headline-group {
-    position: relative; 
-}
-
-/* New rule for the wrappers of H2/T2 and H3/T3 */
-.headline-item {
-    position: relative; /* Positioning context for T2/T3 */
-}
-
-.headline-group .chat-style-headline {
-    margin-bottom: 0; 
-}
-
-.chat-style-text {
-    position: absolute; 
-    opacity: 0; /* Start hidden */
-    top: 100%; /* Position top edge at parent's bottom edge */
-    left: clamp(15px, 5vw, 30px); /* Left indent */
-    right: clamp(15px, 5vw, 30px); /* Right indent - matches left */
-    width: auto; /* Width is determined by left/right constraints */
-    margin-top: 5px; /* Add small space below the headline */
-    box-sizing: border-box; /* Include padding/border in element's total width/height */
-    /* max-width: none; -> Not needed when left/right are set */
-    font-size: clamp(0.9rem, 2vw, 1.1rem); 
-    color: #333; 
-    line-height: 1.5; 
-    margin-left: 0; 
-    text-align: left;
-    will-change: opacity, transform; 
-}
-
-/* Spacer to provide scrollable height */
-.scroll-spacer {
-    height: 300vh;
-}
-
-@media (max-width: 768px) {
-    .scroll-headline-container {
-        margin-top: 160px; /* Less space needed on mobile but still maintain separation */
-        padding: 10px 0;
-    }
-    
-    .headline-content-section {
-        gap: 5px; /* Further reduced gap for mobile */
-    }
-    
-    .chat-style-headline {
-        font-size: clamp(1rem, 3vw, 1.4rem); /* Slightly smaller on mobile */
-        margin-left: 15px; /* Less left margin on mobile */
-        max-width: 90%; /* Allow headlines to use more width on mobile */
-    }
-}
-
-/* Scrolling Circles Section */
-.scrolling-circles {
-    position: relative;
-    width: 100%;
-    height: 300vh; /* Increased from 200vh to 300vh to accommodate wider spacing */
-    overflow: hidden;
-    margin: 50px 0;
-    background: transparent;
-}
-
-.circle-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.circle-wrapper {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#circle1-wrapper {
-    top: 20vh; /* Increased from 10vh */
-}
-
-#circle2-wrapper {
-    top: 130vh; /* Increased from 70vh */
-}
-
-#circle3-wrapper {
-    top: 240vh; /* Increased from 130vh */
-}
-
-.circle {
-    position: relative;
-    width: 30vw; /* Adjusted size relative to viewport */
-    height: 30vw; /* Keep it circular by using same value for width and height */
-    min-width: 250px; /* Minimum size for very small screens */
-    min-height: 250px;
-    max-width: 450px; /* Maximum size */
-    max-height: 450px;
-    border-radius: 50%; /* Ensure circle shape */
-    background: rgba(255, 255, 255, 0.1); /* Slightly visible background */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    opacity: 0.3;
-    filter: blur(8px); 
-    transition: all 0.5s ease; /* Smoother transition */
-    box-sizing: border-box; /* Include padding in width/height */
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
-    aspect-ratio: 1/1; /* Enforce perfect circle */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.circle-right {
-    margin-left: 5%;
-}
-
-.circle-left {
-    margin-right: 5%;
-}
-
-.circle-content-container {
-    max-width: 40%;
-    opacity: 0.3;
-    filter: blur(8px);
-    transition: all 0.5s ease; /* Smoother transition */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: transparent;
-}
-
-.content-left {
-    margin-right: 5%;
-    text-align: right;
-}
-
-.content-right {
-    margin-left: 5%;
-    text-align: left;
-}
-
-.circle-icon {
-    width: 50px; /* Reduced size slightly */
-    height: auto;
-    margin-bottom: 15vh;
-    filter: brightness(1);
-}
-
-.circle-content {
-    font-size: clamp(12px, 1.5vw, 16px);
-    line-height: 1.6; 
-    color: #034848;
-    font-weight: 500;
-}
-
-#circle1 {
-    background-image: url('../assets/vertrauen.png');
-}
-
-#circle2 {
-    background-image: url('../assets/Smiling_2.png');
-}
-
-#circle3 {
-    background-image: url('../assets/flexibilität.png');
-}
-
-/* Media queries for circles on smaller screens */
-@media screen and (max-width: 768px) {
-    .circle {
-        width: 45vw;
-        height: 45vw;
-        min-width: 200px;
-        min-height: 200px;
-        aspect-ratio: 1/1; /* Enforce perfect circle */
-    }
-    
-    .circle-content-container {
-        max-width: 45%;
-    }
-    
-    .circle-icon {
-        width: 40px; /* Further reduced for mobile */
-    }
-
-    .circle-content {
-        font-size: clamp(11px, 2vw, 15px);
-    }
-
-    #circle2-wrapper {
-        top: 140vh; /* Adjusted for medium screens */
-    }
-
-    #circle3-wrapper {
-        top: 260vh; /* Adjusted for medium screens */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .circle-wrapper {
-        flex-direction: column;
-    }
-    
-    .circle {
-        width: 70vw; /* Larger percentage of viewport */
-        height: 70vw; /* Keep perfect circle by matching width */
-        min-width: 180px;
-        min-height: 180px;
-        margin: 20px auto !important; /* Override left/right margin */
-        aspect-ratio: 1/1; /* Enforce perfect circle */
-    }
-
-    .circle-content-container {
-        max-width: 85%;
-        margin: 20px auto !important; /* Override left/right margin */
-        order: 2; /* Content below circle on mobile */
-        text-align: center !important; /* Center text on mobile */
-    }
-    
-    .circle-icon {
-        width: 36px; /* Even smaller for mobile */
-    }
-
-    .circle-content {
-        font-size: clamp(10px, 2.5vw, 14px);
-    }
-
-    #circle2-wrapper {
-        top: 160vh; /* Adjusted for small screens */
-    }
-
-    #circle3-wrapper {
-        top: 300vh; /* Adjusted for small screens */
-    }
-}
 
 .highlight {
     /* Base color is set by the gradient now */
@@ -1362,175 +1098,7 @@ body {
         transform: translateY(-100%);
     }
     
-    /* Mobile Circle Container - Replacing Accordion Section */
-    .mobile-circle-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 50px;
-        padding: 30px 0;
-        margin: 20px auto;
-        width: 100%;
-    }
-    
-    /* Dynamic sizing for mobile cards */
-    .mobile-card {
-        width: 85vw; /* Slightly smaller to ensure no overflow */
-        max-width: 420px; /* Maximum size on larger screens */
-        height: auto;
-        aspect-ratio: 1/1; /* Maintain perfect circle */
-        position: relative;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        text-align: center;
-        margin: 0 auto !important; /* Center horizontally */
-        transform: none !important;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        background: rgba(255, 255, 255, 0.1); /* Nearly transparent background to let gradient show through */
-    }
-    
-    .circle, 
-    .circle-content-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto !important;
-        transition: all 0.5s ease;
-    }
-    
-    .circle {
-        background-size: cover;
-        background-position: center center;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        z-index: 1;
-        filter: blur(0px); /* Start with unblurred state */
-        opacity: 1;
-    }
-    
-    /* Improved content container with better text fitting */
-    .circle-content-container {
-        z-index: 2;
-        background: transparent !important; /* Fully transparent to let gradient show */
-        padding: 10px 20px;
-        text-align: center;
-        flex-direction: column;
-        opacity: 0;
-        filter: none;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        overflow: visible;
-        display: flex;
-        width: 100%;
-        transition: opacity 0.5s ease, transform 0.5s ease;
-        transform: translateY(10px);
-    }
-    
-    /* Animation for content when it becomes visible */
-    .circle-content-container.content-visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    /* In-view class for mobile cards */
-    .mobile-card.in-view .circle {
-        filter: blur(3px);
-        opacity: 0.2;
-    }
-    
-    /* When scrolled into view - show text */
-    .mobile-card.in-view .circle-content-container {
-        opacity: 1;
-    }
-    
-    /* Dynamic text sizing for better readability */
-    .mobile-card .circle-content {
-        color: #034848;
-        font-weight: 700;
-        /* Dynamic font sizing that grows with screen size but maintains readability */
-        font-size: clamp(13px, calc(12px + 1vw), 18px);
-        line-height: 1.4;
-        width: 85%; /* Leave some padding around text */
-        text-align: center;
-        margin: 0 auto;
-        display: block;
-        /* Only shrink text when it exceeds container */
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-    }
-    
-    /* Dynamic icon sizing */
-    .mobile-card .circle-icon {
-        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9));
-        margin-bottom: 12px;
-        /* Dynamic sizing for icon */
-        width: clamp(36px, calc(30px + 2vw), 50px);
-        height: auto;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .mobile-card strong {
-        display: block;
-        margin-bottom: 8px;
-        /* Slightly larger than body text */
-        font-size: 1.1em;
-        color: #012020;
-    }
-    
-    /* Remove old flip instruction */
-    .flip-instruction {
-        display: none;
-    }
-    
-    /* Ensure background images scale proportionally with circles */
-    #mobile-circle1, #mobile-circle2, #mobile-circle3 {
-        background-size: cover; /* Maintain aspect ratio */
-    }
-    
-    /* Mobile scrolling circles section with improved dynamic scaling */
-    .scrolling-circles {
-        height: auto !important;
-        margin: 30px 0;
-        overflow: visible;
-        width: 100% !important;
-        padding: 0;
-    }
-    
-    .circle-container {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        padding: 20px 0;
-        height: auto;
-        width: 100%;
-        margin: 0 auto;
-    }
-    
-    .circle-wrapper {
-        position: static !important;
-        width: 90%;
-        max-width: 500px; /* Cap maximum size */
-        margin: 0 auto;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        left: 0 !important;
-        transform: none !important;
-    }
+
     
     /* Mobile text blocks */
     .text-blocks {
@@ -2842,158 +2410,148 @@ td:not(:first-child) {
    left: 0;
    width: 100%;
    height: 100%;
-   background-color: rgba(0, 0, 0, 0.4);
+   background-color: rgba(0, 0, 0, 0.3);
    display: none;
    justify-content: center;
    align-items: center;
    z-index: 1050 !important;
-   backdrop-filter: blur(5px);
+   backdrop-filter: blur(8px);
 }
 
 #chat-popup-wrapper .chat-container {
    position: relative;
-   max-width: 600px;
-   max-height: 80vh;
-   width: 90%;
-   background-color: rgba(248, 249, 250, 0.95);
-   backdrop-filter: blur(12px);
-   -webkit-backdrop-filter: blur(12px);
-   border-radius: 20px;
-   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+   width: clamp(380px, 50vw, 480px);
+   height: clamp(500px, 70vh, 650px);
+   background-color: rgba(255, 255, 255, 0.7);
+   backdrop-filter: blur(18px);
+   -webkit-backdrop-filter: blur(18px);
+   border-radius: 18px;
+   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
    display: flex;
    flex-direction: column;
    overflow: hidden;
-   border: 1px solid rgba(102, 165, 170, 0.3);
+   border: 1px solid rgba(200, 200, 200, 0.4);
    cursor: move;
 }
 
-/* Chat Header */
+/* Chat Header - Minimal styling like mobile */
 #chat-popup-wrapper .chat-header {
-   padding: 20px 25px;
-   background: linear-gradient(135deg, #3d94a0, #66a5aa);
-   color: white;
-   border-radius: 20px 20px 0 0;
+   padding: 15px 20px 10px 20px;
+   background: transparent;
+   color: #034848;
    position: relative;
    display: flex;
    align-items: center;
    justify-content: center;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 #chat-popup-wrapper .chat-header h3 {
    margin: 0;
-   font-size: 18px;
+   font-size: 16px;
    font-weight: 600;
    text-align: center;
+   color: #034848;
 }
 
-/* Ensure chat box within popup scrolls */
+/* Chat box styling to match mobile */
 #chat-popup-wrapper .chat-box {
-   height: calc(100% - 100px); /* Reduced from 150px to 100px to give more space to chat box */
-   max-height: none; /* Remove max-height constraint to allow full dynamic sizing */
-   overflow-y: auto; /* Ensure scrolling when content exceeds available space */
+   flex-grow: 1;
+   padding: 15px;
+   overflow-y: auto;
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+   -webkit-overflow-scrolling: touch;
+   scrollbar-width: thin;
+   scrollbar-color: #034848 rgba(255, 255, 255, 0.7);
+}
+
+#chat-popup-wrapper .chat-box::-webkit-scrollbar {
+   width: 6px;
+}
+
+#chat-popup-wrapper .chat-box::-webkit-scrollbar-thumb {
+   background-color: #034848;
+   border-radius: 3px;
+}
+
+#chat-popup-wrapper .chat-box::-webkit-scrollbar-track {
+   background: rgba(255, 255, 255, 0.1);
 }
 
 #closeChatPopup {
    position: absolute;
-   top: 50%;
-   right: 20px;
-   transform: translateY(-50%);
-   background: rgba(255, 255, 255, 0.2);
+   top: 5px;
+   right: 10px;
+   background: none;
    border: none;
-   border-radius: 50%;
-   width: 32px;
-   height: 32px;
-   font-size: 20px;
-   font-weight: bold;
-   color: white;
+   color: #034848;
+   font-size: 1.4rem;
    cursor: pointer;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+   padding: 10px;
    line-height: 1;
-   transition: all 0.2s ease;
+   transition: opacity 0.2s ease;
    z-index: 1051;
-   backdrop-filter: blur(4px);
+   width: auto;
+   height: auto;
 }
 
 #closeChatPopup:hover {
-   background: rgba(255, 255, 255, 0.3);
-   transform: translateY(-50%) scale(1.05);
+   opacity: 0.6;
 }
 
-/* Chat Input Container - New Rounded Design */
+/* Chat Input Container - Mobile style */
 #chat-popup-wrapper .chat-input-container {
-   padding: 10px 20px; /* Reduced vertical padding from 15px to 10px for more compact design */
-   background: transparent;
    display: flex;
-   align-items: center; /* Ensure vertical centering */
-   justify-content: center; /* Ensure horizontal centering */
-   gap: 12px;
-   margin-top: 10px; /* Greatly reduced from 70px to 10px to make container more compact */
-   min-height: 50px; /* Ensure container is at least as tall as send button */
+   align-items: center;
+   padding: 10px;
+   border-top: 1px solid rgba(0, 0, 0, 0.08);
+   background-color: rgba(255, 255, 255, 0.6);
+   gap: 8px; /* Use flex gap for clean spacing */
 }
 
 #chat-popup-wrapper .chat-input {
-   flex: 1;
-   background: rgba(255, 255, 255, 0.9);
-   backdrop-filter: blur(8px);
-   -webkit-backdrop-filter: blur(8px);
-   border: 2px solid rgba(61, 148, 160, 0.2);
-   border-radius: 25px;
-   padding: 0 20px; /* Removed vertical padding to let height control sizing */
-   display: flex;
-   align-items: center; /* Center the content within this box */
-   height: 50px; /* Match send button height for perfect alignment */
-   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-   transition: all 0.3s ease;
-   cursor: text; /* Make the entire input area clickable */
-   pointer-events: auto; /* Ensure it can receive clicks */
-   margin: 0; /* Explicit margin reset for perfect alignment */
+   flex: 1; /* Allow input to grow and fill space */
+   border: 1px solid #ccc;
+   border-radius: 20px;
+   padding: 10px 15px;
+   font-size: 0.9rem;
+   font-family: 'Montserrat', sans-serif;
+   background-color: #fff;
+   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+   min-height: 20px;
+   display: flex; /* Ensure inner contenteditable aligns */
+   align-items: center;
 }
 
 #chat-popup-wrapper .chat-input:focus-within {
-   border-color: #3d94a0;
-   box-shadow: 0 4px 15px rgba(61, 148, 160, 0.15);
-   /* transform: translateY(-1px); */ /* Removed to prevent misalignment */
+   border-color: #034848;
+   box-shadow: 0 0 0 2px rgba(3, 72, 72, 0.15);
 }
 
 /* Popup Chat Input Field */
 #chat-popup-wrapper .chat-input-field {
-   background: transparent !important;
-   border: none !important;
-   outline: none !important;
-   color: #333 !important;
-   font-size: 16px;
-   line-height: 1.4;
+   background: transparent;
+   border: none;
+   outline: none;
+   color: #333;
+   font-size: 0.9rem;
+   line-height: 1.5;
    width: 100%;
-   min-height: 1.2em; /* Changed from auto to guarantee clickable height */
-   padding: 0;
-   resize: none;
    font-family: 'Montserrat', sans-serif;
-   cursor: text !important; /* Ensure text cursor in input field */
-   pointer-events: auto !important; /* Explicitly enable pointer events */
-   z-index: 10; /* Ensure it's above other elements */
-   position: relative; /* Ensure proper positioning context */
+   cursor: text;
+   resize: none;
+   min-height: 20px;
+   padding: 0;
    
-   /* Perfect vertical centering for 50px height */
-   display: flex !important;
-   align-items: center; /* Center text vertically within the 50px height */
+   /* Contenteditable support */
+   -webkit-user-select: text;
+   -moz-user-select: text;
+   -ms-user-select: text;
+   user-select: text;
    
-   /* Enhanced contenteditable support */
-   -webkit-user-select: text !important;
-   -moz-user-select: text !important;
-   -ms-user-select: text !important;
-   user-select: text !important;
-   
-   /* Ensure the field can be focused and typed in */
-   -webkit-touch-callout: default;
-   -webkit-user-modify: read-write-plaintext-only;
-   
-   /* Prevent any transforms or effects that might interfere */
-   transform: none !important;
-   transition: none !important;
-   
-   /* Ensure proper display for contenteditable */
+   /* Proper display for contenteditable */
    white-space: pre-wrap;
    word-wrap: break-word;
    overflow-wrap: break-word;
@@ -3004,52 +2562,95 @@ td:not(:first-child) {
    content: attr(placeholder);
    color: #999;
    font-weight: 400;
-   pointer-events: none !important; /* Crucial: Make placeholder non-interactive */
-   position: absolute; /* Position it within the input field */
-   top: 0; /* Align to top of input field */
-   left: 0; /* Align to left of input field */
-   width: 100%; /* Span full width */
-   height: 100%; /* Span full height */
-   display: flex; /* To align text vertically */
-   align-items: center; /* Center placeholder text vertically */
-   /* The input field itself has padding: 0; */
-   /* The parent .chat-input has padding: 15px 20px; */
-   /* We need to make sure the placeholder text respects the parent's padding */
-   /* However, since the ::before is on .chat-input-field which has no padding, */
-   /* we don't add padding here directly. The text will start at the edge. */
-   /* If .chat-input-field gets padding later, this might need adjustment. */
+   pointer-events: none;
 }
 
 /* Send Button */
 #chat-popup-wrapper .chat-send-btn {
-   background: linear-gradient(135deg, #3d94a0, #66a5aa);
+   background-color: #034848;
    color: white;
    border: none;
    border-radius: 50%;
-   width: 50px;
-   height: 50px;
+   width: 42px;
+   height: 42px;
+   min-width: 42px;
+   min-height: 42px;
    display: flex;
-   justify-content: center;
    align-items: center;
+   justify-content: center;
+   font-size: 1.1rem;
    cursor: pointer;
-   box-shadow: 0 4px 12px rgba(61, 148, 160, 0.3);
-   transition: all 0.3s ease;
-   flex-shrink: 0;
-   margin: 0; /* Explicit margin reset for perfect alignment */
+   transition: background-color 0.2s ease;
+   flex-shrink: 0; /* Prevent button from shrinking */
 }
 
 #chat-popup-wrapper .chat-send-btn:hover {
-   transform: translateY(-2px) scale(1.05);
-   box-shadow: 0 6px 20px rgba(61, 148, 160, 0.4);
+   background-color: #023535;
 }
 
 #chat-popup-wrapper .chat-send-btn:active {
-   transform: translateY(0) scale(0.98);
+   transform: scale(0.95);
 }
 
 #chat-popup-wrapper .chat-send-btn i {
-   font-size: 18px;
+   font-size: 1.1rem;
 }
+
+/* Message styling to match mobile */
+#chat-popup-wrapper .chat-message {
+   padding: 10px 15px;
+   border-radius: 18px;
+   max-width: 85%;
+   word-wrap: break-word;
+   font-size: 0.9rem;
+   line-height: 1.5;
+   text-align: left;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+   margin-bottom: 12px;
+}
+
+#chat-popup-wrapper .chat-message.user-message {
+   background-color: #034848;
+   color: white;
+   align-self: flex-end;
+   border-bottom-right-radius: 4px;
+   margin-left: auto;
+}
+
+#chat-popup-wrapper .chat-message.ai-message {
+   background-color: transparent;
+   color: #333;
+   align-self: flex-start;
+   border-bottom-left-radius: 4px;
+   margin-right: auto;
+}
+
+/* Loading indicator styling */
+#chat-popup-wrapper .loading-indicator {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 10px 15px;
+   background-color: #e9e9eb;
+   border-radius: 18px;
+   border-bottom-left-radius: 4px;
+   align-self: flex-start;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+   margin-right: auto;
+}
+
+#chat-popup-wrapper .loading-indicator span {
+   height: 8px;
+   width: 8px;
+   margin: 0 2px;
+   background-color: #034848;
+   border-radius: 50%;
+   opacity: 0.4;
+   animation: mobileChatLoadingAnimation 1.4s infinite ease-in-out both;
+}
+
+#chat-popup-wrapper .loading-indicator span:nth-child(1) { animation-delay: -0.32s; }
+#chat-popup-wrapper .loading-indicator span:nth-child(2) { animation-delay: -0.16s; }
 
 /* Cookie consent needs to be above glow, but below popups typically */
 .cookie-consent {
